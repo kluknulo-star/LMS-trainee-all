@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('description', 255)->nullable();
             $table->json('content')->default(new Expression('(JSON_ARRAY())'));
             $table->timestamps();
-            $table->softDeletes()->nullable();
+            $table->softDeletes();
         });
     }
 
