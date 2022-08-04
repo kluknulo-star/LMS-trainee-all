@@ -18,19 +18,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/login', function (){
-    return 'show login page';
-});
+Route::get('/login', [UserController::class, 'login']);
 
-Route::get('/register', function (){
-    return 'show register page';
-});
+Route::get('/register', [UserController::class, 'register']);
 
 Route::prefix('users')->group(function() {
 
-    Route::get('', function (){
-        return 'UserController index action';
-    });
+    Route::get('', [UserController::class, 'index']);
 
     Route::prefix('{id}')->group(function() {
 
