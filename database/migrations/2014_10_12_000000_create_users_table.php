@@ -24,7 +24,7 @@ return new class extends Migration
             $table->boolean('is_teacher')->default(false);
             $table->rememberToken();
             $table->timestamps();
-            $table->softDeletes()->nullable();
+            $table->softDeletes();
         });
     }
 
