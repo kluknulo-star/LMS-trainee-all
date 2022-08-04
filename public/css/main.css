@@ -1,0 +1,55 @@
+@font-face {
+    src: url("../fonts/Inika.ttf");
+    font-family: Inika;
+}
+@font-face {
+    src: url('../fonts/Scandia-Regular.ttf');
+    font-family: Scandia-Regular;
+}
+body {
+    background: #171923;
+    color: rgba(181, 181, 189, 0.9);
+    font-family: Scandia-Regular, sans-serif;
+    font-size: 14px;
+    position: relative;
+}
+.container {
+    padding: 80px 80px 0 400px;
+}
+.logo {
+    font-size: 36px !important;
+    margin: 0 auto;
+    text-align: center;
+    padding: 8px 0 17px;
+    font-family: Scandia-Regular, sans-serif;
+}
+.h1 {
+    font-size: 42px;
+    color: whitesmoke;
+    font-weight: bold;
+}
+.h2 {
+    font-size: 36px;
+    color: whitesmoke;
+}
+.h3 {
+    font-size: 30px;
+    color: whitesmoke;
+    font-weight: bold;
+}
+.input {
+    padding: 10px;
+    border-radius: 6px;
+}
+::placeholder {
+    font-family: Scandia-Regular, sans-serif;
+    color: #1a202c;
+}
+.button {
+    font-family: Scandia-Regular, sans-serif !important;
+}
+a.button {
+}
+a {
+    color: #eb4432 !important;
+}
