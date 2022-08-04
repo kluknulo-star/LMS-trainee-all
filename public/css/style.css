@@ -61,7 +61,8 @@
 }
 
 .aside {
-    width: 320px;
+    padding-left: 200px;
+    width: 520px;
     height: 100%;
     position: fixed;
     background-color: #12141c;
@@ -116,13 +117,6 @@ a.aside__link:hover {
     font-size: 30px;
 }
 .users__table {
-    width: 100%;
-    background: #12141c;
-    height: 100px;
-    border-radius: 10px;
-    padding: 20px 30px;
-    color: whitesmoke;
-    border: 1px solid #4a5568;
     border-collapse: separate;
 }
 .users__tr {
@@ -150,4 +144,83 @@ a.aside__link:hover {
 }
 .users__tr:nth-child(2n) .users__td {
     background: #171923;
+}
+.profile {}
+.profile__container {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+.profile__title {
+    display: flex;
+    align-items: center;
+    margin-bottom: 46px;
+}
+.profile__column {
+    display: flex;
+    flex-direction: column;
+}
+.profile__row {
+    display: flex;
+}
+.profile__edit-button {
+    padding: 6px;
+    border-radius: 10px;
+}
+.profile__img {
+    padding: 20px;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-right: 20px;
+    background: whitesmoke;
+}
+.profile__name-email-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.profile__name {}
+.profile__courses {
+    display: flex;
+    flex-direction: column;
+}
+.profile__course {
+    display: flex;
+    border: 1px solid #4a5568;
+    align-items: center;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+}
+.profile__course-title {
+    flex: 1 1 auto;
+}
+.profile__course-title,
+.profile__course-status,
+.profile__course-button {
+    height: 32px;
+    padding: 8px 15px;
+    border-right: 1px solid #4a5568;
+}
+
+.profile__course-button i {
+    color: whitesmoke;
+    font-size: 12px;
+}
+.profile__course-button {
+    border-radius: 0 10px 10px 0;
+    border-right: none;
+    color: whitesmoke;
+    transition: .2s;
+    background: #eb4432;
+}
+.profile__course-button:hover {
+    background: #4a5568;
+}
+a.profile__more {
+    display: inline-block;
+}
+a.profile__more:hover {
+    text-decoration: underline;
 }
