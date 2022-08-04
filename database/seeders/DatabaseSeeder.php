@@ -25,10 +25,10 @@ class DatabaseSeeder extends Seeder
             'is_teacher' => true,
         ]);
 
-        $recordCount = 20; //количество записей на заполнение
-        User::factory($recordCount)->create();
+        User::factory(10000)->create();
         //User default password - 'password'
 
+        $recordCount = 20; //количество записей на заполнение
         Course::factory($recordCount)->create();
 
         //AssignmentFactory
