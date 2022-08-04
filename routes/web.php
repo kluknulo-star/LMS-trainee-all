@@ -24,6 +24,8 @@ Route::prefix('users')->group(function() {
 
     Route::get('', [UserController::class, 'index']);
 
+    Route::post('', [UserController::class, 'store']);
+
     Route::prefix('{id}')->group(function() {
 
         Route::get('/', [UserController::class, 'show'])->where('id', '[0-9]+');
@@ -48,7 +50,7 @@ Route::prefix('courses')->group(function() {
 
         Route::post('/assignments', [CourseController::class, 'assign'])->where('id', '[0-9]+');
 
-        Route::get('/', [CourseController::class, 'play'])->where('id', '[0-9]+');
+        Route::get('', [CourseController::class, 'play'])->where('id', '[0-9]+');
 
         Route::get('/edit', [CourseController::class, 'edit'])->where('id', '[0-9]+');
 
@@ -56,7 +58,7 @@ Route::prefix('courses')->group(function() {
 
         Route::put('', [CourseController::class, 'update'])->where('id', '[0-9]+');
 
-        Route::delete('/', [CourseController::class, 'destroy'])->where('id', '[0-9]+');
+        Route::delete('', [CourseController::class, 'destroy'])->where('id', '[0-9]+');
 
     });
 
