@@ -2,7 +2,7 @@
 
 namespace App\Courses\Controllers;
 
-use \App\Http\Controllers\Controller;
+use App\Http\Controllers\Controller;
 
 class CourseController extends Controller
 {
