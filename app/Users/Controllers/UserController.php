@@ -5,6 +5,7 @@ namespace App\Users\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use App\Models\User;
 
 class UserController extends Controller
 {
@@ -25,7 +26,8 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
-        return view('pages/users');
+        $users = User::all();
+        return view('pages/users', ['users' => $users]);
     }
 
     public function show(Request $request)
