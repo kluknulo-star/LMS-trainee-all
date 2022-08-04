@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Query\Expression;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
@@ -20,7 +21,7 @@ return new class extends Migration
                 ->references('user_id')
                 ->on('users');
             $table->string('description', 255)->nullable();
-            $table->json('content')->nullable();
+            $table->json('content')->default(new Expression('(JSON_ARRAY())'));
             $table->timestamps();
             $table->softDeletes()->nullable();
         });
