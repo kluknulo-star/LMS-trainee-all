@@ -9,8 +9,6 @@ use App\Models\User;
 
 class UserController extends Controller
 {
-    private $pathToView = '../Views/';
-
     public function __construct()
     {
     }
@@ -26,18 +24,30 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
-        $users = User::all();
-        return view('pages/users', ['users' => $users]);
+        $recordsPerPage = 8;
+        $users = User::orderBy('user_id', 'desc')->paginate($recordsPerPage);
+        return view('pages/users/users', compact('users'));
     }
 
-    public function show(Request $request)
+    public function show(Request $request, int $id)
     {
-        return view();
+        $user = User::findOrFail($id);
+        return view('pages/users/profile', compact('user'));
     }
 
-    public function edit(Request $request)
+    public function create(Request $request)
     {
-        return view();
+        return view('pages/users/create');
+    }
+
+    public function store(Request $request)
+    {
+    }
+
+    public function edit(Request $request, int $id)
+    {
+        $user = User::findOrFail($id);
+        return view('pages/users/edit', compact('user'));
     }
 
     public function update(Request $request)
@@ -47,13 +57,5 @@ class UserController extends Controller
 
     public function destroy(Request $request)
     {
-
     }
-
-    public function store(Request $request)
-    {
-    }
-
-
-
 }
