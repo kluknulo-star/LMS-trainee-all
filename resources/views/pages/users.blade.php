@@ -7,11 +7,11 @@
 <div class="container">
     <div class="users">
         <div class="users__title h1">
-            Users
+            Students
             <a href="" class="action-button title-button"><i class="fas fa-plus"></i></a>
             <a href="" class="action-button title-button"><i class="fas fa-search"></i></a>
         </div>
-        <table class="users__table">
+        <table class="users__table classic-box">
             <thead>
                 <tr class="users__tr users__tr_head">
                     <th class="users__td">ID</th>
@@ -25,11 +25,11 @@
             <tbody>
                 @foreach ($users as $key => $user)
                     <tr class="users__tr">
-                        <th class="users__td">{{ $user['id'] }}</th>
-                        <th class="users__td">{{ $user['email'] }}</th>
-                        <th class="users__td">{{ $user['surname'] }}</th>
-                        <th class="users__td">{{ $user['name'] }}</th>
-                        <th class="users__td">{{ $user['patronymic'] }}</th>
+                        <th class="users__td">{{ $user->user_id }}</th>
+                        <th class="users__td">{{ $user->email }}</th>
+                        <th class="users__td">{{ $user->surname }}</th>
+                        <th class="users__td">{{ $user->name }}</th>
+                        <th class="users__td">{{ $user->patronymic }}</th>
                         <th class="users__td"></th>
                     </tr>
                 @endforeach

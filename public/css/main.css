@@ -14,7 +14,7 @@ body {
     position: relative;
 }
 .container {
-    padding: 80px 80px 0 400px;
+    padding: 80px 80px 0 600px;
 }
 .logo {
     font-size: 36px !important;
@@ -52,4 +52,29 @@ a.button {
 }
 a {
     color: #eb4432 !important;
+}
+.classic-box {
+    width: 100%;
+    background: #12141c;
+    border-radius: 10px;
+    padding: 40px 50px;
+    color: whitesmoke;
+    border: 1px solid #4a5568;
+    position: relative;
+}
+.text {
+    color: rgba(181, 181, 189, 0.9);
+}
+.mb15 {
+    margin-bottom: 15px;
+}
+.mb20 {
+    margin-bottom: 20px;
+}
+.mb30 {
+    margin-bottom: 30px;
+}
+.mrauto {
+    margin-right: auto;
+    width: fit-content;
 }
