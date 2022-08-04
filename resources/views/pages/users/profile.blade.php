@@ -16,7 +16,7 @@
                         <div class="text">mail@email.com</div>
                     </div>
                 </div>
-                <button class="profile__edit-button button">Edit profile</button>
+                <a href="{{ url('/users/'.'1'.'/edit') }}" class="profile__edit-button button">Edit profile</a>
             </div>
 
             <div class="profile__column mb30">

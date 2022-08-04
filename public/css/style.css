@@ -29,10 +29,9 @@
 .welcome__title {
     margin-bottom: 24px;
 }
-.welcome__input {
+.welcome__input, .col-input {
     margin-bottom: 17px;
     width: 100%;
-    background: rgba(181, 181, 189, 0.9);
 }
 .welcome__text {
     color: rgba(181, 181, 189, 0.9);
@@ -41,13 +40,6 @@
 }
 .welcome__text a:hover {
     text-decoration: underline;
-}
-.welcome__button {
-    background: #eb4432;
-    color: white;
-    width: 100%;
-    padding: 10px;
-    border-radius: 10px;
 }
 .welcome__img {
     position: absolute;
@@ -108,20 +100,25 @@ a.aside__link:hover {
     align-items: center;
     margin-bottom: 46px;
 }
-.title-button i {
-    font-size: 24px;
-    color: #eb4432;
-    margin: 0 20px;
+.users__after-title-links {
+    flex: 1 1 auto;
 }
-.title-button .fa-plus {
-    font-size: 30px;
+.users__title-link {
+    margin-left: 30px;
+    font-weight: normal;
+}
+a.users__title-link .fa-plus {
+    font-size: 24px;
+    transition: .2s;
+}
+a.users__title-link .fa-plus:hover {
+    transform: scale(1.5);
 }
 .users__table {
     border-collapse: separate;
 }
 .users__tr {
     width: 100%;
-    border-bottom: 1px solid rgba(0,0,0,0);
 }
 .users__td:last-child {
     width: 300px;
@@ -133,8 +130,8 @@ a.aside__link:hover {
 .users__td {
     font-weight: normal;
     margin: 5px 0;
-    padding: 10px 0;
-    background: #171923;
+    padding: 15px 10px;
+    background: rgba(37, 42, 55, 0.8);
 }
 .users__td:nth-child(1) {
     border-radius: 10px 0 0 10px;
@@ -144,6 +141,37 @@ a.aside__link:hover {
 }
 .users__tr:nth-child(2n) .users__td {
     background: #171923;
+}
+.table-action-button {
+    margin: 0 10px;
+    padding: 10px;
+}
+a.table-show-button {
+    color: #4a5568 !important;
+}
+a.table-edit-button {
+    color: #4a5568 !important;
+}
+.users__form-search {
+    border: 1px solid #4a5568;
+    background-color: #12141c;
+    border-radius: 10px;
+    height: 50px;
+}
+.users__input-search {
+    border-radius: 10px 0 0 10px;
+    background-color: #12141c;
+    padding: 15px;
+    height: 46px;
+    color: whitesmoke;
+}
+.users__button-search {
+    border-left: 1px solid #4a5568;
+    border-radius: 0 10px 10px 0 ;
+    padding: 15px;
+    height: 46px;
+    background-color: #12141c;
+    color: rgba(181, 181, 189, 0.9);
 }
 .profile {}
 .profile__container {
@@ -163,9 +191,14 @@ a.aside__link:hover {
 .profile__row {
     display: flex;
 }
-.profile__edit-button {
+a.profile__edit-button {
+    background-color: whitesmoke;
+    color: #12141c !important;
     padding: 6px;
     border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .profile__img {
     padding: 20px;
@@ -223,4 +256,12 @@ a.profile__more {
 }
 a.profile__more:hover {
     text-decoration: underline;
+}
+.edit__container {
+}
+.edit__form {
+    display: flex;
+    flex-direction: column;
+}
+.edit__input {
 }
