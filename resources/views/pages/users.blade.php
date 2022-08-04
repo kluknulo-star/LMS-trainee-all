@@ -23,16 +23,16 @@
                 </tr>
             </thead>
             <tbody>
-                @for ($i = 1; $i < 10; $i++)
+                @foreach ($users as $key => $user)
                     <tr class="users__tr">
-                        <th class="users__td">{{ $i }}</th>
-                        <th class="users__td">email{{ $i }}@email.com</th>
-                        <th class="users__td">Фамилия {{ $i }}</th>
-                        <th class="users__td">Имя {{ $i }}</th>
-                        <th class="users__td">Отчество {{ $i }}</th>
+                        <th class="users__td">{{ $user['id'] }}</th>
+                        <th class="users__td">{{ $user['email'] }}</th>
+                        <th class="users__td">{{ $user['surname'] }}</th>
+                        <th class="users__td">{{ $user['name'] }}</th>
+                        <th class="users__td">{{ $user['patronymic'] }}</th>
                         <th class="users__td"></th>
                     </tr>
-                @endfor
+                @endforeach
             </tbody>
         </table>
     </div>
