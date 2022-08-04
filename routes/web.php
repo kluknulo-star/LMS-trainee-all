@@ -27,6 +27,8 @@ Route::prefix('users')->group(function() {
 
     Route::post('', [UserController::class, 'store']);
 
+    Route::get('/create', [UserController::class, 'create']);
+
     Route::prefix('{id}')->group(function() {
 
         Route::get('/', [UserController::class, 'show'])->where('id', '[0-9]+');
