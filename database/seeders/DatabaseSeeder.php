@@ -17,7 +17,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $recordCount = 20; //количество записей на заполнение
 
         User::factory()->create([
             'surname' => 'TestAdminSurname',
@@ -25,6 +24,8 @@ class DatabaseSeeder extends Seeder
             'patronymic' => 'TestAdminPatronymic',
             'is_teacher' => true,
         ]);
+
+        $recordCount = 20; //количество записей на заполнение
         User::factory($recordCount)->create();
         //User default password - 'password'
 
