@@ -3,9 +3,10 @@
 namespace App\Users\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Users\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
-use App\Models\User;
+
 
 class UserController extends Controller
 {
