@@ -16,7 +16,6 @@ use App\Users\Controllers\UserController;
 |
 */
 
-<<<<<<< routes/web.php
 Route::get('/', [LoginController::class, 'login'])
     ->name('main');
 
@@ -25,13 +24,6 @@ Route::get('/login', [LoginController::class, 'login'])
 
 Route::get('/register', [LoginController::class, 'register'])
     ->name('register');
-=======
-Route::get('/', [LoginController::class, 'login']);
-
-Route::get('/login', [LoginController::class, 'login']);
-
-Route::get('/register', [LoginController::class, 'register']);
->>>>>>> routes/web.php
 
 Route::post('/authenticate', [LoginController::class, 'authenticate'])
     ->name('auth');
