@@ -17,17 +17,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $recordCount = 20; //количество записей на заполнение
-
         User::factory()->create([
             'surname' => 'TestAdminSurname',
             'name' => 'TestAdminName',
             'patronymic' => 'TestAdminPatronymic',
             'is_teacher' => true,
         ]);
-        User::factory($recordCount)->create();
+        User::factory(10000)->create();
         //User default password - 'password'
 
+        $recordCount = 20; //количество записей на заполнение
         Course::factory($recordCount)->create();
 
         //AssignmentFactory
