@@ -11,12 +11,13 @@
         </div>
 
         <form method="post" action="{{ url('/users') }}" class="welcome__form form">
+            @csrf
             <input name="surname" type="text" placeholder="Surname" class="welcome__input input">
             <input name="name" type="text" placeholder="Name" class="welcome__input input">
             <input name="patronymic" type="text" placeholder="Patronymic (optional)" class="welcome__input input">
             <input name="email" type="email" placeholder="E-mail" class="welcome__input input">
             <input name="password" type="password" placeholder="Password" class="welcome__input input">
-            <input name="passwordRepeat" type="password" placeholder="Confirm password" class="welcome__input input">
+            <input name="password_confirmation" type="password" placeholder="Confirm password" class="welcome__input input">
             <p class="welcome__text">Registered?&nbsp<a href="{{ url('/login') }}">Sign in</a></p>
             <button type="submit" class="welcome__button rounded-red-button button">Register</button>
         </form>
