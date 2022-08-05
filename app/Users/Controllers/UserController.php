@@ -3,9 +3,10 @@
 namespace App\Users\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CreateUserRequest;
 use App\Users\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\View\View;
+use Illuminate\Support\Facades\Hash;
 
 
 class UserController extends Controller
@@ -41,8 +42,19 @@ class UserController extends Controller
         return view('pages/users/create');
     }
 
-    public function store(Request $request)
+    public function store(CreateUserRequest $request)
     {
+        $validated = $request->validated();
+        $userData = [
+            'name' => $validated['name'],
+            'surname' => $validated['surname'],
+            'patronymic' => $validated['patronymic'] ?? null,
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
+        ];
+
+        $user = User::create($userData);
+        return redirect()->action([UserController::class, 'index']);
     }
 
     public function edit(Request $request, int $id)
