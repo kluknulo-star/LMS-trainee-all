@@ -39,11 +39,17 @@ body {
 .input {
     padding: 10px;
     border-radius: 6px;
-    background: rgba(181, 181, 189, 0.9);
+    background: #12141c;
+    border: 1px solid #4a5568;
+    color: whitesmoke;
+    transition: .2s;
+}
+.input:focus {
+    border: 1px solid whitesmoke;
 }
 ::placeholder {
     font-family: Scandia-Regular, sans-serif;
-    color: #1a202c;
+    color: #4a5568;
 }
 .button {
     font-family: Scandia-Regular, sans-serif !important;

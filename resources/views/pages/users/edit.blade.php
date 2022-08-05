@@ -8,7 +8,7 @@
     <div class="edit">
         <div class="edit__container classic-box mrauto">
             <div class="edit__title h2 mb30">Edit Account</div>
-            <form method="post" action="{{ url('/users/'.$user->user_id.'/') }}" class="edit__form form">
+            <form method="post" action="{{ route('users.update', ['id' => $user->user_id]) }}" class="edit__form form">
                 @csrf
                 @method('patch')
                 <input name="surname" value="{{ old('surname') ?? $user->surname }}" type="text" placeholder="Surname" class="edit__input col-input input">

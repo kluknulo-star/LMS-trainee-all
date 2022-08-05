@@ -10,15 +10,24 @@
             Register
         </div>
 
-        <form method="post" action="{{ url('/users') }}" class="welcome__form form">
+        <form method="post" action="{{ route('users') }}" class="welcome__form form">
             @csrf
-            <input name="surname" type="text" placeholder="Surname" class="welcome__input input">
-            <input name="name" type="text" placeholder="Name" class="welcome__input input">
-            <input name="patronymic" type="text" placeholder="Patronymic (optional)" class="welcome__input input">
-            <input name="email" type="email" placeholder="E-mail" class="welcome__input input">
+            <input value="{{ old('surname') }}" name="surname" type="text" placeholder="Surname" class="welcome__input input @error('surname') is-invalid @enderror">
+            <input value="{{ old('name') }}" name="name" type="text" placeholder="Name" class="welcome__input input">
+            <input value="{{ old('patronymic') }}" name="patronymic" type="text" placeholder="Patronymic (optional)" class="welcome__input input">
+            <input value="{{ old('email') }}" name="email" type="email" placeholder="E-mail" class="welcome__input input">
             <input name="password" type="password" placeholder="Password" class="welcome__input input">
             <input name="password_confirmation" type="password" placeholder="Confirm password" class="welcome__input input">
-            <p class="welcome__text">Registered?&nbsp<a href="{{ url('/login') }}">Sign in</a></p>
+            <p class="welcome__text">Registered?&nbsp<a href="{{ route('login') }}">Sign in</a></p>
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             <button type="submit" class="welcome__button rounded-red-button button">Register</button>
         </form>
 

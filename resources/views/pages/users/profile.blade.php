@@ -43,7 +43,7 @@
                             <button class="text profile__course-button">Edit <i class="fas fa-pen"></i></button>
                         </div>
                     @endfor
-                    <a href="{{ url('/courses/my') }}" class="profile__more button">More...</a>
+                    <a href="{{ route('courses.own') }}" class="profile__more button">More...</a>
                 </div>
             </div>
 
