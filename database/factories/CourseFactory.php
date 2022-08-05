@@ -18,11 +18,10 @@ class CourseFactory extends Factory
      */
     public function definition()
     {
-        $randNumber = rand(1000, 9999);
         return [
-            'title' => 'TestTitle'.$randNumber,
+            'title' => fake()->company(),
             'author_id' => rand(1, 20), //пользователей созданные фабрикой пользователи
-            'description' => 'TestDescription'.$randNumber,
+            'description' => fake()->text(255),
             'content' => '{"0": {"type": "text", "content": "text"},
             "1": {"type": "link", "content": "https://www.youtube.com/"}}',
         ];
