@@ -19,12 +19,11 @@ class UserFactory extends Factory
      */
     public function definition()
     {
-        $randNumber = rand(1, 100000);
         return [
-            'surname' => 'TestSurname'.$randNumber,
-            'name' => 'TestName'.$randNumber,
-            'patronymic' => 'TestPatronymic'.$randNumber,
-            'email' => $randNumber.fake()->email,
+            'surname' => fake()->lastName,
+            'name' => fake()->firstName,
+            'patronymic' => fake()->lastName,
+            'email' => rand(1, 10000).fake()->email,
             'email_verified_at' => now(),
             'password' => '$2y$10$72YQnx/ElM/UviWSGyL5MeoAF9AJimNCIFcME466wzC68fwDSMIpm', //default password - 'password'
             'remember_token' => Str::random(10),
