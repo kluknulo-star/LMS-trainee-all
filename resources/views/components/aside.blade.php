@@ -9,7 +9,9 @@
 {{--    @if($page == 'Assigned courses') aside__current @endif--}}
 
     <div class="aside__footer">
-        <a href="{{ url('/users/'.'1') }}" class="aside__link aside__link_profile">mail@email.com</a>
-        <a href="{{ url('/login') }}" class="aside__link button">Logout</a>
+        @auth
+            <a href="{{ url('/users/'.auth()->user()->user_id) }}" class="aside__link aside__link_profile">{{ auth()->user()->email }}</a>
+            <a href="{{ url('/logout') }}" class="aside__link button">Logout</a>
+        @endauth
     </div>
 </aside>
