@@ -10,9 +10,10 @@
             Sign In
         </div>
 
-        <form action="{{ url('/users') }}" class="welcome__form form">
-            <input type="text" placeholder="Login" class="welcome__input input">
-            <input type="text" placeholder="Password" class="welcome__input input">
+        <form method="get" action="{{ url('/users') }}" class="welcome__form form">
+{{--            @csrf--}}
+            <input type="email" placeholder="E-mail" class="welcome__input input">
+            <input type="password" placeholder="Password" class="welcome__input input">
             <p class="welcome__text">Not registered?&nbsp<a href="{{ url('/register') }}">Register</a></p>
             <button type="submit" class="welcome__button rounded-red-button button">Sign in</button>
         </form>

@@ -1,6 +1,7 @@
 <?php
 
 use App\Courses\Controllers\CourseController;
+use App\Users\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 use App\Users\Controllers\UserController;
 
@@ -18,6 +19,8 @@ use App\Users\Controllers\UserController;
 Route::get('/', [UserController::class, 'login']);
 
 Route::get('/login', [UserController::class, 'login']);
+
+Route::post('/authenticate', [LoginController::class, 'authenticate']);
 
 Route::get('/register', [UserController::class, 'register']);
 
