@@ -2,10 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Course;
-use App\Models\User;
-use Database\Factories\AssigmentFactory;
-use Database\Factories\AssignmentFactory;
+use App\Courses\Models\Course;
+use App\Users\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
