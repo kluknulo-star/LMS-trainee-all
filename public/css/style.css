@@ -265,3 +265,7 @@ a.profile__more:hover {
 }
 .edit__input {
 }
+.create__form{
+    display: flex;
+    flex-direction: column;
+}
