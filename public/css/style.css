@@ -269,3 +269,21 @@ a.profile__more:hover {
     display: flex;
     flex-direction: column;
 }
+nav.flex svg {
+    width: 30px;
+}
+nav.flex span a {
+    font-size: 20px !important;
+}
+
+nav.flex span {
+    font-size: 20px !important;
+}
+nav.flex > div > div > span {
+    align-items: center;
+    display: flex;
+}
+nav.flex > div > div > span > a,
+nav.flex > div > div > span > span {
+    margin: 0 5px;
+}

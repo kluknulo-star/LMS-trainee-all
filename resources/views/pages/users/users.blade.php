@@ -37,12 +37,14 @@
                         <th class="users__td">{{ $user->name }}</th>
                         <th class="users__td">{{ $user->patronymic }}</th>
                         <th class="users__td">
-                            <a class="table-action-button table-show-button" href="/users/{{ $user->id }}"><i class="fas fa-eye"></i></a>
-                            <a class="table-action-button table-edit-button" href="/users/{{ $user->id }}/edit"><i class="fas fa-pen"></i></a>
-                            <a class="table-action-button table-delete-button" href="/users/{{ $user->id }}/delete"><i class="fas fa-trash"></i></a>
+                            <a class="table-action-button table-show-button" href="/users/{{ $user->user_id }}"><i class="fas fa-eye"></i></a>
+                            <a class="table-action-button table-edit-button" href="/users/{{ $user->user_id }}/edit"><i class="fas fa-pen"></i></a>
+                            <a class="table-action-button table-delete-button" href="/users/{{ $user->user_id }}/delete"><i class="fas fa-trash"></i></a>
                         </th>
                     </tr>
                 @endforeach
+
+                {{ $users->links() }}
             </tbody>
         </table>
     </div>

@@ -12,11 +12,11 @@
                 <div class="profile__row mb20">
                     <img src="{{ URL::asset('img/default-avatar.png') }}" alt="" class="profile__img">
                     <div class="profile__name-email-col">
-                        <div class="profile__name h2 mb15">Surname Name</div>
-                        <div class="text">mail@email.com</div>
+                        <div class="profile__name h2 mb15">{{ $user->surname }} {{ $user->name }}</div>
+                        <div class="text">{{ $user->email }}</div>
                     </div>
                 </div>
-                <a href="{{ url('/users/'.'1'.'/edit') }}" class="profile__edit-button button">Edit profile</a>
+                <a href="{{ url('/users/'.$user->user_id.'/edit') }}" class="profile__edit-button button">Edit profile</a>
             </div>
 
             <div class="profile__column mb30">
