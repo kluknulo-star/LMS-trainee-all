@@ -16,11 +16,11 @@ use App\Users\Controllers\UserController;
 |
 */
 
-Route::get('/', [UserController::class, 'login']);
+Route::get('/', [LoginController::class, 'login']);
 
-Route::get('/login', [UserController::class, 'login']);
+Route::get('/login', [LoginController::class, 'login']);
 
-Route::get('/register', [UserController::class, 'register']);
+Route::get('/register', [LoginController::class, 'register']);
 
 Route::post('/authenticate', [LoginController::class, 'authenticate']);
 
