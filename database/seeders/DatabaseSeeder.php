@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Course;
-use App\Models\User;
+use App\Courses\Models\Course;
+use App\Users\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        $recordCount = 20; //количество записей на заполнение
 
         User::factory()->create([
             'surname' => 'TestAdminSurname',
@@ -24,11 +25,9 @@ class DatabaseSeeder extends Seeder
             'patronymic' => 'TestAdminPatronymic',
             'is_teacher' => true,
         ]);
-
-        User::factory(10000)->create();
+        User::factory($recordCount)->create();
         //User default password - 'password'
 
-        $recordCount = 20; //количество записей на заполнение
         Course::factory($recordCount)->create();
 
         //AssignmentFactory
