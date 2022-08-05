@@ -14,23 +14,17 @@ use App\Users\Controllers\UserController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [UserController::class, 'login']);
 
-Route::get('/login', function (){
-    return 'show login page';
-});
+Route::get('/login', [UserController::class, 'login']);
 
-Route::get('/register', function (){
-    return 'show register page';
-});
+Route::get('/register', [UserController::class, 'register']);
 
 Route::prefix('users')->group(function() {
 
-    Route::get('', function (){
-        return 'UserController index action';
-    });
+    Route::get('', [UserController::class, 'index']);
+
+    Route::post('', [UserController::class, 'store']);
 
     Route::prefix('{id}')->group(function() {
 
@@ -48,58 +42,36 @@ Route::prefix('users')->group(function() {
 
 Route::prefix('courses')->group(function() {
 
-    Route::get('', function (){
-        return 'CourseController index action';
-    });
+    Route::get('', [CourseController::class, 'index']);
 
-    Route::get('/my', function (){
-        return 'CourseController showOwn action';
-    });
+    Route::get('/my', [CourseController::class, 'showOwn']);
 
     Route::prefix('{id}')->group(function (){
 
-        Route::post('/assignments', function (){
-        return 'CourseController assign action';
-        })->where('id', '[0-9]+');
+        Route::post('/assignments', [CourseController::class, 'assign'])->where('id', '[0-9]+');
 
-        Route::get('/', function (){
-            return 'CourseController play action';
-        })->where('id', '[0-9]+');
+        Route::get('', [CourseController::class, 'play'])->where('id', '[0-9]+');
 
-        Route::get('/edit', function (){
-            return 'CourseController edit action';
-        })->where('id', '[0-9]+');
+        Route::get('/edit', [CourseController::class, 'edit'])->where('id', '[0-9]+');
 
-        Route::get('/edit/assignments', function (){
-            return 'CourseController editAssignments action';
-        })->where('id', '[0-9]+');
+        Route::get('/edit/assignments', [CourseController::class, 'editAssignments'])->where('id', '[0-9]+');
 
-        Route::put('', function (){
-            return 'CourseController update action';
-        })->where('id', '[0-9]+');
+        Route::put('', [CourseController::class, 'update'])->where('id', '[0-9]+');
 
-        Route::delete('/', function (){
-            return 'CourseController destroy action';
-        })->where('id', '[0-9]+');
+        Route::delete('', [CourseController::class, 'destroy'])->where('id', '[0-9]+');
 
     });
 
-    Route::get('/create', function (){
-        return 'CourseController create action';
-    });
+    Route::get('/create', [CourseController::class, 'create']);
 
-    Route::post('', function (){
-        return 'CourseController store action';
-    });
+    Route::post('', [CourseController::class, 'store']);
 
     /**
      *
      * Мейби нужен будет но не факт
      *
      */
-    Route::get('/{id}/statistics', function (){
-        return 'CourseController statistics action';
-    });
+    Route::get('/{id}/statistics', [CourseController::class, 'statistics']);
 
 });
 

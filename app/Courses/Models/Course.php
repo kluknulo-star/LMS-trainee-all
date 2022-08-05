@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Courses\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -8,6 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Course extends Model
 {
     use HasFactory;
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'courses';
+
     /**
      * The primary key associated with the table.
      *
