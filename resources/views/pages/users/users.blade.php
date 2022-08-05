@@ -8,13 +8,13 @@
         <div class="users__title h1">
             Students
             <div class="users__after-title-links">
-                <a href="{{ url('/users/create') }}" class="users__title-link">
+                <a href="{{ route('users.create') }}" class="users__title-link">
                     <i class="fas fa-plus"></i>
                 </a>
             </div>
-            <form action="/users" method="get" class="users__form-search">
+            <form action="{{ route('users') }}" method="get" class="users__form-search">
                 <input placeholder="Search" type="text" class="users__input-search">
-                <button class="users__button-search"><i class="fas fa-search"></i></button>
+                <button type="submit" class="users__button-search"><i class="fas fa-search"></i></button>
             </form>
         </div>
         <table class="users__table classic-box">
@@ -37,9 +37,9 @@
                         <th class="users__td">{{ $user->name }}</th>
                         <th class="users__td">{{ $user->patronymic }}</th>
                         <th class="users__td">
-                            <a class="table-action-button table-show-button" href="/users/{{ $user->user_id }}"><i class="fas fa-eye"></i></a>
-                            <a class="table-action-button table-edit-button" href="/users/{{ $user->user_id }}/edit"><i class="fas fa-pen"></i></a>
-                            <a class="table-action-button table-delete-button" href="/users/{{ $user->user_id }}/delete"><i class="fas fa-trash"></i></a>
+                            <a class="table-action-button table-show-button" href="{{ route('users.show', ['id' => $user->user_id]) }}"><i class="fas fa-eye"></i></a>
+                            <a class="table-action-button table-edit-button" href="{{ route('users.edit', ['id' => $user->user_id]) }}"><i class="fas fa-pen"></i></a>
+                            <a class="table-action-button table-delete-button" href="{{ route('users.destroy', ['id' => $user->user_id]) }}"><i class="fas fa-trash"></i></a>
                         </th>
                     </tr>
                 @endforeach

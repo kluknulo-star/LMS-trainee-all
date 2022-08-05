@@ -10,7 +10,7 @@
         <div class="create__container classic-box mrauto">
             <div class="create__title h2 mb30">Create Account</div>
 
-            <form method="post" action="{{ url('/users') }}" class="create__form form">
+            <form method="post" action="{{ route('users') }}" class="create__form form">
                 @csrf
                 <input name="surname" value="{{ old('surname') }}" type="text" placeholder="Surname" class="create__input col-input input">
                 <input name="name" value="{{ old('name') }}" type="text" placeholder="Name" class="create__input col-input input">
