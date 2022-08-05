@@ -2,12 +2,19 @@
 
 namespace App\Courses\Models;
 
+use Database\Factories\CourseFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Course extends Model
 {
     use HasFactory;
+
+    protected static function newFactory()
+    {
+        return CourseFactory::new();
+    }
+
     /**
      * The table associated with the model.
      *
