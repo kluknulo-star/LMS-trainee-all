@@ -35,7 +35,7 @@ Route::prefix('users')->group(function() {
 
         Route::get('/edit', [UserController::class, 'edit'])->where('id', '[0-9]+');
 
-        Route::put('/', [UserController::class, 'update'])->where('id', '[0-9]+');
+        Route::patch('/', [UserController::class, 'update'])->where('id', '[0-9]+');
 
         Route::delete('/', [UserController::class, 'destroy'])->where('id', '[0-9]+');
 
