@@ -20,9 +20,11 @@ Route::get('/', [UserController::class, 'login']);
 
 Route::get('/login', [UserController::class, 'login']);
 
+Route::get('/register', [UserController::class, 'register']);
+
 Route::post('/authenticate', [LoginController::class, 'authenticate']);
 
-Route::get('/register', [UserController::class, 'register']);
+Route::get('/logout', [LoginController::class, 'logout']);
 
 Route::prefix('users')->group(function() {
 
