@@ -15,15 +15,6 @@ class UserController extends Controller
     {
     }
 
-    public function login()
-    {
-        return view('pages/login');
-    }
-    public function register()
-    {
-        return view('pages/register');
-    }
-
     public function index(Request $request)
     {
         $recordsPerPage = 8;
@@ -68,7 +59,10 @@ class UserController extends Controller
         return view();
     }
 
-    public function destroy(Request $request)
+    public function destroy(Request $request, int $id)
     {
+        $user = User::findorFail($id);
+        $user->delete();
     }
+
 }

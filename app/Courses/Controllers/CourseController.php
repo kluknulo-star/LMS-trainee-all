@@ -53,4 +53,7 @@ class CourseController extends Controller
     {
     }
 
+    public function statistics()
+    {
+    }
 }
