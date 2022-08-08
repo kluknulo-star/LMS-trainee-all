@@ -13,10 +13,14 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $searchParam = $request->input('search');
         $recordsPerPage = 8;
-        $users = User::orderBy('user_id', 'desc')->paginate($recordsPerPage);
+
+        $users = User::orderBy('user_id', 'desc')
+            ->search($searchParam)
+            ->paginate($recordsPerPage);
         return view('pages/users/users', compact('users'));
     }
 

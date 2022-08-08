@@ -13,7 +13,7 @@
                 </a>
             </div>
             <form action="{{ route('users') }}" method="get" class="users__form-search">
-                <input placeholder="Search" type="text" class="users__input-search">
+                <input name="search" type="text" placeholder="Search" class="users__input-search">
                 <button type="submit" class="users__button-search"><i class="fas fa-search"></i></button>
             </form>
         </div>
