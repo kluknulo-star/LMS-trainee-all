@@ -12,12 +12,12 @@
 
         <form method="post" action="{{ route('users') }}" class="welcome__form form">
             @csrf
-            <input value="{{ old('surname') }}" name="surname" type="text" placeholder="Surname" class="welcome__input input @error('surname') is-invalid @enderror">
-            <input value="{{ old('name') }}" name="name" type="text" placeholder="Name" class="welcome__input input">
+            <input value="{{ old('surname') }}" name="surname" type="text" placeholder="Surname" class="welcome__input input @error('surname') is-invalid @enderror" required>
+            <input value="{{ old('name') }}" name="name" type="text" placeholder="Name" class="welcome__input input" required>
             <input value="{{ old('patronymic') }}" name="patronymic" type="text" placeholder="Patronymic (optional)" class="welcome__input input">
-            <input value="{{ old('email') }}" name="email" type="email" placeholder="E-mail" class="welcome__input input">
-            <input name="password" type="password" placeholder="Password" class="welcome__input input">
-            <input name="password_confirmation" type="password" placeholder="Confirm password" class="welcome__input input">
+            <input value="{{ old('email') }}" name="email" type="email" placeholder="E-mail" class="welcome__input input" required>
+            <input name="password" type="password" placeholder="Password" class="welcome__input input" required>
+            <input name="password_confirmation" type="password" placeholder="Confirm password" class="welcome__input input" required>
             <p class="welcome__text">Registered?&nbsp<a href="{{ route('login') }}">Sign in</a></p>
             @if ($errors->any())
                 <div class="alert alert-danger">
