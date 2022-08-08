@@ -25,7 +25,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'testadmin@gmail.com',
             'is_teacher' => true,
         ]);
-        User::factory(10000)->create();
+        User::factory(10000)->create(); //10000 - count of users
         //User default password - 'password'
 
         $recordCount = 20; //количество записей на заполнение
