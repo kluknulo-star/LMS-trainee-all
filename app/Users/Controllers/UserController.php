@@ -21,39 +21,34 @@ class UserController extends Controller
         $users = User::orderBy('user_id', 'desc')
             ->search($searchParam)
             ->paginate($recordsPerPage);
-        return view('pages/users/users', compact('users'));
+        return view('pages.users.users', compact('users'));
     }
 
     public function show(int $id)
     {
         $user = User::findOrFail($id);
-        return view('pages/users/profile', compact('user'));
+        return view('pages.users.profile', compact('user'));
     }
 
     public function create()
     {
-        return view('pages/users/create');
+        return view('pages.users.create');
     }
 
     public function store(CreateUserRequest $request)
     {
         $validated = $request->validated();
-        $userData = [
-            'name' => $validated['name'],
-            'surname' => $validated['surname'],
-            'patronymic' => $validated['patronymic'] ?? null,
-            'email' => $validated['email'],
-            'password' => Hash::make($validated['password']),
-        ];
+        $validated['password'] = Hash::make($validated['password']);
+        unset($validated['password_confirmation']);
 
-        User::create($userData);
+        User::create($validated);
         return redirect()->route('users');
     }
 
     public function edit(int $id)
     {
         $user = User::findOrFail($id);
-        return view('pages/users/edit', compact('user'));
+        return view('pages.users.edit', compact('user'));
     }
 
     public function update(UpdateUserRequest $request, int $id)
@@ -73,19 +68,20 @@ class UserController extends Controller
 
     public function destroy(int $id)
     {
-        if((Auth::id() != $id) && (User::where('user_id', $id)->exists()))
+        if (Auth::id() != $id)
         {
-          User::find($id)->delete();
+            optional(User::where('user_id', $id), function ($user) {
+                $user->delete();
+            });
         }
         return redirect()->route('users');
     }
 
-    public function restore(int $id){
-        if(User::where('user_id', $id)->exists()) {
-            User::find($id)->restore();
-            return redirect()->route('users.show', ['id' => $id]);
-        }
-
+    public function restore(int $id)
+    {
+        optional(User::withTrashed()->where('user_id', $id), function ($user) use ($id) {
+            $user->restore();
+        });
         return redirect()->route('users');
     }
 
