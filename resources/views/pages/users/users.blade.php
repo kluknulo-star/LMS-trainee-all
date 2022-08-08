@@ -29,6 +29,11 @@
                 </tr>
             </thead>
             <tbody>
+
+            @if ($users->isEmpty())
+
+            @else
+
                 @foreach ($users as $key => $user)
                     <tr class="users__tr">
                         <th class="users__td">{{ $user->user_id }}</th>
@@ -37,19 +42,25 @@
                         <th class="users__td">{{ $user->name }}</th>
                         <th class="users__td">{{ $user->patronymic }}</th>
                         <th class="users__td">
-                            <a class="table-action-button table-show-button" href="{{ route('users.show', ['id' => $user->user_id]) }}"><i class="fas fa-eye"></i></a>
-                            <a class="table-action-button table-edit-button" href="{{ route('users.edit', ['id' => $user->user_id]) }}"><i class="fas fa-pen"></i></a>
-                            <a class="table-action-button table-delete-button" href="{{ route('users.destroy', ['id' => $user->user_id]) }}"><i class="fas fa-trash"></i></a>
+                            @if ($user->deleted_at !== NULL)
+                                <a class="table-action-button table-restore-button" href="{{ route('users.restore', ['id' => $user->user_id]) }}"><i class="fa-solid fa-arrow-rotate-right"></i></a>
+                            @else
+                                <a class="table-action-button table-show-button" href="{{ route('users.show', ['id' => $user->user_id]) }}"><i class="fas fa-eye"></i></a>
+                                <a class="table-action-button table-edit-button" href="{{ route('users.edit', ['id' => $user->user_id]) }}"><i class="fas fa-pen"></i></a>
+                                <a class="table-action-button table-delete-button" href="{{ route('users.destroy', ['id' => $user->user_id]) }}"><i class="fas fa-trash"></i></a>
+                            @endif
                         </th>
                     </tr>
                 @endforeach
 
                 {{ $users->links() }}
+
+            @endif
+
             </tbody>
         </table>
     </div>
 </div>
-
 
 @component('components.footer')
 @endcomponent
