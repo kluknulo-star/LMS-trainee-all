@@ -6,18 +6,14 @@ use App\Http\Controllers\Controller;
 
 class CourseController extends Controller
 {
-    private $pathToView = '../Views/';
-
-    public function __construct()
-    {
-    }
-
     public function index()
     {
+        return view('pages/courses/index');
     }
 
     public function showOwn()
     {
+        return view('pages/courses/own');
     }
 
     public function assign()
@@ -50,6 +46,10 @@ class CourseController extends Controller
     }
 
     public function store()
+    {
+    }
+
+    public function restore()
     {
     }
 
