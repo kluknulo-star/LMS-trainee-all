@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="{{ URL::asset('css/style.css') }}">
 
     <script src="https://kit.fontawesome.com/9982e2a196.js" crossorigin="anonymous"></script>
-    
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 </head>
 <body>

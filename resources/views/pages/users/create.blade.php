@@ -12,12 +12,12 @@
 
             <form method="post" action="{{ route('users') }}" class="create__form form">
                 @csrf
-                <input name="surname" value="{{ old('surname') }}" type="text" placeholder="Surname" class="create__input col-input input">
-                <input name="name" value="{{ old('name') }}" type="text" placeholder="Name" class="create__input col-input input">
+                <input name="surname" value="{{ old('surname') }}" type="text" placeholder="Surname" class="create__input col-input input" required>
+                <input name="name" value="{{ old('name') }}" type="text" placeholder="Name" class="create__input col-input input" required>
                 <input name="patronymic" value="{{ old('patronymic') }}" type="text" placeholder="Patronymic (optional)" class="create__input col-input input">
-                <input name="email" value="{{ old('email') }}" type="email" placeholder="E-mail" class="create__input col-input input">
-                <input name="password" type="password" placeholder="Password" class="create__input col-input input">
-                <input name="password_confirmation" type="password" placeholder="Confirm password" class="create__input col-input input">
+                <input name="email" value="{{ old('email') }}" type="email" placeholder="E-mail" class="create__input col-input input" required>
+                <input name="password" type="password" placeholder="Password" class="create__input col-input input" required>
+                <input name="password_confirmation" type="password" placeholder="Confirm password" class="create__input col-input input" required>
                 <button type="submit" class="create__button rounded-red-button button">Create</button>
                 @if ($errors->any())
                     <div class="alert alert-danger">

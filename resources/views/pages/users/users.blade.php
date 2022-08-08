@@ -47,7 +47,12 @@
                             @else
                                 <a class="table-action-button table-show-button" href="{{ route('users.show', ['id' => $user->user_id]) }}"><i class="fas fa-eye"></i></a>
                                 <a class="table-action-button table-edit-button" href="{{ route('users.edit', ['id' => $user->user_id]) }}"><i class="fas fa-pen"></i></a>
-                                <a class="table-action-button table-delete-button" href="{{ route('users.destroy', ['id' => $user->user_id]) }}"><i class="fas fa-trash"></i></a>
+                                <form class="table-action-form" action="{{ route('users.destroy', ['id' => $user->user_id]) }}" method="post">
+                                    @csrf
+                                    @method('delete')
+                                    <input name="user_id" type="hidden" value="{{ $user->user_id }}">
+                                    <button type="submit" class="table-action-button table-delete-button"><i class="fas fa-trash"></i></button>
+                                </form>
                             @endif
                         </th>
                     </tr>

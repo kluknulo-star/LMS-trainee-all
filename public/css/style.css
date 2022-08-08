@@ -131,7 +131,7 @@ a.users__title-link .fa-plus:hover {
 .users__td {
     font-weight: normal;
     margin: 5px 0;
-    padding: 15px 10px;
+    padding: 5px 10px;
     background: rgba(37, 42, 55, 0.8);
 }
 .users__td:nth-child(1) {
@@ -146,6 +146,13 @@ a.users__title-link .fa-plus:hover {
 .table-action-button {
     margin: 0 10px;
     padding: 10px;
+}
+.table-action-form {
+    display: inline-block;
+}
+.table-action-form .table-action-button {
+    background: none;
+    color: #eb4432 !important;
 }
 a.table-show-button {
     color: #4a5568 !important;
@@ -302,6 +309,7 @@ nav.flex > div > div > span > span {
 }
 .courses__item,
 .course__item-add  {
+    position: relative;
     width: 570px;
     height: 300px;
     padding: 25px 30px;
@@ -314,7 +322,7 @@ nav.flex > div > div > span > span {
 }
 .course__item-add {
     position: absolute;
-    right: -580px;
+    right: -550px;
     border-color: #eb4432;
     transition: .2s ease;
 }
@@ -343,7 +351,7 @@ nav.flex > div > div > span > span {
     font-size: 48px;
 }
 .course__item-add:hover {
-    transform: translateX(-100px);
+    transform: translateX(-130px);
 }
 .courses__item:nth-child(1n) {
     border-color: #eb4432;
@@ -376,4 +384,26 @@ nav.flex > div > div > span > span {
 }
 .courses__course-description {
     line-height: 1.25;
+}
+.courses__item:nth-child(1n) .courses__course-play {
+    background-color: #eb4432;
+}
+.courses__item:nth-child(2n) .courses__course-play {
+    background-color: #3250EB;
+}
+.courses__item:nth-child(3n) .courses__course-play {
+    background-color: #62EB32;
+}
+.courses__item:nth-child(4n) .courses__course-play {
+    background-color: #EBB732;
+}
+a.courses__course-play {
+    border-radius: 10px 0 0 0;
+    color: whitesmoke !important;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    height: 50px;
+    width: 50px;
+    padding: 18px 20px;
 }
