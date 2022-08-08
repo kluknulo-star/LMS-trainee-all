@@ -32,7 +32,12 @@ class CreateUserRequest extends FormRequest
             'password' => [
                 'required',
                 'confirmed',
-                Password::default(),
+                Password::min(8)
+                ->letters()
+                ->symbols()
+                ->uncompromised()
+                ->numbers()
+                ->mixedCase(),
             ],
             'password_confirmation' => 'required',
         ];
