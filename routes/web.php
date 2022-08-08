@@ -16,10 +16,12 @@ use App\Users\Controllers\UserController;
 |
 */
 
-Route::get('/', [LoginController::class, 'login'])->name('main');
-Route::get('/login', [LoginController::class, 'login'])->name('login');
-Route::get('/register', [LoginController::class, 'register'])->name('register');
-Route::post('/authenticate', [LoginController::class, 'authenticate'])->name('authenticate');
+Route::get('/', [LoginController::class, 'login'])->name('main')->middleware('guest');
+Route::get('/', [UserController::class, 'index'])->name('main')->middleware('auth');
+
+Route::get('/login', [LoginController::class, 'login'])->name('login')->middleware('guest');
+Route::get('/register', [LoginController::class, 'register'])->name('register')->middleware('guest');
+Route::post('/authenticate', [LoginController::class, 'authenticate'])->name('authenticate')->middleware('guest');
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout')->middleware('auth');
 Route::post('/users/', [UserController::class, 'store'])->name('users.store');
 
@@ -30,6 +32,7 @@ Route::prefix('users')->middleware('auth')->group(function() {
 
     Route::prefix('{id}')->group(function() {
         Route::get('/', [UserController::class, 'show'])->name('users.show')->where('id', '[0-9]+');
+        Route::post('/restore', [UserController::class, 'restore'])->name('users.restore')->where('id', '[0-9]+');
         Route::get('/edit', [UserController::class, 'edit'])->where('id', '[0-9]+')->name('users.edit');
         Route::patch('/', [UserController::class, 'update'])->where('id', '[0-9]+')->name('users.update');
         Route::delete('/', [UserController::class, 'destroy'])->where('id', '[0-9]+')->name('users.destroy');
