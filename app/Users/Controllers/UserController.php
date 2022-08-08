@@ -4,31 +4,29 @@ namespace App\Users\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateUserRequest;
-use App\Users\Models\User;
+use App\Http\Requests\UpdateUserRequest;
 use Illuminate\Http\Request;
+use App\Users\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 
 class UserController extends Controller
 {
-    public function __construct()
-    {
-    }
-
-    public function index(Request $request)
+    public function index()
     {
         $recordsPerPage = 8;
         $users = User::orderBy('user_id', 'desc')->paginate($recordsPerPage);
         return view('pages/users/users', compact('users'));
     }
 
-    public function show(Request $request, int $id)
+    public function show(int $id)
     {
         $user = User::findOrFail($id);
         return view('pages/users/profile', compact('user'));
     }
 
-    public function create(Request $request)
+    public function create()
     {
         return view('pages/users/create');
     }
@@ -44,25 +42,47 @@ class UserController extends Controller
             'password' => Hash::make($validated['password']),
         ];
 
-        $user = User::create($userData);
-        return redirect()->action([UserController::class, 'index']);
+        User::create($userData);
+        return redirect()->route('users');
     }
 
-    public function edit(Request $request, int $id)
+    public function edit(int $id)
     {
         $user = User::findOrFail($id);
         return view('pages/users/edit', compact('user'));
     }
 
-    public function update(Request $request)
+    public function update(UpdateUserRequest $request, int $id)
     {
-        return view();
+        $validated = $request->validated();
+
+        if (is_null($validated['password'])) {
+            unset($validated['password']);
+        } else {
+            $validated['password'] = Hash::make($validated['password']);
+        }
+
+        $user = User::findOrFail($id);
+        $user->update($validated);
+        return redirect()->route('users.show', ['id' => $user->user_id]);
     }
 
-    public function destroy(Request $request, int $id)
+    public function destroy(int $id)
     {
-        $user = User::findorFail($id);
-        $user->delete();
+        if((Auth::id() != $id) && (User::where('user_id', $id)->exists()))
+        {
+          User::find($id)->delete();
+        }
+        return redirect()->route('users');
+    }
+
+    public function restore(int $id){
+        if(User::where('user_id', $id)->exists()) {
+            User::find($id)->restore();
+            return redirect()->route('users.show', ['id' => $id]);
+        }
+
+        return redirect()->route('users');
     }
 
 }
