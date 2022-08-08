@@ -4,18 +4,17 @@ namespace App\Users\Models;
 
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
-
-    protected static function newFactory()
-    {
-        return UserFactory::new();
-    }
+    use HasApiTokens;
+    use HasFactory;
+    use Notifiable;
+    use SoftDeletes;
 
     /**
      * The table associated with the model.
@@ -63,11 +62,15 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    protected static function newFactory()
+    {
+        return UserFactory::new();
+    }
+
     public function scopeSearch($query, $searchParam)
     {
         return $query->where('surname', 'like', '%'.$searchParam.'%')
             ->orwhere('name', 'like', '%'.$searchParam.'%')
-            ->orwhere('patronymic', 'like', '%'.$searchParam.'%')
-            ->orwhere('email', 'like', '%'.$searchParam.'%');
+            ->orwhere('patronymic', 'like', '%'.$searchParam.'%');
     }
 }

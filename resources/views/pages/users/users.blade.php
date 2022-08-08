@@ -58,7 +58,7 @@
                     </tr>
                 @endforeach
 
-                {{ $users->links() }}
+                {{ $users->withQueryString()->links() }}
 
             @endif
 
