@@ -6,9 +6,17 @@
 
 <div class="courses">
     <div class="container">
-        <div class="courses__title h1">
+
+        <div class="courses__title h1 flex flex-spbtw w1200">
             Assigned courses
+
+            <form action="{{ route('courses.assignments') }}" method="get" class="courses__form-search">
+                <input name="search" type="text" placeholder="Search course" class="courses__input-search">
+                <button type="submit" class="courses__button-search"><i class="fas fa-search"></i></button>
+            </form>
+
         </div>
+
         <div class="courses__row">
             @foreach ($courses as $key => $course)
                 <div class="courses__item">
