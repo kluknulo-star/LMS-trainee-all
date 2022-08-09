@@ -360,6 +360,9 @@ nav.flex > div > div > span > a:nth-last-child(-n+2) {
     height: 150px;
 }
 .courses__course-add-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     opacity: 0;
     color: whitesmoke;
     background-color: #1a202c;
