@@ -31,17 +31,14 @@ class User extends Authenticatable
     protected $primaryKey = 'user_id';
 
     /**
-     * The attributes that are mass assignable.
+     * The attributes that aren't mass assignable.
      *
-     * @var array<int, string>
+     * @var array
      */
-    protected $fillable = [
-        'surname',
-        'name',
-        'patronymic',
-        'password',
-        'email',
+    protected $guarded = [
+        'is_teacher'
     ];
+
 
     /**
      * The attributes that should be hidden for serialization.

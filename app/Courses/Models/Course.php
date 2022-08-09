@@ -10,11 +10,6 @@ class Course extends Model
 {
     use HasFactory;
 
-    protected static function newFactory()
-    {
-        return CourseFactory::new();
-    }
-
     /**
      * The table associated with the model.
      *
@@ -30,22 +25,21 @@ class Course extends Model
     protected $primaryKey = 'course_id';
 
     /**
-     * The attributes that are mass assignable.
+     * The attributes that aren't mass assignable.
      *
      * @var array
      */
-    //What type of fillable array or array<string>?
-    protected $fillable = [
-        'title',
-        'description',
-        'content',
-    ];
+    protected $guarded = [];
 
     /**
      * The attributes that should be hidden for serialization.
      *
      * @var array<int, string>
      */
-    // No secret data?
     protected $hidden = [];
+
+    protected static function newFactory() : CourseFactory
+    {
+        return CourseFactory::new();
+    }
 }
