@@ -7,7 +7,7 @@
 <div class="courses">
     <div class="container">
         <div class="courses__title h1">
-            Own courses
+            My courses
         </div>
         <div class="course__item-add">
             <img src="" alt="" class="courses__img">

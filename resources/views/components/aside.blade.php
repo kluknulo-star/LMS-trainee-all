@@ -2,7 +2,7 @@
     <div class="aside__header">
         <div class="aside__logo logo h2">CourseZone</div>
         <a href="{{ route('users') }}" class="aside__link button">Students</a>
-        <a href="{{ route('courses') }}" class="aside__link button">Assigned courses</a>
+        <a href="{{ route('courses.assignments') }}" class="aside__link button">Assigned courses</a>
         <a href="{{ route('courses.own') }}" class="aside__link button">My courses</a>
         <a href="" class="aside__link button">About us</a>
     </div>

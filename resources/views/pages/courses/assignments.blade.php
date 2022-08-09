@@ -9,11 +9,6 @@
         <div class="courses__title h1">
             Assigned courses
         </div>
-        <div class="course__item-add">
-            <img src="" alt="" class="courses__img">
-            <div class="courses__valign-text">Create</div>
-            <button class="courses__course-add-button"><i class="fas fa-plus"></i></button>
-        </div>
         <div class="courses__row">
             @foreach ($courses as $key => $course)
                 <div class="courses__item">
