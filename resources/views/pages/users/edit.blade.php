@@ -18,7 +18,7 @@
                 <input name="email" value="{{  old('email') ?? $user->email }}" type="email" placeholder="E-mail" class="edit__input col-input input">
                 <input name="password" type="password" placeholder="Password" class="edit__input col-input input">
                 <input name="password_confirmation" type="password" placeholder="Confirm password" class="edit__input input mb30">
-                <button type="submit" class="edit__button rounded-red-button button">Save changes</button>
+                <button type="submit" class="edit__button rounded-red-button button mb20">Save changes</button>
                 @if ($errors->any())
                     <div class="alert alert-danger">
                         <ul>
@@ -28,6 +28,7 @@
                         </ul>
                     </div>
                 @endif
+                <a href="{{ url()->previous() }}" class="back-button"><i class="fas fa-arrow-left"></i> Back</a>
             </form>
         </div>
     </div>

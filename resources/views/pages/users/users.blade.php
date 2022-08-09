@@ -4,7 +4,7 @@
 @component('components.aside')
 @endcomponent
 <div class="container">
-    <div class="users">
+    <div class="users w1200">
         <div class="users__title h1">
             Students
             <div class="users__after-title-links">

@@ -87,6 +87,7 @@ a.aside__link:hover {
 .aside__footer {
     display: flex;
     flex-direction: column;
+    margin-bottom: 20px;
 }
 .aside__link_profile {
     background: none !important;
@@ -205,6 +206,7 @@ button.table-restore-button {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
+    max-width: 1000px;
 }
 .profile__title {
     display: flex;
@@ -212,8 +214,12 @@ button.table-restore-button {
     margin-bottom: 46px;
 }
 .profile__column {
+    align-self: flex-start;
     display: flex;
     flex-direction: column;
+}
+.profile__column_courses {
+    margin-left: 60px;
 }
 .profile__row {
     display: flex;
@@ -255,28 +261,26 @@ a.profile__edit-button {
 }
 .profile__course-title {
     flex: 1 1 auto;
+    max-width: 300px;
 }
 .profile__course-title,
 .profile__course-status,
 .profile__course-button {
-    height: 32px;
-    padding: 8px 15px;
+    padding: 10px;
+    height: fit-content;
     border-right: 1px solid #4a5568;
 }
 
-.profile__course-button i {
+a.profile__course-button i {
     color: whitesmoke;
     font-size: 12px;
 }
-.profile__course-button {
+a.profile__course-button {
     border-radius: 0 10px 10px 0;
     border-right: none;
-    color: whitesmoke;
-    transition: .2s;
-    background: #eb4432;
 }
-.profile__course-button:hover {
-    background: #4a5568;
+a.profile__course-button {
+    color: whitesmoke !important;
 }
 a.profile__more {
     display: inline-block;
@@ -338,11 +342,9 @@ nav.flex > div > div > span > a:nth-last-child(-n+2) {
     display: flex;
     flex-wrap: wrap;
 }
-.courses__item,
-.course__item-add  {
+.courses__item  {
     position: relative;
     width: 570px;
-    height: 300px;
     padding: 25px 30px;
     margin: 0 60px 60px 0;
     display: flex;
@@ -350,45 +352,8 @@ nav.flex > div > div > span > a:nth-last-child(-n+2) {
     border: 1px solid;
     border-left: 50px solid;
     border-radius: 10px 0 0 10px;
-}
-.course__item-add {
-    padding: 0;
-    position: absolute;
-    right: -550px;
-    border-color: #eb4432;
-    transition: .2s ease;
-    height: 150px;
-}
-.courses__course-add-button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    opacity: 0;
-    color: whitesmoke;
-    background-color: #1a202c;
-    width: 90px;
-    height: 100%;
-    transition: .2s;
-}
-.courses__valign-text {
-    position: absolute;
-    transform: rotate(-90deg);
-    left: -65px;
-    top: 60px;
-    color: whitesmoke;
-    font-size: 24px;
-}
-.courses__course-add-button i {
-    transition: .2s ease;
-}
-.course__item-add:hover .courses__course-add-button {
-    opacity: 1;
-}
-.course__item-add:hover .courses__course-add-button i {
-    font-size: 24px;
-}
-.course__item-add:hover {
-    transform: translateX(-60px);
+    min-height: 300px;
+    height: fit-content;
 }
 .courses__item:nth-child(1n) {
     border-color: #eb4432;
@@ -409,7 +374,10 @@ nav.flex > div > div > span > a:nth-last-child(-n+2) {
 
 .courses__course-title {
     font-weight: bold;
-    margin-bottom: 35px;
+    max-width: 440px;
+}
+.courses__after-title-links {
+    flex: 1 1 auto;
 }
 .courses__course-description {
     line-height: 1.25;
@@ -452,6 +420,16 @@ a.courses__course-play {
     padding: 18px 18px 20px 20px;
     border-radius: 10px 0 0 0;
     bottom: 0;
+}
+.courses__course-author {
+    position: absolute;
+    bottom: 25px;
+    left: 30px;
+}
+.courses__course-assign-count {
+    position: absolute;
+    bottom: 55px;
+    left: 30px;
 }
 .modal {
     position: absolute;
