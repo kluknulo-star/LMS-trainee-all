@@ -7,27 +7,32 @@ use App\Http\Controllers\Controller;
 use App\Users\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class CourseController extends Controller
 {
     public function showAssignments(Request $request)
     {
         $searchParam = $request->input('search');
-        $recordsPerPage = 8;
+        $recordsPerPage = 4;
+        $coursesIds = DB::table('assignments')
+            ->where('student_id', auth()->id())
+            ->orderBy('course_id', 'desc')
+            ->pluck('course_id');
 
-        $courses = Course::orderBy('course_id', 'desc')
+        $courses = Course::whereIn('course_id', $coursesIds)
+            ->orderByDesc('course_id')
             ->search($searchParam)
             ->paginate($recordsPerPage);
 
-        return view('pages.courses.assignments', ['courses' => $courses]);
+        return view('pages.courses.assignments', compact('courses'));
     }
 
     public function showOwn(Request $request)
     {
         $searchParam = $request->input('search');
-        $recordsPerPage = 2;
-
-        $courses = User::find(Auth::id())
+        $recordsPerPage = 4;
+        $courses = auth()->user()
             ->courses()
             ->orderByDesc('course_id')
             ->search($searchParam)
