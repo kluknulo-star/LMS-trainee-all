@@ -16,7 +16,7 @@
             </form>
 
         </div>
-
+        {{ $courses->withQueryString()->links() }}
         <div class="course__item-add">
             <img src="" alt="" class="courses__img">
             <div class="courses__valign-text">Create</div>

@@ -10,10 +10,9 @@ use Illuminate\Support\Facades\Auth;
 
 class CourseController extends Controller
 {
-    public function showAssignments(Request $request)
+    public function showAssignments()
     {
         $recordsPerPage = 8;
-
         $courses = Course::orderBy('course_id', 'desc')
             ->paginate($recordsPerPage);
 
@@ -22,13 +21,13 @@ class CourseController extends Controller
 
     public function showOwn()
     {
-        $recordsPerPage = 8;
-
-        $courses = Course::orderBy('course_id', 'desc')
-            ->where('author_id', Auth::id())
+        $recordsPerPage = 2;
+        $courses = User::find(Auth::id())
+            ->courses()
+            ->orderByDesc('course_id')
             ->paginate($recordsPerPage);
 
-        return view('pages.courses.own', ['courses' => $courses]);
+        return view('pages.courses.own', compact('courses'));
     }
 
     public function assign()
