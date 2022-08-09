@@ -45,24 +45,52 @@
                         <th class="users__td">{{ $user->patronymic }}</th>
                         <th class="users__td">
                             @if ($user->deleted_at !== NULL)
+                                <button class="table-action-button table-restore-button" onclick="document.getElementById('restore-modal-<?= $user->user_id ?>').style.display = 'flex'">
+                                    <i class="fa-solid fa-arrow-rotate-right"></i>
+                                </button>
+                            @else
+                                <a class="table-action-button table-show-button" href="{{ route('users.show', ['id' => $user->user_id]) }}"><i class="fas fa-eye"></i></a>
+                                <a class="table-action-button table-edit-button" href="{{ route('users.edit', ['id' => $user->user_id]) }}"><i class="fas fa-pen"></i></a>
+                                <button class="table-action-button table-delete-button" onclick="document.getElementById('delete-modal-<?= $user->user_id ?>').style.display = 'flex'">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+
+                            @endif
+                        </th>
+                    </tr>
+
+                    <div class="modal" id="delete-modal-{{ $user->user_id }}">
+                        <div class="modal-box">
+                            <p class="modal-text modal-text-delete mb20 mr20">You sure to <span>delete</span> user id{{ $user->user_id }}?</p>
+
+                            <div class="modal-buttons">
+                                <form class="table-action-form" action="{{ route('users.delete', ['id' => $user->user_id]) }}" method="post">
+                                    @csrf
+                                    @method('delete')
+                                    <input name="user_id" type="hidden" value="{{ $user->user_id }}">
+                                    <button type="submit" class="table-action-button confirm-button">Confirm</button>
+                                </form>
+                                <button onclick="document.getElementById('delete-modal-<?= $user->user_id ?>').style.display = 'none'" class="table-action-button cancel-button">Cancel</button>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="modal" id="restore-modal-{{ $user->user_id }}">
+                        <div class="modal-box">
+                            <p class="modal-text modal-text-restore mb20 mr20">You sure to <span>restore</span> user id{{ $user->user_id }}?</p>
+
+                            <div class="modal-buttons">
                                 <form class="table-action-form" action="{{ route('users.restore', ['id' => $user->user_id]) }}" method="post">
                                     @csrf
                                     @method('post')
                                     <input name="user_id" type="hidden" value="{{ $user->user_id }}">
-                                    <button type="submit" class="table-action-button table-restore-button"><i class="fa-solid fa-arrow-rotate-right"></i></button>
+                                    <button type="submit" class="table-action-button confirm-button">Confirm</button>
                                 </form>
-                            @else
-                                <a class="table-action-button table-show-button" href="{{ route('users.show', ['id' => $user->user_id]) }}"><i class="fas fa-eye"></i></a>
-                                <a class="table-action-button table-edit-button" href="{{ route('users.edit', ['id' => $user->user_id]) }}"><i class="fas fa-pen"></i></a>
-                                <form class="table-action-form" action="{{ route('users.destroy', ['id' => $user->user_id]) }}" method="post">
-                                    @csrf
-                                    @method('delete')
-                                    <input name="user_id" type="hidden" value="{{ $user->user_id }}">
-                                    <button type="submit" class="table-action-button table-delete-button"><i class="fas fa-trash"></i></button>
-                                </form>
-                            @endif
-                        </th>
-                    </tr>
+                                <button onclick="document.getElementById('restore-modal-<?= $user->user_id ?>').style.display = 'none'" class="table-action-button cancel-button">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
                 @endforeach
 
                 {{ $users->withQueryString()->links() }}

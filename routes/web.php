@@ -35,7 +35,7 @@ Route::prefix('users')->middleware('auth')->group(function() {
         Route::post('/restore', [UserController::class, 'restore'])->name('users.restore')->where('id', '[0-9]+');
         Route::get('/edit', [UserController::class, 'edit'])->where('id', '[0-9]+')->name('users.edit');
         Route::patch('/', [UserController::class, 'update'])->where('id', '[0-9]+')->name('users.update');
-        Route::delete('/', [UserController::class, 'destroy'])->where('id', '[0-9]+')->name('users.destroy');
+        Route::delete('/', [UserController::class, 'destroy'])->where('id', '[0-9]+')->name('users.delete');
     });
 
 });
