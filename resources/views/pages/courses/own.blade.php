@@ -31,7 +31,7 @@
                     <div class="courses__course-description mb30">{{ Str::limit($course->description, 200, '...') }}</div>
                     <div class="courses__course-author mb15">Author: <a href="">{{ auth()->user()->name }}</a></div>
                     <div class="courses__course-assign-count"><i class="fa-solid fa-user"></i> {{ mt_rand(1000, 10000) }}</div>
-                    <a href="" class="courses__course-edit"><i class="fas fa-pen"></i></a>
+                    <a href="{{ route('courses.edit', ['id' => $course->course_id]) }}" class="courses__course-edit"><i class="fas fa-pen"></i></a>
                     <a href="" class="courses__course-play"><i class="fas fa-play"></i></a>
                 </div>
             @endforeach

@@ -46,9 +46,10 @@ class CourseController extends Controller
 
     }
 
-    public function edit()
+    public function edit(int $id)
     {
-
+        $course = Course::findOrFail($id);
+        return view('pages.courses.edit', compact('course'));
     }
 
     public function destroy()
