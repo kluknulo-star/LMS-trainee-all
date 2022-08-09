@@ -20,6 +20,7 @@
         <table class="users__table classic-box">
             <thead>
                 <tr class="users__tr users__tr_head">
+                    <th class="users__td users__td-img">Ava</th>
                     <th class="users__td">ID</th>
                     <th class="users__td">E-mail</th>
                     <th class="users__td">Surname</th>
@@ -31,11 +32,12 @@
             <tbody>
 
             @if ($users->isEmpty())
-
+                Пользователей пока нету ;(
             @else
 
                 @foreach ($users as $key => $user)
                     <tr class="users__tr">
+                        <th class="users__td users__td-img"><img src="{{ URL::asset('img/default-avatar.png') }}" alt="">{{ $user->avatar_filename }}</th>
                         <th class="users__td">{{ $user->user_id }}</th>
                         <th class="users__td">{{ $user->email }}</th>
                         <th class="users__td">{{ $user->surname }}</th>
@@ -58,7 +60,7 @@
                     </tr>
                 @endforeach
 
-                {{ $users->links() }}
+                {{ $users->withQueryString()->links() }}
 
             @endif
 
