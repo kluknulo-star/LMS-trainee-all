@@ -18,7 +18,7 @@ class UserController extends Controller
         $searchParam = $request->input('search');
         $recordsPerPage = 8;
 
-        $users = User::orderBy('user_id', 'desc')
+        $users = User::withTrashed()->orderBy('user_id', 'desc')
             ->search($searchParam)
             ->paginate($recordsPerPage);
         return view('pages.users.users', compact('users'));
