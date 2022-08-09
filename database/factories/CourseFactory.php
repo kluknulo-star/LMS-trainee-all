@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Courses\Models\Course;
+use App\Users\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,11 +20,11 @@ class CourseFactory extends Factory
     public function definition()
     {
         return [
-            'title' => fake()->company(),
-            'author_id' => 1, //rand(1, *максимальный id пользователя*) количество пользователей созданные фабрикой
+            'title' => fake()->sentence(),
+            'author_id' => User::where('is_teacher', true)->get('user_id')->random()->user_id,
             'description' => fake()->text(255),
-            'content' => '{"0": {"type": "text", "content": "text"},
-            "1": {"type": "link", "content": "https://www.youtube.com/"}}',
+            'content' => '{"0": {"type": "text", "content": "'.fake()->text.'"},
+            "1": {"type": "link", "content": "'.fake()->domainName.'"}}',
         ];
     }
 }

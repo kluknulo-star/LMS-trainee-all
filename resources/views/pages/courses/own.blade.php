@@ -6,8 +6,15 @@
 
 <div class="courses">
     <div class="container">
-        <div class="courses__title h1">
+
+        <div class="courses__title flex flex-spbtw h1 w1200">
             My courses
+
+            <form action="{{ route('courses.own') }}" method="get" class="courses__form-search">
+                <input name="search" type="text" placeholder="Search course" class="courses__input-search">
+                <button type="submit" class="courses__button-search"><i class="fas fa-search"></i></button>
+            </form>
+
         </div>
         {{ $courses->withQueryString()->links() }}
         <div class="course__item-add">
