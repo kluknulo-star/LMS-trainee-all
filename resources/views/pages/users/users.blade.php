@@ -43,7 +43,12 @@
                         <th class="users__td">{{ $user->patronymic }}</th>
                         <th class="users__td">
                             @if ($user->deleted_at !== NULL)
-                                <a class="table-action-button table-restore-button" href="{{ route('users.restore', ['id' => $user->user_id]) }}"><i class="fa-solid fa-arrow-rotate-right"></i></a>
+                                <form class="table-action-form" action="{{ route('users.restore', ['id' => $user->user_id]) }}" method="post">
+                                    @csrf
+                                    @method('post')
+                                    <input name="user_id" type="hidden" value="{{ $user->user_id }}">
+                                    <button type="submit" class="table-action-button table-restore-button"><i class="fa-solid fa-arrow-rotate-right"></i></button>
+                                </form>
                             @else
                                 <a class="table-action-button table-show-button" href="{{ route('users.show', ['id' => $user->user_id]) }}"><i class="fas fa-eye"></i></a>
                                 <a class="table-action-button table-edit-button" href="{{ route('users.edit', ['id' => $user->user_id]) }}"><i class="fas fa-pen"></i></a>
