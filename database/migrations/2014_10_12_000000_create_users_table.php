@@ -19,9 +19,10 @@ return new class extends Migration
             $table->string('name', 70);
             $table->string('patronymic', 70)->nullable();
             $table->string('email', 255)->unique();
-            $table->string('password', 255);
+            $table->string('password', 60);
             $table->timestamp('email_verified_at')->nullable();
             $table->boolean('is_teacher')->default(false);
+            $table->string('avatar_filename')->nullable();
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
