@@ -10,21 +10,27 @@ use Illuminate\Support\Facades\Auth;
 
 class CourseController extends Controller
 {
-    public function showAssignments()
+    public function showAssignments(Request $request)
     {
+        $searchParam = $request->input('search');
         $recordsPerPage = 8;
+
         $courses = Course::orderBy('course_id', 'desc')
+            ->search($searchParam)
             ->paginate($recordsPerPage);
 
         return view('pages.courses.assignments', ['courses' => $courses]);
     }
 
-    public function showOwn()
+    public function showOwn(Request $request)
     {
+        $searchParam = $request->input('search');
         $recordsPerPage = 2;
+
         $courses = User::find(Auth::id())
             ->courses()
             ->orderByDesc('course_id')
+            ->search($searchParam)
             ->paginate($recordsPerPage);
 
         return view('pages.courses.own', compact('courses'));

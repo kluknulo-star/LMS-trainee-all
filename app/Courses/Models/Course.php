@@ -50,4 +50,10 @@ class Course extends Model
     {
         return CourseFactory::new();
     }
+
+    public function scopeSearch($query, $searchParam)
+    {
+        return $query->where('title', 'like', '%'.$searchParam.'%')
+            ->orwhere('description', 'like', '%'.$searchParam.'%');
+    }
 }
