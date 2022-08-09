@@ -47,7 +47,7 @@ Route::prefix('courses')->middleware('auth')->group(function() {
     Route::post('', [CourseController::class, 'store'])->name('courses.store');
 
     Route::prefix('{id}')->group(function (){
-        Route::post('/assignments', [CourseController::class, 'assign'])->where('id', '[0-9]+')->name('courses.assignments');
+        Route::post('/assignments', [CourseController::class, 'assign'])->where('id', '[0-9]+')->name('courses.course.assginments');
         Route::get('', [CourseController::class, 'play'])->where('id', '[0-9]+')->name('courses.play');
         Route::get('/edit', [CourseController::class, 'edit'])->where('id', '[0-9]+')->name('courses.edit');
         Route::get('/edit/assignments', [CourseController::class, 'editAssignments'])->where('id', '[0-9]+')->name('courses.edit.assignments');
