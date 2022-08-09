@@ -23,7 +23,7 @@
                     <img src="" alt="" class="courses__img">
                     <div class="courses__img-blackout"></div>
                     <div class="courses__course-title h2">{{ $course->title }}</div>
-                    <div class="courses__course-description mb30">{{ $course->description }}</div>
+                    <div class="courses__course-description mb30">{{ Str::limit($course->description, 200, '...') }}</div>
                     <div class="courses__course-author mb15">Author: <a href=""></a></div>
                     <div class="courses__course-assign-count"><i class="fa-solid fa-user"></i> 3000</div>
                     <a href="" class="courses__course-edit"><i class="fas fa-pen"></i></a>

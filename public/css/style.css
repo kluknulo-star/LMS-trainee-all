@@ -300,19 +300,34 @@ nav.flex svg {
     width: 30px;
 }
 nav.flex span a {
-    font-size: 20px !important;
 }
-
+nav > div.flex:first-child {
+    display: none;
+}
+nav > div > div:first-child {
+    margin-bottom: 10px;
+}
 nav.flex span {
-    font-size: 20px !important;
+    display: inline-block;
 }
 nav.flex > div > div > span {
     align-items: center;
     display: flex;
+    margin-bottom: 10px;
 }
 nav.flex > div > div > span > a,
-nav.flex > div > div > span > span {
+nav.flex > div > div > span > span > span {
     margin: 0 5px;
+    font-size: 20px;
+    display: none;
+}
+
+nav.flex > div > div > span > span > span:first-child,
+nav.flex > div > div > span > a:first-child,
+nav.flex > div > div > span > a:nth-child(2),
+nav.flex > div > div > span > a:last-child,
+nav.flex > div > div > span > a:nth-last-child(-n+2) {
+    display: inline-block;
 }
 
 .courses {
