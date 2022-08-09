@@ -33,11 +33,13 @@
                                     <i class="fa-solid fa-play"></i>
                                 </a>
                             </div>
-                            <a href="{{ route('courses.assignments') }}" class="profile__more button">More...</a>
                         @empty
                             Assigned courses not found
                         @endforelse
 
+                        @if (!$assignedCourses->isEmpty())
+                            <a href="{{ route('courses.assignments') }}" class="profile__more button">More...</a>
+                        @endif
                     </div>
                 </div>
 
@@ -57,8 +59,9 @@
                             Own courses not found
                         @endforelse
 
-                        <a href="{{ route('courses.own') }}" class="profile__more button">More...</a>
-
+                        @if (!$ownCourses->isEmpty())
+                            <a href="{{ route('courses.own') }}" class="profile__more button">More...</a>
+                        @endif
                     </div>
                 </div>
                 @endif
