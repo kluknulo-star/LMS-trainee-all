@@ -20,7 +20,7 @@
         <div class="course__item-add">
             <img src="" alt="" class="courses__img">
             <div class="courses__valign-text">Create</div>
-            <button class="courses__course-add-button"><i class="fas fa-plus"></i></button>
+            <a href="{{ route('courses.create') }}" class="courses__course-add-button"><i class="fas fa-plus"></i></a>
         </div>
         <div class="courses__row">
             @foreach ($courses as $key => $course)
