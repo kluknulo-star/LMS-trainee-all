@@ -70,19 +70,14 @@ class UserController extends Controller
     {
         if (Auth::id() != $id)
         {
-            optional(User::where('user_id', $id), function ($user) {
-                $user->delete();
-            });
+            optional(User::where('user_id', $id))->delete();
         }
         return redirect()->route('users');
     }
 
     public function restore(int $id)
     {
-        optional(User::withTrashed()->where('user_id', $id), function ($user) use ($id) {
-            $user->restore();
-        });
+        optional(User::withTrashed()->where('user_id', $id))->restore();
         return redirect()->route('users');
     }
-
 }
