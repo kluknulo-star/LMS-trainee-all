@@ -38,42 +38,51 @@ class CourseController extends Controller
 
     public function assign()
     {
+
     }
 
     public function play()
     {
+
     }
 
     public function edit()
     {
+
     }
 
     public function destroy()
     {
+
     }
 
     public function editAssignments()
     {
+
     }
 
     public function update()
     {
-    }
 
+    }
 
     public function create()
     {
+        return view('pages.courses.create');
     }
 
     public function store()
     {
+
     }
 
     public function restore()
     {
+
     }
 
     public function statistics()
     {
+
     }
 }
