@@ -2,18 +2,33 @@
 
 namespace App\Courses\Controllers;
 
+use App\Courses\Models\Course;
 use App\Http\Controllers\Controller;
+use App\Users\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CourseController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return view('pages/courses/index');
+        $recordsPerPage = 8;
+
+        $courses = Course::orderBy('course_id', 'desc')
+            ->paginate($recordsPerPage);
+
+        return view('pages/courses/index', ['courses' => $courses]);
     }
 
     public function showOwn()
     {
-        return view('pages/courses/own');
+        $recordsPerPage = 8;
+
+        $courses = Course::orderBy('course_id', 'desc')
+            ->where('author_id', Auth::id())
+            ->paginate($recordsPerPage);
+
+        return view('pages/courses/own', ['courses' => $courses]);
     }
 
     public function assign()

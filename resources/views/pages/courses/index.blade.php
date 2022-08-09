@@ -11,20 +11,22 @@
         </div>
         <div class="course__item-add">
             <img src="" alt="" class="courses__img">
-            <div class="courses__img-blackout"></div>
-            <div class="courses__course-title courses__course-add-title h2">Create</div>
+            <div class="courses__valign-text">Create</div>
             <button class="courses__course-add-button"><i class="fas fa-plus"></i></button>
         </div>
         <div class="courses__row">
-            @for ($i = 1; $i < 5; $i++)
-            <div class="courses__item">
-                <img src="" alt="" class="courses__img">
-                <div class="courses__img-blackout"></div>
-                <div class="courses__course-title h2">Course PHP</div>
-                <div class="courses__course-description"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. At consequatur eum harum illo quaerat, saepe voluptate. A cupiditate enim, eum exercitationem incidunt molestiae qui repudiandae tenetur ullam voluptatibus. Architecto, voluptatum? </div>
-                <a href="" class="courses__course-play"><i class="fas fa-play"></i></a>
-            </div>
-            @endfor
+            @foreach ($courses as $key => $course)
+                <div class="courses__item">
+                    <img src="" alt="" class="courses__img">
+                    <div class="courses__img-blackout"></div>
+                    <div class="courses__course-title h2">{{ $course->title }}</div>
+                    <div class="courses__course-description mb30">{{ $course->description }}</div>
+                    <div class="courses__course-author mb15">Author: <a href=""></a></div>
+                    <div class="courses__course-assign-count"><i class="fa-solid fa-user"></i> 3000</div>
+                    <a href="" class="courses__course-edit"><i class="fas fa-pen"></i></a>
+                    <a href="" class="courses__course-play"><i class="fas fa-play"></i></a>
+                </div>
+            @endforeach
         </div>
     </div>
 {{--  Роут для play курса  --}}
