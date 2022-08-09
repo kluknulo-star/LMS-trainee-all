@@ -80,5 +80,4 @@ class UserController extends Controller
         optional(User::withTrashed()->where('user_id', $id))->restore();
         return redirect()->route('users');
     }
-
 }
