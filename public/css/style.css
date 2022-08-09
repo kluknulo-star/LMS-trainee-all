@@ -172,20 +172,23 @@ a.table-edit-button {
 a.table-restore-button {
     color: #c4aa33 !important;
 }
-.users__form-search {
+.users__form-search,
+.courses__form-search {
     border: 1px solid #4a5568;
     background-color: #12141c;
     border-radius: 10px;
     height: 50px;
 }
-.users__input-search {
+.users__input-search,
+.courses__input-search {
     border-radius: 10px 0 0 10px;
     background-color: #12141c;
     padding: 15px;
     height: 46px;
     color: whitesmoke;
 }
-.users__button-search {
+.users__button-search,
+.courses__button-search {
     border-left: 1px solid #4a5568;
     border-radius: 0 10px 10px 0 ;
     padding: 15px;
@@ -381,15 +384,7 @@ nav.flex > div > div > span > span {
     font-weight: normal;
     margin-bottom: 30px;
 }
-.courses__title i {
-    font-size: 24px;
-    background-color: whitesmoke;
-    padding: 10px;
-    border-radius: 50%;
-    color: #12141c;
-    font-weight: bold;
-    margin-left: 15px;
-}
+
 .courses__course-title {
     font-weight: bold;
     margin-bottom: 35px;

@@ -90,3 +90,20 @@ a {
     padding: 10px;
     border-radius: 10px;
 }
+.flex {
+    display: flex;
+}
+.flex-spbtw {
+    justify-content: space-between;
+}
+.w1200 {
+    width: 1200px;
+}
+::-webkit-scrollbar-thumb {
+    background-color: #eb4432;
+}
+::-webkit-scrollbar {
+    width: 16px; /* ширина для вертикального скролла */
+    height: 8px; /* высота для горизонтального скролла */
+    background-color: #12141c;
+}
