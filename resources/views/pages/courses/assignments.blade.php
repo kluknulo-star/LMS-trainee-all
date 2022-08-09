@@ -9,6 +9,7 @@
         <div class="courses__title h1">
             Assigned courses
         </div>
+        {{ $courses->withQueryString()->links() }}
         <div class="courses__row">
             @foreach ($courses as $key => $course)
                 <div class="courses__item">

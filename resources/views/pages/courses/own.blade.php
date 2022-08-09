@@ -9,6 +9,7 @@
         <div class="courses__title h1">
             My courses
         </div>
+        {{ $courses->withQueryString()->links() }}
         <div class="course__item-add">
             <img src="" alt="" class="courses__img">
             <div class="courses__valign-text">Create</div>
