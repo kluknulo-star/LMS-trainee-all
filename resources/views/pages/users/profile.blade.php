@@ -6,7 +6,7 @@
 
 <div class="container">
     <div class="profile">
-        <div class="profile__container classic-box mrauto">
+        <div class="profile__container classic-box flex flex-just-start">
 
             <div class="profile__column mb30">
                 <div class="profile__row mb20">
@@ -16,35 +16,53 @@
                         <div class="text">{{ $user->email }}</div>
                     </div>
                 </div>
-                <a href="{{ url('/users/'.$user->user_id.'/edit') }}" class="profile__edit-button button">Edit profile</a>
+                <a href="{{ route('users.edit', ['id' => $user->user_id]) }}" class="profile__edit-button button mb20">Edit profile</a>
+                <div class="text">LMS role: @if ($user->is_teacher == 1) teacher @else student @endif</div>
             </div>
 
-            <div class="profile__column mb30">
-                <div class="profile__courses">
-                    <div class="text h3 mb15">Assigned courses:</div>
-                    @for ($i = 1; $i < 5; $i++)
-                        <div class="profile__course">
-                            <div class="text profile__course-title">Course {{ $i }}</div>
-                            <div class="text profile__course-status">Active</div>
-                            <button class="text profile__course-button">Go <i class="fas fa-arrow-right"></i></button>
-                        </div>
-                    @endfor
-                    <a href="{{ url('/courses') }}" class="profile__more button">More...</a>
-                </div>
-            </div>
+            <div class="profile__column_courses">
 
-            <div class="profile__column">
-                <div class="profile__courses">
-                    <div class="text h3 mb15">Own courses:</div>
-                    @for ($i = 1; $i < 5; $i++)
-                        <div class="profile__course">
-                            <div class="text profile__course-title">Course {{ $i }}</div>
-                            <div class="text profile__course-status">Published</div>
-                            <button class="text profile__course-button">Edit <i class="fas fa-pen"></i></button>
-                        </div>
-                    @endfor
-                    <a href="{{ route('courses.own') }}" class="profile__more button">More...</a>
+                <div class="profile__column mb30">
+                    <div class="profile__courses">
+                        <div class="text h3 mb15">Assigned courses:</div>
+
+                        @forelse ($assignedCourses as $key => $course)
+                            <div class="profile__course">
+                                <div class="text profile__course-title flex flex-alit-center">{{ $course->title }}</div>
+                                <a href="{{ route('courses.play', ['id' => $course->course_id]) }}" class="text profile__course-button flex flex-alit-center">
+                                    <i class="fa-solid fa-play"></i>
+                                </a>
+                            </div>
+                            <a href="{{ route('courses.assignments') }}" class="profile__more button">More...</a>
+                        @empty
+                            Assigned courses not found
+                        @endforelse
+
+                    </div>
                 </div>
+
+                @if ($user->is_teacher == 1)
+                <div class="profile__column">
+                    <div class="profile__courses">
+                        <div class="text h3 mb15">Own courses:</div>
+
+                        @forelse ($ownCourses as $key => $course)
+                                <div class="profile__course">
+                                    <div class="text profile__course-title flex flex-alit-center">{{ $course->title  }}</div>
+                                    <a href="{{ route('courses.edit', ['id' => $course->course_id]) }}" class="text profile__course-button flex flex-alit-center">
+                                        <i class="fas fa-pen"></i>
+                                    </a>
+                                </div>
+                        @empty
+                            Own courses not found
+                        @endforelse
+
+                        <a href="{{ route('courses.own') }}" class="profile__more button">More...</a>
+
+                    </div>
+                </div>
+                @endif
+
             </div>
 
         </div>

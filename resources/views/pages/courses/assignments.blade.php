@@ -7,7 +7,7 @@
 <div class="courses">
     <div class="container">
 
-        <div class="courses__title h1 flex flex-spbtw w1200">
+        <div class="courses__title h1 flex flex-just-spbtw w1200">
             Assigned courses
 
             <form action="{{ route('courses.assignments') }}" method="get" class="courses__form-search">
@@ -18,17 +18,18 @@
         </div>
         {{ $courses->withQueryString()->links() }}
         <div class="courses__row">
-            @foreach ($courses as $key => $course)
+            @forelse ($courses as $key => $course)
                 <div class="courses__item">
                     <img src="" alt="" class="courses__img">
-                    <div class="courses__img-blackout"></div>
-                    <div class="courses__course-title h2">{{ $course->title }}</div>
+                    <div class="courses__course-title h2 mb20">{{ $course->title }}</div>
                     <div class="courses__course-description mb30">{{ Str::limit($course->description, 200, '...') }}</div>
                     <div class="courses__course-author mb15">Author: <a href=""></a></div>
                     <div class="courses__course-assign-count"><i class="fa-solid fa-user"></i> 3000</div>
                     <a href="" class="courses__course-play"><i class="fas fa-play"></i></a>
                 </div>
-            @endforeach
+            @empty
+                Assignment courses not found
+            @endforelse
         </div>
     </div>
 {{--  Роут для play курса  --}}

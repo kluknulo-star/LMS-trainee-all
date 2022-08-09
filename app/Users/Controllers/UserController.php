@@ -2,12 +2,14 @@
 
 namespace App\Users\Controllers;
 
+use App\Courses\Models\Course;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use Illuminate\Http\Request;
 use App\Users\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 
@@ -26,8 +28,23 @@ class UserController extends Controller
 
     public function show(int $id)
     {
+        $recordsPerPage = 4;
+        $ownCourses = User::find($id)
+            ->courses()
+            ->orderByDesc('course_id')
+            ->paginate($recordsPerPage);
+
+        $coursesIds = DB::table('assignments')
+            ->where('student_id', $id)
+            ->orderBy('course_id', 'desc')
+            ->pluck('course_id');
+
+        $assignedCourses = Course::whereIn('course_id', $coursesIds)
+            ->orderByDesc('course_id')
+            ->paginate($recordsPerPage);
+
         $user = User::findOrFail($id);
-        return view('pages.users.profile', compact('user'));
+        return view('pages.users.profile', compact('user', 'ownCourses', 'assignedCourses'));
     }
 
     public function create()
