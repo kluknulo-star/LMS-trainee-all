@@ -53,6 +53,7 @@ Route::prefix('courses')->middleware('auth')->group(function() {
         Route::get('/edit/assignments', [CourseController::class, 'editAssignments'])->where('id', '[0-9]+')->name('courses.edit.assignments');
         Route::patch('', [CourseController::class, 'update'])->where('id', '[0-9]+')->name('courses.update');
         Route::delete('', [CourseController::class, 'destroy'])->where('id', '[0-9]+')->name('courses.delete');
+        Route::post('/restore', [CourseController::class, 'restore'])->where('id', '[0-9]+')->name('courses.restore');
     });
 
     /**
