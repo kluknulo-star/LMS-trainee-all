@@ -2,6 +2,7 @@
 
 use App\Courses\Controllers\CourseController;
 use App\Users\Controllers\LoginController;
+use App\Users\Models\User;
 use Illuminate\Support\Facades\Route;
 use App\Users\Controllers\UserController;
 
@@ -15,6 +16,12 @@ use App\Users\Controllers\UserController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('/test', function () {
+    $con = new UserController();
+    $con->uploadAvatar();
+    echo "YES";
+});
 
 Route::get('/', [LoginController::class, 'login'])->name('main')->middleware('guest');
 Route::get('/', [UserController::class, 'index'])->name('main')->middleware('auth');
@@ -31,13 +38,20 @@ Route::prefix('users')->middleware('auth.admin')->group(function() {
     Route::get('/create', [UserController::class, 'create'])->name('users.create');
 
     Route::prefix('{id}')->group(function() {
-        Route::get('/', [UserController::class, 'show'])->name('users.show')->where('id', '[0-9]+');
         Route::post('/restore', [UserController::class, 'restore'])->name('users.restore')->where('id', '[0-9]+');
-        Route::get('/edit', [UserController::class, 'edit'])->where('id', '[0-9]+')->name('users.edit');
-        Route::patch('/', [UserController::class, 'update'])->where('id', '[0-9]+')->name('users.update');
         Route::delete('/', [UserController::class, 'destroy'])->where('id', '[0-9]+')->name('users.delete');
     });
 
+});
+
+Route::prefix('users')->middleware('auth')->group(function() {
+    Route::prefix('{id}')->group(function() {
+        Route::get('/', [UserController::class, 'show'])->name('users.show')->where('id', '[0-9]+');
+        Route::get('/edit', [UserController::class, 'edit'])->where('id', '[0-9]+')->name('users.edit');
+        Route::patch('/', [UserController::class, 'update'])->where('id', '[0-9]+')->name('users.update');
+        Route::get('/avatar', [UserController::class, 'editAvatar'])->where('id', '[0-9]+')->name('users.edit.avatar');
+        Route::patch('/avatar', [UserController::class, 'updateAvatar'])->where('id', '[0-9]+')->name('users.update.avatar');
+    });
 });
 
 Route::prefix('courses')->middleware('auth')->group(function() {
