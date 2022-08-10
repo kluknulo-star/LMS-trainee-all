@@ -6,6 +6,7 @@ use App\Courses\Models\Course;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateCourseRequest;
 use App\Http\Requests\UpdateCourseRequest;
+use App\Users\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -34,6 +35,7 @@ class CourseController extends Controller
         $recordsPerPage = 4;
         $courses = auth()->user()
             ->courses()
+            ->withTrashed()
             ->orderByDesc('course_id')
             ->search($searchParam)
             ->paginate($recordsPerPage);
@@ -57,9 +59,26 @@ class CourseController extends Controller
         return view('pages.courses.edit', compact('course'));
     }
 
-    public function editAssignments()
+    public function editAssignments(Request $request, int $id)
     {
+        $stateForView = $request->query('assign', 'already');
+        $courseId = $id;
+        $recordsPerPage = 8;
+        $usersIdsForView = DB::table('assignments')
+            ->where('course_id', $id)
+            ->orderBy('student_id', 'desc')
+            ->pluck('student_id');
 
+        if ($stateForView == 'all') {
+            $usersIdsAll = User::all()->pluck('user_id');
+            $usersIdsForView = array_diff($usersIdsAll->toArray(), $usersIdsForView->toArray());
+        }
+
+        $users = User::whereIn('user_id', $usersIdsForView)
+            ->orderByDesc('user_id')
+            ->paginate($recordsPerPage);
+
+        return view('pages.courses.assign', compact('users', 'courseId'));
     }
 
     public function update(UpdateCourseRequest $request, int $id)
