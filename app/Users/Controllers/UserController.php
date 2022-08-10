@@ -6,12 +6,14 @@ use App\Courses\Models\Course;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use http\Env\Response;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use App\Users\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-
+use Intervention\Image\Facades\Image;
 
 class UserController extends Controller
 {
@@ -58,7 +60,9 @@ class UserController extends Controller
         $validated['password'] = Hash::make($validated['password']);
         unset($validated['password_confirmation']);
 
-        User::create($validated);
+        $user = User::create($validated);
+        event(new Registered($user));
+
         return redirect()->route('users');
     }
 
@@ -78,8 +82,39 @@ class UserController extends Controller
             $validated['password'] = Hash::make($validated['password']);
         }
 
+        if($validated->hasFile('avatar')) {
+
+        }
+
         $user = User::findOrFail($id);
         $user->update($validated);
+        return redirect()->route('users.show', ['id' => $user->user_id]);
+    }
+
+    public function editAvatar(int $id)
+    {
+        $user = User::findOrFail($id);
+        return view('pages.users.edit_avatar', compact('user'));
+    }
+
+    public function updateAvatar(Request $request)
+    {
+        $user = Auth::user();
+
+        if(empty($request)) {
+            return redirect()->route('users.show', ['id' => $user->user_id]);
+        }
+
+        $user->clearAvatars($user->user_id);
+
+        $avatar = $request->file('avatar');
+        $filename = time() . '.' . $avatar->getClientOriginalExtension();
+        Image::make($avatar)->resize(300, 300)
+            ->save( public_path($user->getAvatarsPath($user->user_id) . $filename ) );
+
+        $user = Auth::user();
+        $user->avatar_filename = $filename;
+        $user->save();
         return redirect()->route('users.show', ['id' => $user->user_id]);
     }
 

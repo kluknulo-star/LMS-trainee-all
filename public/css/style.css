@@ -234,7 +234,7 @@ a.profile__edit-button {
     align-items: center;
 }
 .profile__img {
-    padding: 20px;
+    padding: 2px;
     width: 80px;
     height: 80px;
     border-radius: 50%;
@@ -492,3 +492,19 @@ a.courses__course-play {
     max-height: 300px;
 }
 
+.alert {
+    margin: 15px 2px 15px 2px;
+    padding: 10px;
+    border-radius: 10px;
+    border: solid 1px;
+    color: #902224;
+}
+
+.alert-danger {
+    background-color: #F8D7DA;
+    border-color: #F5C6CB;
+}
+
+.imageuploader {
+    margin: 10px;
+}

@@ -10,13 +10,19 @@
 
             <div class="profile__column mb30">
                 <div class="profile__row mb20">
-                    <img src="{{ URL::asset('img/default-avatar.png') }}" alt="" class="profile__img">
+                    @if($user->avatar_filename && file_exists('images/avatars/'.$user->user_id."/".$user->avatar_filename))
+                        <img src="{{ URL::asset('images/avatars/'.$user->user_id."/".$user->avatar_filename) }}" alt="" class="profile__img">
+                    @else
+                        <img src="{{ URL::asset('images/default-avatar.png') }}" alt="" class="profile__img">
+                    @endif
                     <div class="profile__name-email-col">
                         <div class="profile__name h2 mb15">{{ $user->surname }} {{ $user->name }}</div>
                         <div class="text">{{ $user->email }}</div>
                     </div>
                 </div>
                 <a href="{{ route('users.edit', ['id' => $user->user_id]) }}" class="profile__edit-button button mb20">Edit profile</a>
+                <a href="{{ route('users.edit.avatar', ['id' => $user->user_id]) }}" class="profile__edit-button button mb20">Update avatar</a>
+
                 <div class="text">LMS role: @if ($user->is_teacher == 1) teacher @else student @endif</div>
             </div>
 
