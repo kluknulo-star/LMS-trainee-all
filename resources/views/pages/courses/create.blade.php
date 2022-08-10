@@ -14,7 +14,7 @@
                 @csrf
                 @method('post')
                 <input name="title" value="{{ old('title') }}" type="text" placeholder="Title" class="create__input col-input input" required>
-                <textarea name="description" placeholder="Description" class="create__input col-input input" required>{{ old('description') }}</textarea>
+                <textarea name="description" placeholder="Description" class="create__input col-input input">{{ old('description') }}</textarea>
                 <button type="submit" class="create__button rounded-red-button button">Create</button>
                 @if ($errors->any())
                     <div class="alert alert-danger">

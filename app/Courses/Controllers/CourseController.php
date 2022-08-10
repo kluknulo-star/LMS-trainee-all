@@ -4,9 +4,9 @@ namespace App\Courses\Controllers;
 
 use App\Courses\Models\Course;
 use App\Http\Controllers\Controller;
-use App\Users\Models\User;
+use App\Http\Requests\CreateCourseRequest;
+use App\Http\Requests\UpdateCourseRequest;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class CourseController extends Controller
@@ -57,19 +57,19 @@ class CourseController extends Controller
         return view('pages.courses.edit', compact('course'));
     }
 
-    public function destroy()
-    {
-
-    }
-
     public function editAssignments()
     {
 
     }
 
-    public function update()
+    public function update(UpdateCourseRequest $request, int $id)
     {
+        $validated = $request->validated();
 
+        $course = Course::findOrFail($id);
+        $course->update($validated);
+
+        return redirect()->route('courses.own');
     }
 
     public function create()
@@ -77,14 +77,25 @@ class CourseController extends Controller
         return view('pages.courses.create');
     }
 
-    public function store()
+    public function store(CreateCourseRequest $request)
     {
+        $validated  = $request->validated();
+        $validated['author_id'] = auth()->id();
 
+        Course::create($validated);
+        return redirect()->route('courses.own');
     }
 
-    public function restore()
+    public function destroy(int $id)
     {
+        optional(Course::where('course_id', $id))->delete();
+        return redirect()->route('courses.own');
+    }
 
+    public function restore(int $id)
+    {
+        optional(Course::withTrashed()->where('course_id', $id))->restore();
+        return redirect()->route('courses.own');
     }
 
     public function statistics()
