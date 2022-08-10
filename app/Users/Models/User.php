@@ -4,13 +4,14 @@ namespace App\Users\Models;
 
 use App\Courses\Models\Course;
 use Database\Factories\UserFactory;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens;
     use HasFactory;
@@ -75,5 +76,26 @@ class User extends Authenticatable
         return $query->where('surname', 'like', '%'.$searchParam.'%')
             ->orwhere('name', 'like', '%'.$searchParam.'%')
             ->orwhere('patronymic', 'like', '%'.$searchParam.'%');
+    }
+
+    public function getAvatarsPath(int $user_id)
+    {
+        $path = "images/avatars/{$user_id}";
+        if(!file_exists($path)) {
+            mkdir($path, 0777, true);
+        }
+
+        return "/$path/";
+    }
+
+    public function clearAvatars(int $user_id)
+    {
+        $path = "images/avatars/{$user_id}";
+
+        if(file_exists(public_path("/$path"))) {
+            foreach ( glob( public_path("$path/*") ) as $avatar ) {
+                unlink($avatar);
+            }
+        }
     }
 }
