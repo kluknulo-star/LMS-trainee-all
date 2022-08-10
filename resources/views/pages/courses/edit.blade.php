@@ -14,7 +14,8 @@
                 <input name="course_id" value="{{ old('course_id') ?? $course->course_id }}" type="hidden" class="edit__input col-input input">
                 <input name="title" value="{{ old('title') ?? $course->title }}" class="edit__input col-input input">
                 <textarea name="description" class="edit__input col-input input">{{ old('description') ?? $course->description }}</textarea>
-                <button type="submit" class="edit__button rounded-red-button button">Save changes</button>
+                <button type="submit" class="edit__button rounded-black-button button mb15">Save changes</button>
+
                 @if ($errors->any())
                     <div class="alert alert-danger">
                         <ul>
@@ -25,7 +26,33 @@
                     </div>
                 @endif
             </form>
+
+            <button type="submit" class="edit__button rounded-black-button button mb15">
+                <a href="{{ route('courses.edit.assignments', ['id' => $course->course_id]) }}" >Назначения учеников</a>
+            </button>
+            <button class="edit__button rounded-red-button button mb15" onclick="document.getElementById('delete-modal-<?= $course->course_id  ?>').style.display = 'flex'">
+                Delete
+            </button>
+
         </div>
+    </div>
+</div>
+
+
+
+<div class="modal" id="delete-modal-{{ $course->course_id }}">
+    <div class="modal-box">
+        <p class="modal-text modal-text-delete mb20 mr20">You sure to <span>delete</span> course: "{{ $course->title }}"?</p>
+        <div class="modal-buttons">
+            <form class="table-action-form" action="{{ route('courses.delete', ['id' => $course->course_id]) }}" method="post">
+                @csrf
+                @method('delete')
+                <input name="user_id" type="hidden" value="{{ $course->course_id }}">
+                <button type="submit" class="table-action-button confirm-button">Confirm</button>
+            </form>
+            <button onclick="document.getElementById('delete-modal-<?= $course->course_id ?>').style.display = 'none'" class="table-action-button cancel-button">Cancel</button>
+        </div>
+
     </div>
 </div>
 

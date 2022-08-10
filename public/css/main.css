@@ -90,6 +90,13 @@ a {
     padding: 10px;
     border-radius: 10px;
 }
+.rounded-black-button {
+    background: #171923;
+    color: white;
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+}
 .flex {
     display: flex;
     flex-direction: row !important;
