@@ -10,7 +10,7 @@ use App\Http\Requests\CreateCourseRequest;
 use App\Http\Requests\UpdateCourseRequest;
 use App\Users\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+
 
 class CourseController extends Controller
 {
