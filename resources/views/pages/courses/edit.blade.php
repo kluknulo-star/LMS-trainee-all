@@ -27,7 +27,7 @@
             </form>
 
             <button type="submit" class="edit__button rounded-black-button button mb15">
-                <a href="{{ route('courses.edit.assignments', ['id' => $course->course_id]) }}" >Назначения учеников</a>
+                <a href="{{ route('courses.edit.assignments', ['id' => $course->course_id]) }}" >Assign students</a>
             </button>
             <button class="edit__button rounded-red-button button mb15" onclick="document.getElementById('delete-modal-<?= $course->course_id  ?>').style.display = 'flex'">
                 Delete

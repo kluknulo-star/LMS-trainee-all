@@ -4,9 +4,9 @@ namespace App\Users\Controllers;
 
 use App\Courses\Models\Course;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AvararUpdateRequest;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\UpdateUserRequest;
-use http\Env\Response;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use App\Users\Models\User;
@@ -97,7 +97,7 @@ class UserController extends Controller
         return view('pages.users.edit_avatar', compact('user'));
     }
 
-    public function updateAvatar(Request $request)
+    public function updateAvatar(AvararUpdateRequest $request)
     {
         $user = Auth::user();
 
