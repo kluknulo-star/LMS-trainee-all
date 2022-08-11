@@ -31,12 +31,12 @@
                     <a href="" class="courses__course-play"><i class="fas fa-play"></i></a>
                 </div>
             @empty
-                Assigned courses not found
+                Assignment courses not found
             @endforelse
         </div>
     </div>
-    {{--  Роут для play курса  --}}
-    {{--    {{ route('courses.play', ['id' => $course->course_id]) }}--}}
+{{--  Роут для play курса  --}}
+{{--    {{ route('courses.play', ['id' => $course->course_id]) }}--}}
 </div>
 
 @component('components.footer')
