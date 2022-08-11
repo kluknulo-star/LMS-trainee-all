@@ -17,6 +17,7 @@ class CourseService
         $recordsPerPage = 4;
         return auth()->user()
                      ->assignedCourses()
+                     ->withCount('assignedUsers')
                      ->orderByDesc('course_id')
                      ->search($searchParam)
                      ->paginate($recordsPerPage);
@@ -28,6 +29,7 @@ class CourseService
         return auth()->user()
                      ->courses()
                      ->withTrashed()
+                     ->withCount('assignedUsers')
                      ->orderByDesc('course_id')
                      ->search($searchParam)
                      ->paginate($recordsPerPage);

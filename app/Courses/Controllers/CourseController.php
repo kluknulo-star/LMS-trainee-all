@@ -43,7 +43,7 @@ class CourseController extends Controller
 
     public function play(int $id)
     {
-        $course = Course::findOrFail($id);
+        $course = $this->service->getCourse($id);
         return view('pages.courses.play', compact('course'));
     }
 

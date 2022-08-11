@@ -25,7 +25,7 @@
         {{ $courses->withQueryString()->links() }}
 
         <div class="courses__row">
-            @foreach ($courses as $key => $course)
+        @foreach ($courses as $key => $course)
                 <div class="courses__item">
                     <img src="" alt="" class="courses__img">
                     <div class="courses__course-title h3 mb20">{{ $course->title }}</div>
@@ -36,7 +36,7 @@
                             href="{{ route('users.show', ['id' => auth()->id()]) }}">{{ auth()->user()->email }}</a>
                     </div>
                     <div class="courses__course-assign-count"><i
-                            class="fa-solid fa-user"></i> {{ $course->assignedUsers()->count() }}</div>
+                            class="fa-solid fa-user"></i> {{ $course->assigned_users_count }}</div>
                     @if (!$course->deleted_at)
                         <a href="{{ route('courses.edit', ['id' => $course->course_id]) }}"
                            class="courses__course-edit"><i class="fas fa-pen"></i></a>
@@ -78,13 +78,6 @@
     {{--  Роут для play курса  --}}
     {{--    {{ route('courses.play', ['id' => $course->course_id]) }}--}}
 </div>
-
-
-
-
-
-
-
 
 @component('components.footer')
 @endcomponent

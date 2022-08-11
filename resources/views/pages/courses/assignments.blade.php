@@ -27,7 +27,7 @@
                     <div class="courses__course-author">Author: <a
                             href="{{ route('users.show', ['id' => $course->user()->value('user_id')]) }}">{{ $course->user()->value('email') }}</a>
                     </div>
-                    <div class="courses__course-assign-count"><i class="fa-solid fa-user"></i> {{ $course->assignedUsers()->count() }}</div>
+                    <div class="courses__course-assign-count"><i class="fa-solid fa-user"></i> {{ $course->assigned_users_count }}</div>
                     <a href="{{ route('courses.play', ['id' => $course->course_id]) }}" class="courses__course-play"><i class="fas fa-play"></i></a>
                 </div>
             @empty
