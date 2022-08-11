@@ -26,14 +26,14 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $searchParam = $request->input('search');
-        $users = $this->service->index($searchParam);
+        $users = $this->service->index($searchParam)->paginate(8);
         return view('pages.users.users', compact('users'));
     }
 
     public function show(int $id)
     {
-        $assignedCourses = $this->service->getAssignedUserCourses($id);
-        $ownCourses = $this->service->getOwnUserCourses($id);
+        $assignedCourses = $this->service->getAssignedUserCourses($id)->paginate(4);
+        $ownCourses = $this->service->getOwnUserCourses($id)->paginate(4);
         $user = $this->service->getUser($id);
         return view('pages.users.profile', compact('user', 'ownCourses', 'assignedCourses'));
     }
