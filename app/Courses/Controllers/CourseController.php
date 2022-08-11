@@ -2,6 +2,7 @@
 
 namespace App\Courses\Controllers;
 
+use App\Courses\Models\AssignableCourse;
 use App\Courses\Models\Course;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateCourseRequest;
@@ -14,14 +15,10 @@ class CourseController extends Controller
 {
     public function showAssignments(Request $request)
     {
-        $searchParam = $request->input('search');
         $recordsPerPage = 4;
-        $coursesIds = DB::table('assignments')
-            ->where('student_id', auth()->id())
-            ->orderBy('course_id', 'desc')
-            ->pluck('course_id');
-
-        $courses = Course::whereIn('course_id', $coursesIds)
+        $searchParam = $request->input('search');
+        $courses = auth()->user()
+            ->assignedCourses()
             ->orderByDesc('course_id')
             ->search($searchParam)
             ->paginate($recordsPerPage);
@@ -31,8 +28,8 @@ class CourseController extends Controller
 
     public function showOwn(Request $request)
     {
-        $searchParam = $request->input('search');
         $recordsPerPage = 4;
+        $searchParam = $request->input('search');
         $courses = auth()->user()
             ->courses()
             ->withTrashed()
@@ -43,9 +40,27 @@ class CourseController extends Controller
         return view('pages.courses.own', compact('courses'));
     }
 
-    public function assign()
+    public function assign(Request $request, int $courseId)
     {
+        $action = $request->input('action');
+        $userId = $request->input('user_id');
 
+        switch ($action) {
+            case 'assign':
+                AssignableCourse::create([
+                    'student_id' => $userId,
+                    'course_id' => $courseId,
+                ]);
+                break;
+            case 'deduct':
+                AssignableCourse::where([
+                    ['course_id', '=', $courseId],
+                    ['student_id', '=', $userId],
+                ])->delete();
+                break;
+        }
+
+        return redirect()->route('courses.edit.assignments', ['id' => $courseId]);
     }
 
     public function play()
@@ -59,26 +74,24 @@ class CourseController extends Controller
         return view('pages.courses.edit', compact('course'));
     }
 
-    public function editAssignments(Request $request, int $id)
+    public function editAssignments(Request $request, int $courseId)
     {
-        $stateForView = $request->query('assign', 'already');
-        $courseId = $id;
         $recordsPerPage = 8;
-        $usersIdsForView = DB::table('assignments')
-            ->where('course_id', $id)
-            ->orderBy('student_id', 'desc')
-            ->pluck('student_id');
+        $state = $request->query('assign', 'already');
+        $searchParam = $request->input('search');
+        $users = Course::findOrFail($courseId)
+            ->assignedUsers();
 
-        if ($stateForView == 'all') {
-            $usersIdsAll = User::all()->pluck('user_id');
-            $usersIdsForView = array_diff($usersIdsAll->toArray(), $usersIdsForView->toArray());
+        if ($state != 'already') {
+            $users = User::whereNotIn('user_id', $users->pluck('user_id')->toArray());
         }
-
-        $users = User::whereIn('user_id', $usersIdsForView)
+        
+        $users = $users
             ->orderByDesc('user_id')
+            ->search($searchParam)
             ->paginate($recordsPerPage);
 
-        return view('pages.courses.assign', compact('users', 'courseId'));
+        return view('pages.courses.assign', compact('users', 'courseId', 'state'));
     }
 
     public function update(UpdateCourseRequest $request, int $id)
