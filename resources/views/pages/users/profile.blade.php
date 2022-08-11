@@ -34,6 +34,7 @@
                     @endif</div>
             </div>
 
+            @if (auth()->id() == $user->user_id)
             <div class="profile__column_courses">
 
                 <div class="profile__column mb30">
@@ -82,9 +83,8 @@
                         </div>
                     </div>
                 @endif
-
             </div>
-
+            @endif
         </div>
     </div>
 </div>
