@@ -4,6 +4,7 @@ namespace App\Courses\Controllers;
 
 use App\Courses\Models\AssignableCourse;
 use App\Courses\Models\Course;
+use App\Courses\Services\CourseService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateCourseRequest;
 use App\Http\Requests\UpdateCourseRequest;
@@ -13,30 +14,22 @@ use Illuminate\Http\Request;
 
 class CourseController extends Controller
 {
+    public function __construct(private CourseService $service)
+    {
+
+    }
+
     public function showAssignments(Request $request)
     {
-        $recordsPerPage = 4;
         $searchParam = $request->input('search');
-        $courses = auth()->user()
-            ->assignedCourses()
-            ->orderByDesc('course_id')
-            ->search($searchParam)
-            ->paginate($recordsPerPage);
-
+        $courses = $this->service->getAssignments($searchParam);
         return view('pages.courses.assignments', compact('courses'));
     }
 
     public function showOwn(Request $request)
     {
-        $recordsPerPage = 4;
         $searchParam = $request->input('search');
-        $courses = auth()->user()
-            ->courses()
-            ->withTrashed()
-            ->orderByDesc('course_id')
-            ->search($searchParam)
-            ->paginate($recordsPerPage);
-
+        $courses = $this->service->getOwn($searchParam);
         return view('pages.courses.own', compact('courses'));
     }
 
@@ -44,22 +37,7 @@ class CourseController extends Controller
     {
         $action = $request->input('action');
         $userId = $request->input('user_id');
-
-        switch ($action) {
-            case 'assign':
-                AssignableCourse::create([
-                    'student_id' => $userId,
-                    'course_id' => $courseId,
-                ]);
-                break;
-            case 'deduct':
-                AssignableCourse::where([
-                    ['course_id', '=', $courseId],
-                    ['student_id', '=', $userId],
-                ])->delete();
-                break;
-        }
-
+        $this->service->assign($userId, $courseId, $action);
         return redirect()->route('courses.edit.assignments', ['id' => $courseId]);
     }
 
@@ -70,37 +48,22 @@ class CourseController extends Controller
 
     public function edit(int $id)
     {
-        $course = Course::findOrFail($id);
+        $course = $this->service->getCourse($id);
         return view('pages.courses.edit', compact('course'));
     }
 
     public function editAssignments(Request $request, int $courseId)
     {
-        $recordsPerPage = 8;
         $state = $request->query('assign', 'already');
         $searchParam = $request->input('search');
-        $users = Course::findOrFail($courseId)
-            ->assignedUsers();
-
-        if ($state != 'already') {
-            $users = User::whereNotIn('user_id', $users->pluck('user_id')->toArray());
-        }
-
-        $users = $users
-            ->orderByDesc('user_id')
-            ->search($searchParam)
-            ->paginate($recordsPerPage);
-
+        $users = $this->service->editAssignments($state, $searchParam, $courseId);
         return view('pages.courses.assign', compact('users', 'courseId', 'state'));
     }
 
     public function update(UpdateCourseRequest $request, int $id)
     {
         $validated = $request->validated();
-
-        $course = Course::findOrFail($id);
-        $course->update($validated);
-
+        $this->service->update($id, $validated);
         return redirect()->route('courses.own');
     }
 
@@ -112,21 +75,19 @@ class CourseController extends Controller
     public function store(CreateCourseRequest $request)
     {
         $validated  = $request->validated();
-        $validated['author_id'] = auth()->id();
-
-        Course::create($validated);
+        $this->service->store($validated);
         return redirect()->route('courses.own');
     }
 
     public function destroy(int $id)
     {
-        optional(Course::where('course_id', $id))->delete();
+        $this->service->destroy($id);
         return redirect()->route('courses.own');
     }
 
     public function restore(int $id)
     {
-        optional(Course::withTrashed()->where('course_id', $id))->restore();
+        $this->service->restore($id);
         return redirect()->route('courses.own');
     }
 
