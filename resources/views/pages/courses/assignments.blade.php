@@ -22,18 +22,21 @@
                 <div class="courses__item">
                     <img src="" alt="" class="courses__img">
                     <div class="courses__course-title h2 mb20">{{ $course->title }}</div>
-                    <div class="courses__course-description mb30">{{ Str::limit($course->description, 200, '...') }}</div>
-                    <div class="courses__course-author mb15">Author: <a href=""></a></div>
-                    <div class="courses__course-assign-count"><i class="fa-solid fa-user"></i> 3000</div>
+                    <div
+                        class="courses__course-description mb30">{{ Str::limit($course->description, 200, '...') }}</div>
+                    <div class="courses__course-author mb15">Author: <a
+                            href="{{ route('users.show', ['id' => $course->user()->value('user_id')]) }}">{{ $course->user()->value('email') }}</a>
+                    </div>
+                    <div class="courses__course-assign-count"><i class="fa-solid fa-user"></i> {{ $course->assignedUsers()->count() }}</div>
                     <a href="" class="courses__course-play"><i class="fas fa-play"></i></a>
                 </div>
             @empty
-                Assignment courses not found
+                Assigned courses not found
             @endforelse
         </div>
     </div>
-{{--  Роут для play курса  --}}
-{{--    {{ route('courses.play', ['id' => $course->course_id]) }}--}}
+    {{--  Роут для play курса  --}}
+    {{--    {{ route('courses.play', ['id' => $course->course_id]) }}--}}
 </div>
 
 @component('components.footer')
