@@ -9,7 +9,7 @@ use App\Http\Requests\CreateCourseRequest;
 use App\Http\Requests\UpdateCourseRequest;
 use App\Users\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+
 
 class CourseController extends Controller
 {
@@ -85,7 +85,7 @@ class CourseController extends Controller
         if ($state != 'already') {
             $users = User::whereNotIn('user_id', $users->pluck('user_id')->toArray());
         }
-        
+
         $users = $users
             ->orderByDesc('user_id')
             ->search($searchParam)
