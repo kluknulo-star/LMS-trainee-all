@@ -23,8 +23,8 @@
                     <img src="" alt="" class="courses__img">
                     <div class="courses__course-title h2 mb20">{{ $course->title }}</div>
                     <div
-                        class="courses__course-description mb30">{{ Str::limit($course->description, 200, '...') }}</div>
-                    <div class="courses__course-author mb15">Author: <a
+                        class="courses__course-description mb30">{{ Str::limit($course->description, 100, '...') }}</div>
+                    <div class="courses__course-author">Author: <a
                             href="{{ route('users.show', ['id' => $course->user()->value('user_id')]) }}">{{ $course->user()->value('email') }}</a>
                     </div>
                     <div class="courses__course-assign-count"><i class="fa-solid fa-user"></i> {{ $course->assignedUsers()->count() }}</div>

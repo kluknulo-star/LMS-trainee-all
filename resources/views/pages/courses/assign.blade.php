@@ -7,14 +7,23 @@
     <div class="users w1200">
         <div class="users__title h1">
             <div class="users__after-title-links">
-                <a href="{{ route('courses.edit.assignments', ['assign' => 'already', 'id' => $courseId]) }}"
-                   class="users__title-link">
-                    Already assigned students
-                </a>
-                <a href="{{ route('courses.edit.assignments', ['assign' => 'all', 'id' => $courseId]) }}"
-                   class="users__title-link">
-                    All students
-                </a>
+                <li class="assigned-users-navbar">
+                    <ul class="assigned-users-navbar-elem">
+                        <a href="{{ route('courses.edit.assignments', ['assign' => 'already', 'id' => $courseId]) }}">
+                            Already assigned students
+                        </a>
+                    </ul>
+                    <ul class="assigned-users-navbar-elem">
+                        <a href="{{ route('courses.edit.assignments', ['assign' => 'all', 'id' => $courseId]) }}">
+                            All students
+                        </a>
+                    </ul>
+                    <ul class="assigned-users-navbar-elem" >
+                        <a href="{{ route('courses.edit', ['id' => $courseId]) }}">
+                            Go back to edit course
+                        </a>
+                    </ul>
+                </li>
             </div>
             @if ($state == 'already')
                 <form action="{{ route('courses.edit.assignments', ['id' => $courseId]) }}" method="get" class="users__form-search">
