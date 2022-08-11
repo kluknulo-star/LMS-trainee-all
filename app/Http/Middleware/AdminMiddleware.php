@@ -19,7 +19,7 @@ class AdminMiddleware
     {
         if (!Auth::check())
         {
-            return redirect('login')->withErrors("Access Denied: You're not in system");
+            return redirect('login');
         }
 
         if (Auth::user()->is_teacher)
