@@ -9,7 +9,15 @@
         <div class="welcome__title h2">
             Register
         </div>
-
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <form method="post" action="{{ route('users') }}" class="welcome__form form">
             @csrf
             <input value="{{ old('surname') }}" name="surname" type="text" placeholder="Surname" class="welcome__input input @error('surname') is-invalid @enderror" required>
@@ -19,15 +27,6 @@
             <input name="password" type="password" placeholder="Password" class="welcome__input input" required>
             <input name="password_confirmation" type="password" placeholder="Confirm password" class="welcome__input input" required>
             <p class="welcome__text">Registered?&nbsp<a href="{{ route('login') }}">Sign in</a></p>
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
             <button type="submit" class="welcome__button rounded-red-button button">Register</button>
         </form>
 

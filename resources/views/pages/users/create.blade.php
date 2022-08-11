@@ -9,7 +9,15 @@
     <div class="create">
         <div class="create__container classic-box mrauto">
             <div class="create__title h2 mb30">Create Account</div>
-
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             <form method="post" action="{{ route('users') }}" class="create__form form">
                 @csrf
                 <input name="surname" value="{{ old('surname') }}" type="text" placeholder="Surname" class="create__input col-input input" required>
@@ -19,15 +27,6 @@
                 <input name="password" type="password" placeholder="Password" class="create__input col-input input" required>
                 <input name="password_confirmation" type="password" placeholder="Confirm password" class="create__input col-input input" required>
                 <button type="submit" class="create__button rounded-red-button button">Create</button>
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
             </form>
 
         </div>
