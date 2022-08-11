@@ -35,6 +35,20 @@
 
         </div>
     </div>
+    <br>
+    <div class="edit">
+        <div class="edit__container edit__container-course classic-box mrauto">
+            <div class="users__title h3">
+                Content:
+                <div class="users__after-title-links">
+                    <a href="" class="users__title-link">
+                        <i class="fas fa-plus"></i>
+                    </a>
+                </div>
+            </div>
+            {{var_dump($course->content)}}
+        </div>
+    </div>
 </div>
 
 
