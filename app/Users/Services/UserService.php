@@ -26,24 +26,20 @@ class UserService
 
     public function getAssignedUserCourses($id)
     {
-        $recordsPerPage = 4;
-        $coursesIds = DB::table('assignments')
-        ->where('student_id', $id)
-        ->orderBy('course_id', 'desc')
-        ->pluck('course_id');
-
-        return Course::whereIn('course_id', $coursesIds)
+        $countOfCourses = 4;
+        return $this->getUser($id)
+            ->assignedCourses()
             ->orderByDesc('course_id')
-            ->paginate($recordsPerPage);
+            ->paginate($countOfCourses);
     }
 
     public function getOwnUserCourses($id)
     {
-        $recordsPerPage = 4;
+        $countOfCourses = 4;
         return User::find($id)
             ->courses()
             ->orderByDesc('course_id')
-            ->paginate($recordsPerPage);
+            ->paginate($countOfCourses);
     }
 
     public function create($validated)
