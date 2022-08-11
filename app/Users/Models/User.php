@@ -83,9 +83,9 @@ class User extends Authenticatable implements MustVerifyEmail
             ->orwhere('patronymic', 'like', '%'.$searchParam.'%');
     }
 
-    public function getAvatarsPath(int $user_id)
+    public function getAvatarsPath(int $userId)
     {
-        $path = "images/avatars/{$user_id}";
+        $path = "images/avatars/{$userId}";
         if(!file_exists($path)) {
             mkdir($path, 0777, true);
         }
@@ -93,9 +93,9 @@ class User extends Authenticatable implements MustVerifyEmail
         return "/$path/";
     }
 
-    public function clearAvatars(int $user_id)
+    public function clearAvatars(int $userId)
     {
-        $path = "images/avatars/{$user_id}";
+        $path = "images/avatars/{$userId}";
 
         if(file_exists(public_path("/$path"))) {
             foreach ( glob( public_path("$path/*") ) as $avatar ) {

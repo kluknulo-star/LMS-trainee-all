@@ -98,23 +98,20 @@ class UserController extends Controller
 
     public function updateAvatar(AvararUpdateRequest $request)
     {
-        $user = Auth::user();
-
         if(empty($request)) {
-            return redirect()->route('users.show', ['id' => $user->user_id]);
+            return redirect()->route('users.show', ['id' => auth()->id()]);
         }
 
-        $user->clearAvatars($user->user_id);
+        auth()->user()->clearAvatars(auth()->id());
 
         $avatar = $request->file('avatar');
         $filename = time() . '.' . $avatar->getClientOriginalExtension();
         Image::make($avatar)->resize(300, 300)
-            ->save( public_path($user->getAvatarsPath($user->user_id) . $filename ) );
+            ->save( public_path(auth()->user()->getAvatarsPath(auth()->id()) . $filename ) );
 
-        $user = Auth::user();
-        $user->avatar_filename = $filename;
-        $user->save();
-        return redirect()->route('users.show', ['id' => $user->user_id]);
+        auth()->user()->avatar_filename = $filename;
+        auth()->user()->save();
+        return redirect()->route('users.show', ['id' => auth()->id()]);
     }
 
     public function destroy(int $id)
