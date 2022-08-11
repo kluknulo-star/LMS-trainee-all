@@ -41,9 +41,10 @@ class CourseController extends Controller
         return redirect()->route('courses.edit.assignments', ['id' => $courseId]);
     }
 
-    public function play()
+    public function play(int $id)
     {
-
+        $course = Course::findOrFail($id);
+        return view('pages.courses.play', compact('course'));
     }
 
     public function edit(int $id)
