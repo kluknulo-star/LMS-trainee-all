@@ -21,11 +21,14 @@
             @forelse ($courses as $key => $course)
                 <div class="courses__item">
                     <img src="" alt="" class="courses__img">
-                    <div class="courses__course-title h3 mb20">{{ $course->title }}</div>
-                    <div class="courses__course-description mb30">{{ Str::limit($course->description, 200, '...') }}</div>
-                    <div class="courses__course-author mb15">Author: <a href="{{ route('users.show', ['id' => $course->user()->value("user_id")]) }}">{{ $course->user()->value("email") }}</a></div>
-                    <div class="courses__course-assign-count"><i class="fa-solid fa-user"></i> 3000</div>
-                    <a href="{{ route('courses.play', ['id' => $course->course_id]) }}" class="courses__course-play"><i class="fas fa-play"></i></a>
+                    <div class="courses__course-title h2 mb20">{{ $course->title }}</div>
+                    <div
+                        class="courses__course-description mb30">{{ Str::limit($course->description, 100, '...') }}</div>
+                    <div class="courses__course-author">Author: <a
+                            href="{{ route('users.show', ['id' => $course->user()->value('user_id')]) }}">{{ $course->user()->value('email') }}</a>
+                    </div>
+                    <div class="courses__course-assign-count"><i class="fa-solid fa-user"></i> {{ $course->assignedUsers()->count() }}</div>
+                    <a href="" class="courses__course-play"><i class="fas fa-play"></i></a>
                 </div>
             @empty
                 Assignment courses not found

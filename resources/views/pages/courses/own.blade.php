@@ -30,7 +30,7 @@
                     <img src="" alt="" class="courses__img">
                     <div class="courses__course-title h3 mb20">{{ $course->title }}</div>
                     <div
-                        class="courses__course-description mb30">{{ Str::limit($course->description, 200, '...') }}</div>
+                        class="courses__course-description mb30">{{ Str::limit($course->description, 100, '...') }}</div>
                     <div class="courses__course-author">
                         Author: <a
                             href="{{ route('users.show', ['id' => auth()->id()]) }}">{{ auth()->user()->email }}</a>
