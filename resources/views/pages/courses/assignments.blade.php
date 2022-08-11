@@ -28,7 +28,7 @@
                             href="{{ route('users.show', ['id' => $course->user()->value('user_id')]) }}">{{ $course->user()->value('email') }}</a>
                     </div>
                     <div class="courses__course-assign-count"><i class="fa-solid fa-user"></i> {{ $course->assignedUsers()->count() }}</div>
-                    <a href="" class="courses__course-play"><i class="fas fa-play"></i></a>
+                    <a href="{{ route('courses.play', ['id' => $course->course_id]) }}" class="courses__course-play"><i class="fas fa-play"></i></a>
                 </div>
             @empty
                 Assignment courses not found
