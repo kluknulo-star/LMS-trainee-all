@@ -2,18 +2,13 @@
 
 namespace App\Users\Controllers;
 
-use App\Courses\Models\Course;
+
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AvararUpdateRequest;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Users\Services\UserService;
-use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
-use App\Users\Models\User;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 use Intervention\Image\Facades\Image;
 
 class UserController extends Controller

@@ -2,13 +2,10 @@
 
 namespace App\Courses\Controllers;
 
-use App\Courses\Models\AssignableCourse;
-use App\Courses\Models\Course;
 use App\Courses\Services\CourseService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateCourseRequest;
 use App\Http\Requests\UpdateCourseRequest;
-use App\Users\Models\User;
 use Illuminate\Http\Request;
 
 

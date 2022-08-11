@@ -1,5 +1,6 @@
 <?php
 
+use App\Courses\Controllers\CourseContentController;
 use App\Courses\Controllers\CourseController;
 use Illuminate\Support\Facades\Route;
 
