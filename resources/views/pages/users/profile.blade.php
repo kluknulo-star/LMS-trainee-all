@@ -67,10 +67,17 @@
                                 <div class="profile__course">
                                     <div
                                         class="text profile__course-title flex flex-alit-center">{{ $course->title  }}</div>
-                                    <a href="{{ route('courses.edit', ['id' => $course->course_id]) }}"
-                                       class="text profile__course-button flex flex-alit-center">
-                                        <i class="fas fa-pen"></i>
-                                    </a>
+                                    @if(auth()->id() == $user->user_id)
+                                        <a href="{{ route('courses.edit', ['id' => $course->course_id]) }}"
+                                           class="text profile__course-button flex flex-alit-center">
+                                            <i class="fas fa-pen"></i>
+                                        </a>
+                                    @else
+                                        <a href="{{ route('courses.play', ['id' => $course->course_id]) }}"
+                                           class="text profile__course-button flex flex-alit-center">
+                                            <i class="fa-solid fa-play"></i>
+                                        </a>
+                                    @endif
                                 </div>
                             @empty
                                 Own courses not found
