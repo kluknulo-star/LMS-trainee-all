@@ -21,11 +21,18 @@ Route::prefix('courses')->middleware('auth')->group(function() {
     Route::prefix('{id}')->group(function (){
         Route::post('/assignments', [CourseController::class, 'assign'])->where('id', '[0-9]+')->name('courses.course.assginments');
         Route::get('', [CourseController::class, 'play'])->where('id', '[0-9]+')->name('courses.play');
-        Route::get('/edit', [CourseController::class, 'edit'])->where('id', '[0-9]+')->name('courses.edit');
-        Route::get('/edit/assignments', [CourseController::class, 'editAssignments'])->where('id', '[0-9]+')->name('courses.edit.assignments');
         Route::patch('', [CourseController::class, 'update'])->where('id', '[0-9]+')->name('courses.update');
         Route::delete('', [CourseController::class, 'destroy'])->where('id', '[0-9]+')->name('courses.delete');
         Route::post('/restore', [CourseController::class, 'restore'])->where('id', '[0-9]+')->name('courses.restore');
+        Route::get('/edit', [CourseController::class, 'edit'])->where('id', '[0-9]+')->name('courses.edit');
+        Route::get('/edit/assignments', [CourseController::class, 'editAssignments'])->where('id', '[0-9]+')->name('courses.edit.assignments');
+
+        Route::get('section/{id}/edit', [CourseContentController::class, 'edit']);
+
+        Route::get('section/{id}', [CourseContentController::class, 'play'])->name('courses.play.section');
+        Route::patch('section/{id}', [CourseContentController::class, 'update'])->name('courses.update.section');
+        Route::delete('section/{id}', [CourseContentController::class, 'destroy'])->name('courses.destroy.section');
+        Route::post('section/{id}', [CourseContentController::class, 'store'])->name('courses.create.section');
     });
 
     /**
