@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\AvararUpdateRequest;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Users\Services\UserService;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use App\Users\Models\User;
@@ -17,35 +18,23 @@ use Intervention\Image\Facades\Image;
 
 class UserController extends Controller
 {
+    public function __construct(private UserService $service)
+    {
+
+    }
+
     public function index(Request $request)
     {
         $searchParam = $request->input('search');
-        $recordsPerPage = 8;
-
-        $users = User::withTrashed()->orderBy('user_id', 'desc')
-            ->search($searchParam)
-            ->paginate($recordsPerPage);
+        $users = $this->service->index($searchParam);
         return view('pages.users.users', compact('users'));
     }
 
     public function show(int $id)
     {
-        $recordsPerPage = 4;
-        $ownCourses = User::find($id)
-            ->courses()
-            ->orderByDesc('course_id')
-            ->paginate($recordsPerPage);
-
-        $coursesIds = DB::table('assignments')
-            ->where('student_id', $id)
-            ->orderBy('course_id', 'desc')
-            ->pluck('course_id');
-
-        $assignedCourses = Course::whereIn('course_id', $coursesIds)
-            ->orderByDesc('course_id')
-            ->paginate($recordsPerPage);
-
-        $user = User::findOrFail($id);
+        $assignedCourses = $this->service->getAssignedUserCourses($id);
+        $ownCourses = $this->service->getOwnUserCourses($id);
+        $user = $this->service->getUser($id);
         return view('pages.users.profile', compact('user', 'ownCourses', 'assignedCourses'));
     }
 
@@ -57,75 +46,49 @@ class UserController extends Controller
     public function store(CreateUserRequest $request)
     {
         $validated = $request->validated();
-        $validated['password'] = Hash::make($validated['password']);
-        unset($validated['password_confirmation']);
-
-        $user = User::create($validated);
-
+        $this->service->create($validated);
         return redirect()->route('users');
     }
 
     public function edit(int $id)
     {
-        $user = User::findOrFail($id);
+        $user = $this->service->getUser($id);
         return view('pages.users.edit', compact('user'));
     }
 
     public function update(UpdateUserRequest $request, int $id)
     {
         $validated = $request->validated();
-
-        if (is_null($validated['password'])) {
-            unset($validated['password']);
-        } else {
-            $validated['password'] = Hash::make($validated['password']);
-        }
-
-        if($validated->hasFile('avatar')) {
-
-        }
-
-        $user = User::findOrFail($id);
-        $user->update($validated);
+        $this->service->update($validated, $id);
+        $user = $this->service->getUser($id);
         return redirect()->route('users.show', ['id' => $user->user_id]);
     }
 
     public function editAvatar(int $id)
     {
-        $user = User::findOrFail($id);
+        $user = $this->service->getUser($id);
         return view('pages.users.edit_avatar', compact('user'));
     }
 
     public function updateAvatar(AvararUpdateRequest $request)
     {
-        if(empty($request)) {
+        if (empty($request)) {
             return redirect()->route('users.show', ['id' => auth()->id()]);
         }
-
-        auth()->user()->clearAvatars(auth()->id());
-
         $avatar = $request->file('avatar');
-        $filename = time() . '.' . $avatar->getClientOriginalExtension();
-        Image::make($avatar)->resize(300, 300)
-            ->save( public_path(auth()->user()->getAvatarsPath(auth()->id()) . $filename ) );
-
-        auth()->user()->avatar_filename = $filename;
-        auth()->user()->save();
+        $this->service->updateAvatar($avatar);
         return redirect()->route('users.show', ['id' => auth()->id()]);
     }
 
     public function destroy(int $id)
     {
-        if (Auth::id() != $id)
-        {
-            optional(User::where('user_id', $id))->delete();
-        }
+        $this->service->destroy($id);
         return redirect()->route('users');
     }
 
     public function restore(int $id)
     {
-        optional(User::withTrashed()->where('user_id', $id))->restore();
+        $this->service->restore($id);
         return redirect()->route('users');
     }
 }
