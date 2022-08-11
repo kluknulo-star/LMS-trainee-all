@@ -61,7 +61,6 @@ class UserController extends Controller
         unset($validated['password_confirmation']);
 
         $user = User::create($validated);
-        event(new Registered($user));
 
         return redirect()->route('users');
     }
