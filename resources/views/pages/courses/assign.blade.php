@@ -46,8 +46,11 @@
 
             @forelse ($users as $key => $user)
                 <tr class="users__tr">
-                    <th class="users__td users__td-img"><img src="{{ URL::asset('img/default-avatar.png') }}"
-                                                             alt="">{{ $user->avatar_filename }}</th>
+                    @if($user->avatar_filename && file_exists('images/avatars/'.$user->user_id."/".$user->avatar_filename))
+                        <th class="users__td users__td-img"><img src="{{ URL::asset('images/avatars/'.$user->user_id."/".$user->avatar_filename) }}" alt="" class="profile__img"></th>
+                    @else
+                        <th class="users__td users__td-img"><img src="{{ URL::asset('images/default-avatar.png') }}" alt="" class="profile__img"></th>
+                    @endif
                     <th class="users__td">{{ $user->user_id }}</th>
                     <th class="users__td">{{ $user->email }}</th>
                     <th class="users__td">{{ $user->surname }}</th>
