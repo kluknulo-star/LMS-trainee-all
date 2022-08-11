@@ -46,6 +46,11 @@ class Course extends Model
         return $this->belongsTo(User::class, 'author_id', 'user_id');
     }
 
+    public function assignedUsers()
+    {
+        return $this->belongsToMany(User::class, 'assignments', 'course_id', 'student_id');
+    }
+
     protected static function newFactory() : CourseFactory
     {
         return CourseFactory::new();
