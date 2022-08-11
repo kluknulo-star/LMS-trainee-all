@@ -295,6 +295,8 @@ a.profile__more:hover {
     flex-direction: column;
 }
 .edit__input {
+    min-width: 300px;
+    min-height: 60px;
 }
 .create__form{
     display: flex;
@@ -508,4 +510,8 @@ a.courses__course-play {
 
 .imageuploader {
     margin: 10px;
+}
+
+.margin5 {
+    margin: 5px 0px 5px 0px;
 }
