@@ -4,6 +4,7 @@ namespace App\Users\Services;
 
 use App\Courses\Models\Course;
 use App\Users\Models\User;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Intervention\Image\Facades\Image;
@@ -12,11 +13,7 @@ class UserService
 {
     public function index($searchParam)
     {
-        $recordsPerPage = 8;
-
-        return User::withTrashed()->orderBy('user_id', 'desc')
-            ->search($searchParam)
-            ->paginate($recordsPerPage);
+        return User::withTrashed()->orderBy('user_id', 'desc')->search($searchParam);
     }
 
     public function getUser($id)
@@ -26,20 +23,14 @@ class UserService
 
     public function getAssignedUserCourses($id)
     {
-        $countOfCourses = 4;
         return $this->getUser($id)
             ->assignedCourses()
-            ->orderByDesc('course_id')
-            ->paginate($countOfCourses);
+            ->orderByDesc('course_id');
     }
 
     public function getOwnUserCourses($id)
     {
-        $countOfCourses = 4;
-        return User::find($id)
-            ->courses()
-            ->orderByDesc('course_id')
-            ->paginate($countOfCourses);
+        return User::find($id)->courses()->orderByDesc('course_id');
     }
 
     public function create($validated)

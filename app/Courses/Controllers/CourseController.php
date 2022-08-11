@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 
 class CourseController extends Controller
 {
-    public function __construct(private CourseService $service)
+    public function __construct(private CourseService $courseService)
     {
 
     }
@@ -19,14 +19,14 @@ class CourseController extends Controller
     public function showAssignments(Request $request)
     {
         $searchParam = $request->input('search');
-        $courses = $this->service->getAssignments($searchParam);
+        $courses = $this->courseService->getAssignments($searchParam)->paginate(4);
         return view('pages.courses.assignments', compact('courses'));
     }
 
     public function showOwn(Request $request)
     {
         $searchParam = $request->input('search');
-        $courses = $this->service->getOwn($searchParam);
+        $courses = $this->courseService->getOwn($searchParam)->paginate(4);
         return view('pages.courses.own', compact('courses'));
     }
 
@@ -34,19 +34,19 @@ class CourseController extends Controller
     {
         $action = $request->input('action');
         $userId = $request->input('user_id');
-        $this->service->assign($userId, $courseId, $action);
+        $this->courseService->assign($userId, $courseId, $action);
         return redirect()->route('courses.edit.assignments', ['id' => $courseId]);
     }
 
     public function play(int $id)
     {
-        $course = $this->service->getCourse($id);
+        $course = $this->courseService->getCourse($id);
         return view('pages.courses.play', compact('course'));
     }
 
     public function edit(int $id)
     {
-        $course = $this->service->getCourse($id);
+        $course = $this->courseService->getCourse($id);
         return view('pages.courses.edit', compact('course'));
     }
 
@@ -54,14 +54,14 @@ class CourseController extends Controller
     {
         $state = $request->query('assign', 'already');
         $searchParam = $request->input('search');
-        $users = $this->service->editAssignments($state, $searchParam, $courseId);
+        $users = $this->courseService->editAssignments($state, $searchParam, $courseId)->paginate(8);
         return view('pages.courses.assign', compact('users', 'courseId', 'state'));
     }
 
     public function update(UpdateCourseRequest $request, int $id)
     {
         $validated = $request->validated();
-        $this->service->update($id, $validated);
+        $this->courseService->update($id, $validated);
         return redirect()->route('courses.own');
     }
 
@@ -72,20 +72,20 @@ class CourseController extends Controller
 
     public function store(CreateCourseRequest $request)
     {
-        $validated  = $request->validated();
-        $this->service->store($validated);
+        $validated = $request->validated();
+        $this->courseService->store($validated);
         return redirect()->route('courses.own');
     }
 
     public function destroy(int $id)
     {
-        $this->service->destroy($id);
+        $this->courseService->destroy($id);
         return redirect()->route('courses.own');
     }
 
     public function restore(int $id)
     {
-        $this->service->restore($id);
+        $this->courseService->restore($id);
         return redirect()->route('courses.own');
     }
 

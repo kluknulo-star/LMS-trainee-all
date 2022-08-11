@@ -14,25 +14,21 @@ class CourseService
     }
     public function getAssignments($searchParam)
     {
-        $recordsPerPage = 4;
         return auth()->user()
                      ->assignedCourses()
                      ->withCount('assignedUsers')
                      ->orderByDesc('course_id')
-                     ->search($searchParam)
-                     ->paginate($recordsPerPage);
+                     ->search($searchParam);
     }
 
     public function getOwn($searchParam)
     {
-        $recordsPerPage = 4;
         return auth()->user()
                      ->courses()
                      ->withTrashed()
                      ->withCount('assignedUsers')
                      ->orderByDesc('course_id')
-                     ->search($searchParam)
-                     ->paginate($recordsPerPage);
+                     ->search($searchParam);
     }
 
     public function assign($userId, $courseId, $action)
@@ -53,7 +49,6 @@ class CourseService
 
     public function editAssignments($state, $searchParam, $courseId)
     {
-        $recordsPerPage = 8;
         $users = Course::findOrFail($courseId)->assignedUsers();
 
         if ($state != 'already') {
@@ -61,8 +56,7 @@ class CourseService
         }
 
         return $users->orderByDesc('user_id')
-                     ->search($searchParam)
-                     ->paginate($recordsPerPage);
+                     ->search($searchParam);
     }
 
     public function update($id, $validated)
