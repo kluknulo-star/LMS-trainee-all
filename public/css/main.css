@@ -113,6 +113,10 @@ a {
 .w1200 {
     width: 1200px;
 }
+.h150 {
+    min-height: 150px!important;
+    max-height: 150px!important;
+}
 ::-webkit-scrollbar-thumb {
     background-color: rgba(235, 68, 50, 0.7);
     border: 5px solid #171923;
@@ -133,4 +137,11 @@ a {
 }
 .back-button i {
     font-size: 14px;
+}
+.select {
+    padding: 10px;
+    background-color: #12141c;
+    border: 1px solid #4a5568;
+    border-radius: 10px;
+    color: whitesmoke;
 }
