@@ -31,18 +31,18 @@ class UpdateUserRequest extends FormRequest
             ],
             'name' => [
                 'required',
-                'alpha',
                 'max:70',
+                "regex:/^(([a-zA-Z'-]{1,70})|([а-яА-ЯЁё'-]{1,70}))$/u"
             ],
             'surname' => [
                 'required',
-                'alpha',
                 'max:70',
+                "regex:/^(([a-zA-Z'-]{1,70})|([а-яА-ЯЁё'-]{1,70}))$/u"
             ],
             'patronymic' => [
-                'required',
-                'alpha',
+                'nullable',
                 'max:70',
+                "regex:/^(([a-zA-Z'-]{1,70})|([а-яА-ЯЁё'-]{1,70}))$/u"
             ],
             'email' => [
                 'required',

@@ -25,9 +25,21 @@ class CreateUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|alpha|max:70',
-            'surname' => 'required|alpha|max:70',
-            'patronymic' => 'nullable|alpha|max:70',
+            'name' => [
+                'required',
+                'max:70',
+                "regex:/^(([a-zA-Z'-]{1,70})|([а-яА-ЯЁё'-]{1,70}))$/u"
+            ],
+            'surname' => [
+                'required',
+                'max:70',
+                "regex:/^(([a-zA-Z'-]{1,70})|([а-яА-ЯЁё'-]{1,70}))$/u"
+            ],
+            'patronymic' => [
+                'nullable',
+                'max:70',
+                "regex:/^(([a-zA-Z'-]{1,70})|([а-яА-ЯЁё'-]{1,70}))$/u"
+            ],
             'email' => 'required|unique:users,email|email:rfc,dns',
             'password' => [
                 'required',
