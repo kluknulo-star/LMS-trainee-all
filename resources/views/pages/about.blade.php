@@ -45,7 +45,7 @@
     </div>
     <div class="margin-top-55">
         <p class="welcome__logo font24">Contact us</p>
-        <form class="decor" method="post" action="">
+        <form class="decor">
             <div class="form-left-decoration"></div>
             <div class="form-right-decoration"></div>
             <div class="circle"></div>
