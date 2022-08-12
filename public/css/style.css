@@ -641,3 +641,11 @@ a.courses__course-play {
 li a:hover {
     background-color: #111;
 }
+
+.center {
+    margin: auto;
+}
+
+.margin20-0 {
+    margin: 20px 0px 20px 0px;
+}
