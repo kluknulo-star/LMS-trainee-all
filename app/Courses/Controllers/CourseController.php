@@ -46,7 +46,7 @@ class CourseController extends Controller
 
     public function edit(int $id)
     {
-        $course = $this->courseService->getCourse($id);
+        $course = $this->courseService->getCourse($id, true);
         return view('pages.courses.edit', compact('course'));
     }
 

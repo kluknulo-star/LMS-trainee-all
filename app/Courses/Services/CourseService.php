@@ -5,13 +5,20 @@ namespace App\Courses\Services;
 use App\Courses\Models\AssignableCourse;
 use App\Courses\Models\Course;
 use App\Users\Models\User;
+use phpDocumentor\Reflection\Types\Boolean;
 
 class CourseService
 {
-    public function getCourse($id)
+    public function getCourse($id, $decodeContent=false)
     {
-        return Course::findOrFail($id);
+        $course =  Course::findOrFail($id);
+
+        if ($decodeContent) {
+            $course->content = json_decode($course->content, true);
+        }
+        return $course;
     }
+
     public function getAssignments($searchParam)
     {
         return auth()->user()
