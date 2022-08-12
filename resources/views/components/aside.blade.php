@@ -8,7 +8,8 @@
         @endif
 
         <a href="{{ route('courses.assignments') }}" class="aside__link button">Assigned courses</a>
-{{--        <a href="" class="aside__link button">About us</a>--}}
+        <a href="{{ route('about') }}" class="aside__link button">About us</a>
+        {{--        <a href="" class="aside__link button">About us</a>--}}
     </div>
 
     <div class="aside__footer">

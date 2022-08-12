@@ -1,6 +1,6 @@
 <?php
 
-use App\Courses\Controllers\CourseController;
+use App\Http\Controllers\AboutController;
 use App\Users\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 use App\Users\Controllers\UserController;
@@ -23,3 +23,5 @@ Route::get('/login', [LoginController::class, 'login'])->name('login')->middlewa
 Route::get('/register', [LoginController::class, 'register'])->name('register')->middleware('guest');
 Route::post('/authenticate', [LoginController::class, 'authenticate'])->name('authenticate')->middleware('guest');
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout')->middleware('auth');
+
+Route::get('/about', [AboutController::class, 'index'])->name('about')->middleware('auth');
