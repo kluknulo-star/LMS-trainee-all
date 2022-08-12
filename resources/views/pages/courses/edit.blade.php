@@ -5,7 +5,7 @@
 @endcomponent
 
 <div class="container">
-    <div class="edit">
+    <div class="edit flex">
         <div class="edit__container edit__container-course classic-box mrauto">
             <div class="edit__title h2 mb30">Edit Course</div>
             @if ($errors->any())
@@ -22,7 +22,7 @@
                 @method('patch')
                 <input name="course_id" value="{{ old('course_id') ?? $course->course_id }}" type="hidden" class="edit__input col-input input">
                 <input name="title" value="{{ old('title') ?? $course->title }}" class="edit__input col-input input">
-                <textarea name="description" class="edit__input col-input input">{{ old('description') ?? $course->description }}</textarea>
+                <textarea name="description" class="edit__input col-input input h150">{{ old('description') ?? $course->description }}</textarea>
                 <button type="submit" class="edit__button rounded-black-button button mb15">Save changes</button>
             </form>
 
@@ -34,24 +34,67 @@
             </button>
 
         </div>
+        <div class="edit__container edit__container-course classic-box">
+            <div class="edit__title h2 mb30">Create course section</div>
+            <form method="post" action="{{ route('courses.create.section', ['id' => $course->course_id]) }}" class="edit__form form">
+                @csrf
+                @method('post')
+                <input name="sectionTitle" placeholder="Section title" value="{{ old('sectionTitle') }}" type="text" class="edit__input col-input input">
+                <select class="select mb20" name="type" id="">
+                    <option value="article">Article</option>
+                    <option value="youtubeVideoLink">YouTube video</option>
+                    <option value="test">Test</option>
+                </select>
+                <button type="submit" class="edit__button rounded-black-button button mb15">Create section</button>
+            </form>
+        </div>
     </div>
-    <br>
     <div class="edit">
         <div class="edit__container edit__container-course classic-box mrauto">
-            <div class="users__title h3">
-                Content:
-                <div class="users__after-title-links">
-                    <a href="" class="users__title-link">
-                        <i class="fas fa-plus"></i>
-                    </a>
-                </div>
+            <div class="edit__title h2 mb30">
+                Course sections
             </div>
-            @foreach(json_decode($course->content) as $element)
-                <div class="margin20-0">
-                    <p><b>{{$element->type}}</b></p>
-                    <p>{{$element->content}}</p>
-                </div>
-            @endforeach
+            <table class="users__table">
+                <thead>
+                <tr class="users__tr users__tr_head">
+                    <th class="users__td">Type</th>
+                    <th class="users__td">Title</th>
+                    <th class="users__td"></th>
+                </tr>
+                </thead>
+                <tbody>
+                    @forelse($course->content as $element)
+                                <tr class="users__tr">
+                                    <th class="users__td">{{ $element['type'] }}</th>
+                                    <th class="users__td">{{ $element['title'] }}</th>
+                                    <th class="users__td">
+                                        <a class="table-action-button table-edit-button" href="{{ route('courses.edit.section', ['id' => $course->course_id, 'section_id' => $element['section_id']]) }}"><i class="fas fa-pen"></i></a>
+                                        <button class="table-action-button table-delete-button" onclick="document.getElementById('delete-modal-<?= $element['section_id'] ?>').style.display = 'flex'">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </th>
+                                </tr>
+
+                                <div class="modal" id="delete-modal-{{ $element['section_id'] }}">
+                                    <div class="modal-box">
+                                        <p class="modal-text modal-text-delete mb20 mr20">You sure to <span>delete</span> course section {{ $element['title'] }}?</p>
+
+                                        <div class="modal-buttons">
+                                            <form class="table-action-form" action="{{ route('courses.destroy.section', ['id' => $course->course_id, 'section_id' => $element['section_id']]) }}" method="post">
+                                                @csrf
+                                                @method('delete')
+                                                <input name="user_id" type="hidden" value="{{ $course->course_id }}">
+                                                <button type="submit" class="table-action-button confirm-button">Confirm</button>
+                                            </form>
+                                            <button onclick="document.getElementById('delete-modal-<?= $element['section_id'] ?>').style.display = 'none'" class="table-action-button cancel-button">Cancel</button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                    @empty
+                    @endforelse
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

@@ -456,6 +456,7 @@ nav.flex > div > div > span > a:nth-last-child(-n+2) {
 .courses__course-title {
     font-weight: bold;
     max-width: 440px;
+    word-break: break-all;
 }
 
 .courses__after-title-links {
@@ -587,9 +588,22 @@ a.courses__course-play {
     color: #c4aa33;
 }
 
+.edit {
+    padding-bottom: 40px;
+}
+.edit__container-course:first-child {
+    margin-right: 40px;
+}
+
+.edit__container-course:nth-child(2) {
+    width: 500px;
+}
 .edit__container-course {
     width: 100%;
-    height: fit-content;
+}
+.edit .modal-box {
+    margin-top: 70px;
+    border-radius: 10px;
 }
 
 .edit__container-course .edit__input {
