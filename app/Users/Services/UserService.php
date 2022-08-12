@@ -21,16 +21,14 @@ class UserService
         return User::findOrFail($id);
     }
 
-    public function getAssignedUserCourses($id)
+    public function getAssignedUserCourses(User $user)
     {
-        return $this->getUser($id)
-            ->assignedCourses()
-            ->orderByDesc('course_id');
+        return $user->assignedCourses()->orderByDesc('course_id');
     }
 
-    public function getOwnUserCourses($id)
+    public function getOwnUserCourses(User $user)
     {
-        return User::find($id)->courses()->orderByDesc('course_id');
+        return $user->courses()->orderByDesc('course_id');
     }
 
     public function create($validated)

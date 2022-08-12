@@ -4,7 +4,7 @@ namespace App\Courses\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateCourseContentRequest extends FormRequest
+class UpdateCourseContentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,7 +26,8 @@ class CreateCourseContentRequest extends FormRequest
 //        $sectionType = ['Photo', 'Article', 'Link'];
         return [
             'type' => 'required',
-            'title' => 'required|alpha',
+            'title' => 'required',
+            'content' => 'required',
         ];
     }
 }

@@ -19,6 +19,11 @@ class CourseService
         return $course;
     }
 
+    public function checkOwn($courseId)
+    {
+        return auth()->user()->courses()->where('course_id', $courseId)->get()->isNotEmpty();
+    }
+
     public function getAssignments($searchParam)
     {
         return auth()->user()
