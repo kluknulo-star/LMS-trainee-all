@@ -8,8 +8,9 @@ use App\Http\Requests\AvararUpdateRequest;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Users\Services\UserService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Intervention\Image\Facades\Image;
+use Illuminate\Contracts\View\View;
 
 class UserController extends Controller
 {
@@ -27,9 +28,9 @@ class UserController extends Controller
 
     public function show(int $id)
     {
-        $assignedCourses = $this->service->getAssignedUserCourses($id)->paginate(4);
-        $ownCourses = $this->service->getOwnUserCourses($id)->paginate(4);
         $user = $this->service->getUser($id);
+        $ownCourses = $this->service->getOwnUserCourses($user)->paginate(4);
+        $assignedCourses = $this->service->getAssignedUserCourses($user)->paginate(4);
         return view('pages.users.profile', compact('user', 'ownCourses', 'assignedCourses'));
     }
 
@@ -38,14 +39,14 @@ class UserController extends Controller
         return view('pages.users.create');
     }
 
-    public function store(CreateUserRequest $request)
+    public function store(CreateUserRequest $request): RedirectResponse
     {
         $validated = $request->validated();
         $this->service->create($validated);
         return redirect()->route('users');
     }
 
-    public function edit(int $id)
+    public function edit(int $id): View
     {
         $user = $this->service->getUser($id);
         return view('pages.users.edit', compact('user'));
