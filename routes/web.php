@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AboutController;
+use App\Http\Controllers\SocialController;
 use App\Users\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 use App\Users\Controllers\UserController;
@@ -25,3 +26,8 @@ Route::post('/authenticate', [LoginController::class, 'authenticate'])->name('au
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout')->middleware('auth');
 
 Route::get('/about', [AboutController::class, 'index'])->name('about')->middleware('auth');
+
+Route::group(['middleware' => 'guest'], function () {
+    Route::get('/vk/auth', [SocialController::class, 'index'])->name('vk.auth');
+    Route::get('/vk/auth/callback', [SocialController::class, 'callBack']);
+});
