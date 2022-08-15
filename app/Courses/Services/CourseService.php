@@ -10,7 +10,7 @@ class CourseService
 {
     public function getCourse($id, $decodeContent=false)
     {
-        $course =  Course::findOrFail($id);
+        $course = Course::findOrFail($id);
 
         if ($decodeContent) {
             $course->content = json_decode($course->content, true);
@@ -20,7 +20,12 @@ class CourseService
 
     public function checkOwn($courseId)
     {
-        return auth()->user()->courses()->where('course_id', $courseId)->get()->isNotEmpty();
+        return auth()->user()
+                     ->courses()
+                     ->withTrashed()
+                     ->where('course_id', $courseId)
+                     ->get()
+                     ->isNotEmpty();
     }
 
     public function getAssignments($searchParam)
@@ -44,6 +49,9 @@ class CourseService
 
     public function assign($userId, $courseId, $action)
     {
+        if (!$this->checkOwn($courseId)) {
+            return abort(403);
+        }
         switch ($action) {
             case 'assign':
                 return AssignableCourse::create([
@@ -60,6 +68,9 @@ class CourseService
 
     public function editAssignments($state, $searchParam, $courseId)
     {
+        if (!$this->checkOwn($courseId)) {
+            return abort(403);
+        }
         $users = Course::findOrFail($courseId)->assignedUsers();
 
         if ($state != 'already') {
@@ -70,9 +81,12 @@ class CourseService
                      ->search($searchParam);
     }
 
-    public function update($id, $validated)
+    public function update($courseId, $validated)
     {
-        $course = $this->getCourse($id);
+        if (!$this->checkOwn($courseId)) {
+            return abort(403);
+        }
+        $course = $this->getCourse($courseId);
         return $course->update($validated);
     }
 
@@ -82,19 +96,32 @@ class CourseService
         return Course::create($validated);
     }
 
-    public function destroy($id)
+    public function destroy($courseId)
     {
+        if (!$this->checkOwn($courseId)) {
+            return abort(403);
+        }
         return Course::where([
-            ['course_id', '=', $id],
+            ['course_id', '=', $courseId],
             ['author_id', '=', auth()->id()],
         ])->delete();
     }
 
-    public function restore($id)
+    public function restore($courseId)
     {
+        if (!$this->checkOwn($courseId)) {
+            return abort(403);
+        }
         return Course::where([
-            ['course_id', '=', $id],
+            ['course_id', '=', $courseId],
             ['author_id', '=', auth()->id()],
         ])->restore();
+    }
+
+    public function edit($courseId)
+    {
+        if (!$this->checkOwn($courseId)) {
+            return abort(403);
+        }
     }
 }

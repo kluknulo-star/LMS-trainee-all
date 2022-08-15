@@ -38,15 +38,16 @@ class CourseController extends Controller
         return redirect()->route('courses.edit.assignments', ['id' => $courseId]);
     }
 
-    public function play(int $id)
+    public function play(int $courseId)
     {
-        $course = $this->courseService->getCourse($id);
+        $course = $this->courseService->getCourse($courseId);
         return view('pages.courses.play', compact('course'));
     }
 
-    public function edit(int $id)
+    public function edit(int $courseId)
     {
-        $course = $this->courseService->getCourse($id, true);
+        $this->courseService->edit($courseId);
+        $course = $this->courseService->getCourse($courseId, true);
         return view('pages.courses.edit', compact('course'));
     }
 
@@ -58,10 +59,10 @@ class CourseController extends Controller
         return view('pages.courses.assign', compact('users', 'courseId', 'state'));
     }
 
-    public function update(UpdateCourseRequest $request, int $id)
+    public function update(UpdateCourseRequest $request, int $courseId)
     {
         $validated = $request->validated();
-        $this->courseService->update($id, $validated);
+        $this->courseService->update($courseId, $validated);
         return redirect()->route('courses.own');
     }
 
@@ -77,15 +78,15 @@ class CourseController extends Controller
         return redirect()->route('courses.own');
     }
 
-    public function destroy(int $id)
+    public function destroy(int $courseId)
     {
-        $this->courseService->destroy($id);
+        $this->courseService->destroy($courseId);
         return redirect()->route('courses.own');
     }
 
-    public function restore(int $id)
+    public function restore(int $courseId)
     {
-        $this->courseService->restore($id);
+        $this->courseService->restore($courseId);
         return redirect()->route('courses.own');
     }
 
