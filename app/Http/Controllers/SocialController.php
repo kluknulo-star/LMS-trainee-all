@@ -22,8 +22,13 @@ class SocialController extends Controller
         $saveUser = $objSocial->saveSocialData($user);
         if($saveUser) {
             $credentials = ['email' => $saveUser->email, 'password' => '8710oMet-rgw96Ts'];
+            //при смене пароля, вход через ВК(ссылку) не работает
             if (Auth::attempt($credentials)) {
                 return redirect()->intended('courses');
+            } else {
+                return redirect()->route('login')->withErrors([
+                    'email' => 'The provided credentials do not match our records.',
+                ])->onlyInput('email');
             }
         }
         return redirect()->route('login')->withErrors(['Go to the application and provide access to your data (Required: last name, first name, mail. Optional: avatar)']);
