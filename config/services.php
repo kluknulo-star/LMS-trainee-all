@@ -25,6 +25,12 @@ return [
         'token' => env('POSTMARK_TOKEN'),
     ],
 
+    'vkontakte' => [
+        'client_id' => 51400216,
+        'client_secret' => 'mVHP29JJ3RLwM7DRLtTD',
+        'redirect' => 'http://localhost:8000/vk/auth/callback'
+    ],
+
     'ses' => [
         'key' => env('AWS_ACCESS_KEY_ID'),
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
