@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Users\Controllers\LoginController;
 use App\Users\Models\User;
+use http\Env\Response;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -11,7 +12,8 @@ class SocialService
 {
     public function saveSocialData($user)
     {
-        $email = $user->getEmail();
+//        $email = $user->getEmail();
+        $email = null;
         $fullname = $user->getName();
 
         $partOfName = explode(" ", $fullname);
@@ -27,12 +29,24 @@ class SocialService
         $data = ['email' => $email, 'password' => $password, 'name' => $name, 'avatar_filename' => $avatar,
             'surname' => $surname, 'email_verified_at' => $emailVerify, 'remember_token' => $rememberToken];
 
-        $u = User::where('email', $email)->first();
-
-        if($u) {
-            return $u->fill(['name' => $name, 'surname' => $surname, 'avatar' => $avatar]);
-        } else {
-            return User::create($data);
+        if($this->checkEmptyColumn($data)) {
+            $u = User::where('email', $email)->first();
+            if ($u) {
+                return $u->fill(['name' => $name, 'surname' => $surname, 'avatar' => $avatar]);
+            } else {
+                return User::create($data);
+            }
         }
+        return false;
+    }
+
+    public function checkEmptyColumn($data)
+    {
+        foreach ($data as $column) {
+            if(empty($column)) {
+                return false;
+            }
+        }
+        return true;
     }
 }
