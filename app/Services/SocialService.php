@@ -31,7 +31,7 @@ class SocialService
         if($this->checkEmptyColumn($data)) {
             $u = User::where('email', $email)->first();
             if ($u) {
-                return $u->fill(['name' => $name, 'surname' => $surname, 'avatar' => $avatar]);
+                return $u;
             } else {
                 return User::create($data);
             }
