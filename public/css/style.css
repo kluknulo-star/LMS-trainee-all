@@ -651,11 +651,6 @@ a.courses__course-play {
     text-align:center
 }
 
-/* Change the link color on hover */
-li a:hover {
-    background-color: #111;
-}
-
 .center {
     margin: auto;
 }

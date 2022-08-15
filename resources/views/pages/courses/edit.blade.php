@@ -39,7 +39,7 @@
             <form method="post" action="{{ route('courses.create.section', ['id' => $course->course_id]) }}" class="edit__form form">
                 @csrf
                 @method('post')
-                <input name="title" placeholder="Section title" value="{{ old('title') }}" type="text" class="edit__input col-input input">
+                <input name="sectionTitle" placeholder="Section title" value="{{ old('sectionTitle') }}" type="text" class="edit__input col-input input">
                 <select class="select mb20" name="type" id="">
                     <option value="Article">Article</option>
                     <option value="YoutubeVideoLink">YouTube video</option>

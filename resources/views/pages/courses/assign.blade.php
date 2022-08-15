@@ -9,17 +9,17 @@
             <div class="users__after-title-links">
                 <li class="assigned-users-navbar">
                     <ul class="assigned-users-navbar-elem">
-                        <a href="{{ route('courses.edit.assignments', ['assign' => 'already', 'id' => $courseId]) }}">
+                        <a href="{{ route('courses.edit.assignments', ['assign' => 'already', 'id' => $courseId]) }}" class="aside__link button">
                             Already assigned students
                         </a>
                     </ul>
                     <ul class="assigned-users-navbar-elem">
-                        <a href="{{ route('courses.edit.assignments', ['assign' => 'all', 'id' => $courseId]) }}">
+                        <a href="{{ route('courses.edit.assignments', ['assign' => 'all', 'id' => $courseId]) }}" class="aside__link button">
                             All students
                         </a>
                     </ul>
                     <ul class="assigned-users-navbar-elem" >
-                        <a href="{{ route('courses.edit', ['id' => $courseId]) }}">
+                        <a href="{{ route('courses.edit', ['id' => $courseId]) }}" class="aside__link button">
                             Go back to edit course
                         </a>
                     </ul>

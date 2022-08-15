@@ -6,7 +6,6 @@ class CourseContentService
 {
     public function __construct(private CourseService $courseService)
     {
-
     }
 
     public function getContent($courseId, $sectionId)
@@ -47,6 +46,7 @@ class CourseContentService
         $course = $this->courseService->getCourse($courseId, true);
         $courseContent = $this->courseService->getCourse($courseId, true)->content;
         $validated['section_id'] = count($courseContent);
+        $validated['title'] = $validated['sectionTitle'];
         $courseContent[$validated['section_id']] = $validated;
         $course->content = json_encode($courseContent);
         $course->save();
