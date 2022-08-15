@@ -14,24 +14,22 @@ class SocialService
     {
         $email = $user->getEmail();
         $fullname = $user->getName();
-
         $partOfName = explode(" ", $fullname);
         $surname = $partOfName[1];
         $name = $partOfName[0];
-
         $avatar = $user->getAvatar();
         $emailVerify = NOW();
         $rememberToken = Str::random(20);
-
         $randPassword = '8710oMet-rgw96Ts'; //Str::random(30);
         $password = Hash::make($randPassword);
+
         $data = ['email' => $email, 'password' => $password, 'name' => $name, 'avatar_filename' => $avatar,
             'surname' => $surname, 'email_verified_at' => $emailVerify, 'remember_token' => $rememberToken];
 
         if($this->checkEmptyColumn($data)) {
             $u = User::where('email', $email)->first();
             if ($u) {
-                return $u->fill(['name' => $name, 'surname' => $surname, 'avatar' => $avatar]);
+                return $u;
             } else {
                 return User::create($data);
             }
