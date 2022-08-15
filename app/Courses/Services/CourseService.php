@@ -5,7 +5,6 @@ namespace App\Courses\Services;
 use App\Courses\Models\AssignableCourse;
 use App\Courses\Models\Course;
 use App\Users\Models\User;
-use phpDocumentor\Reflection\Types\Boolean;
 
 class CourseService
 {
