@@ -26,6 +26,6 @@ class SocialController extends Controller
                 return redirect()->intended('courses');
             }
         }
-        return redirect()->route('login');
+        return redirect()->route('login')->withErrors(['Go to the application and provide access to your data (Required: last name, first name, mail. Optional: avatar)']);
     }
 }
