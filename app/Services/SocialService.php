@@ -12,8 +12,7 @@ class SocialService
 {
     public function saveSocialData($user)
     {
-//        $email = $user->getEmail();
-        $email = null;
+        $email = $user->getEmail();
         $fullname = $user->getName();
 
         $partOfName = explode(" ", $fullname);
