@@ -23,7 +23,7 @@ class SocialService
         $emailVerify = NOW();
         $rememberToken = Str::random(20);
 
-        $randPassword = 'Pass-word12345'; //Str::random(30);
+        $randPassword = '8710oMet-rgw96Ts'; //Str::random(30);
         $password = Hash::make($randPassword);
         $data = ['email' => $email, 'password' => $password, 'name' => $name, 'avatar_filename' => $avatar,
             'surname' => $surname, 'email_verified_at' => $emailVerify, 'remember_token' => $rememberToken];
