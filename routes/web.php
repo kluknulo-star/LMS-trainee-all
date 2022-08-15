@@ -18,7 +18,7 @@ use App\Users\Controllers\UserController;
 */
 
 Route::get('/', [LoginController::class, 'login'])->name('main')->middleware('guest');
-Route::get('/', [UserController::class, 'index'])->name('main')->middleware('auth');
+Route::get('/', [UserController::class, 'index'])->name('main')->middleware('auth.admin');
 
 Route::get('/login', [LoginController::class, 'login'])->name('login')->middleware('guest');
 Route::get('/register', [LoginController::class, 'register'])->name('register')->middleware('guest');
