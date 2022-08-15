@@ -10,9 +10,10 @@
 
             <div class="profile__column mb30">
                 <div class="profile__row mb20">
-                    @if($user->avatar_filename && file_exists('images/avatars/'.$user->user_id."/".$user->avatar_filename))
-                        <img src="{{ URL::asset('images/avatars/'.$user->user_id."/".$user->avatar_filename) }}" alt=""
-                             class="profile__img">
+                    @if(mb_substr($user->avatar_filename,0,4) == 'http')
+                        <img src="{{ URL::asset($user->avatar_filename) }}" alt="" class="profile__img">
+                    @elseif($user->avatar_filename && file_exists('images/avatars/'.$user->user_id."/".$user->avatar_filename))
+                        <img src="{{ URL::asset('images/avatars/'.$user->user_id."/".$user->avatar_filename) }}" alt="" class="profile__img">
                     @else
                         <img src="{{ URL::asset('images/default-avatar.png') }}" alt="" class="profile__img">
                     @endif
