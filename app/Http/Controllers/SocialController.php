@@ -21,7 +21,7 @@ class SocialController extends Controller
         $objSocial = new SocialService();
         $saveUser = $objSocial->saveSocialData($user);
         if($saveUser) {
-            $credentials = ['email' => $saveUser->email, 'password' => "Pass-word12345"];
+            $credentials = ['email' => $saveUser->email, 'password' => '8710oMet-rgw96Ts'];
             if (Auth::attempt($credentials)) {
                 return redirect()->intended('courses');
             }
