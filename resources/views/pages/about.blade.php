@@ -13,7 +13,7 @@
     </div>
     <br>
     <div class="margin5">
-        <p class="font24">The mission of Skillbox is to enable everyone to be relevant and in—demand specialist right now.
+        <p class="font24">The mission of CourseZone is to enable everyone to be relevant and in—demand specialist right now.
             Regardless of age and geography.</p>
     </div>
     <br>
