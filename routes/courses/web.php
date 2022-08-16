@@ -21,7 +21,8 @@ Route::prefix('courses')->middleware('auth')->group(function() {
 
 
     Route::prefix('{id}')->group(function (){
-        Route::post('/assignments', [CourseController::class, 'assign'])->where('id', '[0-9]+')->name('courses.course.assginments');
+        Route::post('/assign', [CourseController::class, 'assign'])->where('id', '[0-9]+')->name('courses.course.assgin');
+        Route::post('/deduct', [CourseController::class, 'deduct'])->where('id', '[0-9]+')->name('courses.course.deduct');
         Route::get('', [CourseController::class, 'play'])->where('id', '[0-9]+')->name('courses.play');
         Route::patch('', [CourseController::class, 'update'])->where('id', '[0-9]+')->name('courses.update');
         Route::delete('', [CourseController::class, 'destroy'])->where('id', '[0-9]+')->name('courses.delete');

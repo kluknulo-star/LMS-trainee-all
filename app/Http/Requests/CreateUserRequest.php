@@ -51,7 +51,6 @@ class CreateUserRequest extends FormRequest
                 ->numbers()
                 ->mixedCase(),
             ],
-            'password_confirmation' => 'required',
         ];
     }
 }

@@ -5,10 +5,12 @@ namespace App\Courses\Services;
 use App\Courses\Models\AssignableCourse;
 use App\Courses\Models\Course;
 use App\Users\Models\User;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class CourseService
 {
-    public function getCourse($id, $decodeContent = false)
+    public function getCourse($id, $decodeContent = false): Course
     {
         $course = Course::findOrFail($id);
 
@@ -19,7 +21,7 @@ class CourseService
         return $course;
     }
 
-    public function getAssignments($searchParam)
+    public function getAssignments($searchParam): BelongsToMany
     {
         return auth()->user()
                      ->assignedCourses()
@@ -28,7 +30,7 @@ class CourseService
                      ->search($searchParam);
     }
 
-    public function getOwn($searchParam)
+    public function getOwn($searchParam): HasMany
     {
         return auth()->user()
                      ->courses()
@@ -38,47 +40,52 @@ class CourseService
                      ->search($searchParam);
     }
 
-    public function assign($userId, $courseId, $action)
+    public function assign($userId, $courseId): AssignableCourse
     {
-        switch ($action) {
-            case 'assign':
-                return AssignableCourse::create([
-                    'student_id' => $userId,
-                    'course_id' => $courseId,
-                ]);
-            case 'deduct':
-                return AssignableCourse::where([
-                    ['course_id', '=', $courseId],
-                    ['student_id', '=', $userId],
-                ])->delete();
-        }
+        return AssignableCourse::create([
+            'student_id' => $userId,
+            'course_id' => $courseId,
+        ]);
     }
 
-    public function editAssignments($state, $searchParam, $courseId)
+    public function deduct($userId, $courseId): bool
+    {
+        return AssignableCourse::where([
+            ['course_id', '=', $courseId],
+            ['student_id', '=', $userId],
+        ])->delete();
+    }
+
+    public function getUnassignedUsers($searchParam, $courseId) // Builder ?
     {
         $users = $this->getCourse($courseId)->assignedUsers();
-
-        if ($state != 'already') {
-            $users = User::whereNotIn('user_id', $users->pluck('user_id')->toArray());
-        }
+        $users = User::whereNotIn('user_id', $users->pluck('user_id')->toArray());
 
         return $users->orderByDesc('user_id')
                      ->search($searchParam);
     }
 
-    public function update($courseId, $validated)
+    public function getAssignedUsers($searchParam, $courseId): BelongsToMany
+    {
+        $users = $this->getCourse($courseId)->assignedUsers();
+
+        return $users->orderByDesc('user_id')
+                     ->search($searchParam);
+    }
+
+    public function update($courseId, $validated): bool
     {
         $course = $this->getCourse($courseId);
         return $course->update($validated);
     }
 
-    public function store($validated)
+    public function store($validated): bool
     {
         $validated['author_id'] = auth()->id();
         return Course::create($validated);
     }
 
-    public function destroy($courseId)
+    public function destroy($courseId): bool
     {
         return Course::where([
             ['course_id', '=', $courseId],
@@ -86,7 +93,7 @@ class CourseService
         ])->delete();
     }
 
-    public function restore($courseId)
+    public function restore($courseId): bool
     {
         return Course::where([
             ['course_id', '=', $courseId],

@@ -67,7 +67,7 @@
                     <th class="users__td">{{ $user->patronymic }}</th>
                     <th class="users__td">
                         @if ($state == 'already')
-                            <button class="table-action-button table-delete-button" onclick="document.getElementById('delete-modal-<?= $user->user_id ?>').style.display = 'flex'">
+                            <button class="table-action-button table-delete-button" onclick="document.getElementById('deduct-modal-<?= $user->user_id ?>').style.display = 'flex'">
                                 <i class="fas fa-trash"></i>
                             </button>
                         @elseif ($state == 'all')
@@ -77,19 +77,19 @@
                         @endif
                     </th>
                 </tr>
-                <div class="modal" id="delete-modal-{{ $user->user_id }}">
+                <div class="modal" id="deduct-modal-{{ $user->user_id }}">
                     <div class="modal-box">
                         <p class="modal-text modal-text-delete mb20 mr20">Are you really want to deduct {{ $user->name }} from you course?</p>
 
                         <div class="modal-buttons">
-                            <form class="table-action-form" action="{{ route('courses.course.assginments', ['id' => $courseId]) }}" method="post">
+                            <form class="table-action-form" action="{{ route('courses.course.deduct', ['id' => $courseId]) }}" method="post">
                                 @csrf
                                 @method('post')
                                 <input name="user_id" type="hidden" value="{{ $user->user_id }}">
                                 <input name="action" type="hidden" value="deduct">
                                 <button type="submit" class="table-action-button confirm-button">Confirm</button>
                             </form>
-                            <button onclick="document.getElementById('delete-modal-<?= $user->user_id ?>').style.display = 'none'" class="table-action-button cancel-button">Cancel</button>
+                            <button onclick="document.getElementById('deduct-modal-<?= $user->user_id ?>').style.display = 'none'" class="table-action-button cancel-button">Cancel</button>
                         </div>
 
                     </div>
@@ -100,7 +100,7 @@
                         <p class="modal-text modal-text-restore mb20 mr20">Are you really want to assign {{ $user->name }} to your course?</p>
 
                         <div class="modal-buttons">
-                            <form class="table-action-form" action="{{ route('courses.course.assginments', ['id' => $courseId]) }}" method="post">
+                            <form class="table-action-form" action="{{ route('courses.course.assgin', ['id' => $courseId]) }}" method="post">
                                 @csrf
                                 @method('post')
                                 <input name="user_id" type="hidden" value="{{ $user->user_id }}">

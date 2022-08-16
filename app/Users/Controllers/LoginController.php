@@ -3,8 +3,10 @@
 namespace App\Users\Controllers;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Contracts\View\View;
 
 class LoginController extends Controller
 {
@@ -14,7 +16,7 @@ class LoginController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function authenticate(Request $request)
+    public function authenticate(Request $request): RedirectResponse|Request
     {
         $credentials = $request->validate([
             'email' => ['required', 'email'],
@@ -38,7 +40,7 @@ class LoginController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function logout(Request $request)
+    public function logout(Request $request): RedirectResponse
     {
         Auth::logout();
 
@@ -49,11 +51,13 @@ class LoginController extends Controller
         return redirect('login');
     }
 
-    public function login(){
+    public function login(): View
+    {
         return view('pages/login');
     }
 
-    public function register(){
+    public function register(): View
+    {
         return view('pages/register');
     }
 }

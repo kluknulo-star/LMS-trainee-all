@@ -19,7 +19,7 @@ class UserController extends Controller
 
     }
 
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         $this->authorize('view', [auth()->user()]);
         $searchParam = $request->input('search');
@@ -27,20 +27,14 @@ class UserController extends Controller
         return view('pages.users.users', compact('users'));
     }
 
-    public function show(int $id)
+    public function show(int $id): View
     {
         $user = $this->service->getUser($id);
         $this->authorize('view', [$user, auth()->user()]);
-
-//        $ownCourses = $user->assignedCourses()->orderByDesc('course_id')->paginate(4);
-//        $assignedCourses = $user->courses()->orderByDesc('course_id')->paginate(4);
-//        $ownCourses = $this->service->getOwnUserCourses($user)->paginate(4);
-//        $assignedCourses = $this->service->getAssignedUserCourses($user)->paginate(4);
-
         return view('pages.users.profile', compact('user'));
     }
 
-    public function create()
+    public function create(): View
     {
         $this->authorize('create', [auth()->user()]);
         return view('pages.users.create');
@@ -61,7 +55,7 @@ class UserController extends Controller
         return view('pages.users.edit', compact('user'));
     }
 
-    public function update(UpdateUserRequest $request, int $id)
+    public function update(UpdateUserRequest $request, int $id): RedirectResponse
     {
         $user = $this->service->getUser($id);
         $this->authorize('update', [$user]);
@@ -70,14 +64,14 @@ class UserController extends Controller
         return redirect()->route('users.show', ['id' => $user->user_id]);
     }
 
-    public function editAvatar(int $id)
+    public function editAvatar(int $id): View
     {
         $user = $this->service->getUser($id);
         $this->authorize('update', [$user]);
         return view('pages.users.edit_avatar', compact('user'));
     }
 
-    public function updateAvatar(AvararUpdateRequest $request)
+    public function updateAvatar(AvararUpdateRequest $request): RedirectResponse
     {
         if (empty($request)) {
             return redirect()->route('users.show', ['id' => auth()->id()]);
@@ -87,7 +81,7 @@ class UserController extends Controller
         return redirect()->route('users.show', ['id' => auth()->id()]);
     }
 
-    public function destroy(int $id)
+    public function destroy(int $id): RedirectResponse
     {
         $user = $this->service->getUser($id);
         $this->authorize('delete', [$user]);
@@ -95,7 +89,7 @@ class UserController extends Controller
         return redirect()->route('users');
     }
 
-    public function restore(int $id)
+    public function restore(int $id): RedirectResponse
     {
         $this->authorize('restore', [auth()->user()]);
         $this->service->restore($id);
