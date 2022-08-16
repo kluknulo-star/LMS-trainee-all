@@ -2,9 +2,7 @@
 
 namespace App\Services;
 
-use App\Users\Controllers\LoginController;
 use App\Users\Models\User;
-use http\Env\Response;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -14,37 +12,32 @@ class SocialService
     {
         $email = $user->getEmail();
         $fullname = $user->getName();
-
         $partOfName = explode(" ", $fullname);
         $surname = $partOfName[1];
         $name = $partOfName[0];
 
-        $avatar = $user->getAvatar();
-        $emailVerify = NOW();
-        $rememberToken = Str::random(20);
-
-        $randPassword = '8710oMet-rgw96Ts'; //Str::random(30);
-        $password = Hash::make($randPassword);
-        $data = ['email' => $email, 'password' => $password, 'name' => $name, 'avatar_filename' => $avatar,
-            'surname' => $surname, 'email_verified_at' => $emailVerify, 'remember_token' => $rememberToken];
-
-        if($this->checkEmptyColumn($data)) {
+        if($this->checkEmptyColumn($email, $surname, $name)) {
             $u = User::where('email', $email)->first();
             if ($u) {
                 return $u;
             } else {
+                $avatar = $user->getAvatar();
+                $password = Hash::make(Str::random(60));
+                $data = ['email' => $email, 'password' => $password, 'name' => $name,
+                    'avatar_filename' => $avatar, 'surname' => $surname, 'email_verified_at' => NOW(),
+                    'remember_token' => Str::random(20)];
+                //Отправить на почту запрос о смене пароля
+
                 return User::create($data);
             }
         }
         return false;
     }
 
-    public function checkEmptyColumn($data)
+    public function checkEmptyColumn(string $email, string $surname, string $name)
     {
-        foreach ($data as $column) {
-            if(empty($column)) {
-                return false;
-            }
+        if(empty($email) || empty($surname) || empty($name)) {
+            return false;
         }
         return true;
     }
