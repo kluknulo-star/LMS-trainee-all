@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Intervention\Image\Facades\Image;
+use PHPUnit\Exception;
 
 class UserService
 {
@@ -46,13 +47,16 @@ class UserService
             $validated['password'] = Hash::make($validated['password']);
         }
         $user = $this->getUser($id);
-        return $user->update($validated);
+        $user->update($validated);
+        return $user;
     }
 
     public function destroy($id)
     {
         if (auth()->id() != $id) {
             return optional(User::where('user_id', $id))->delete();
+        } else {
+            return false;
         }
     }
 
