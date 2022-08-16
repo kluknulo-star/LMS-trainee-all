@@ -31,11 +31,7 @@
             </thead>
             <tbody>
 
-            @if ($users->isEmpty())
-                Пользователей пока нету ;(
-            @else
-
-                @foreach ($users as $key => $user)
+                @forelse ($users as $key => $user)
                     <tr class="users__tr">
                         @if(mb_substr($user->avatar_filename,0,4) == 'http')
                             <th class="users__td users__td-img"><img src="{{ URL::asset($user->avatar_filename) }}" alt="" class="profile__img"></th>
@@ -97,11 +93,11 @@
                             </div>
                         </div>
                     </div>
-                @endforeach
+                @empty
+                    Пользователей пока нету ;(
+                @endforelse
 
                 {{ $users->withQueryString()->links() }}
-
-            @endif
 
             </tbody>
         </table>
