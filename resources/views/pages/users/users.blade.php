@@ -52,10 +52,16 @@
                                 </button>
                             @else
                                 <a class="table-action-button table-show-button" href="{{ route('users.show', ['id' => $user->user_id]) }}"><i class="fas fa-eye"></i></a>
+
+                                @can ('update', [$user])
                                 <a class="table-action-button table-edit-button" href="{{ route('users.edit', ['id' => $user->user_id]) }}"><i class="fas fa-pen"></i></a>
+                                @endcan
+
+                                @can ('delete', [$user])
                                 <button class="table-action-button table-delete-button" onclick="document.getElementById('delete-modal-<?= $user->user_id ?>').style.display = 'flex'">
                                     <i class="fas fa-trash"></i>
                                 </button>
+                                @endcan
 
                             @endif
                         </th>

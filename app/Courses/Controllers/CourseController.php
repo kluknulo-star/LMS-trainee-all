@@ -41,13 +41,14 @@ class CourseController extends Controller
     public function play(int $courseId)
     {
         $course = $this->courseService->getCourse($courseId);
+        $this->authorize('view', [$course]);
         return view('pages.courses.play', compact('course'));
     }
 
     public function edit(int $courseId)
     {
-        $this->courseService->edit($courseId);
-        $course = $this->courseService->getCourse($courseId, true);
+        $course = $this->courseService->getCourse($courseId);
+        $this->authorize('update', [$course]);
         return view('pages.courses.edit', compact('course'));
     }
 
@@ -68,11 +69,13 @@ class CourseController extends Controller
 
     public function create()
     {
+        $this->authorize('create', [auth()->user()]);
         return view('pages.courses.create');
     }
 
     public function store(CreateCourseRequest $request)
     {
+        $this->authorize('create', [auth()->user()]);
         $validated = $request->validated();
         $this->courseService->store($validated);
         return redirect()->route('courses.own');
@@ -80,6 +83,8 @@ class CourseController extends Controller
 
     public function destroy(int $courseId)
     {
+        $course = $this->courseService->getCourse($courseId);
+        $this->authorize('delete', [auth()->user(), $course]);
         $this->courseService->destroy($courseId);
         return redirect()->route('courses.own');
     }

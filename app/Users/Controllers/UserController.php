@@ -21,6 +21,7 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
+        $this->authorize('view', [auth()->user()]);
         $searchParam = $request->input('search');
         $users = $this->service->index($searchParam)->paginate(8);
         return view('pages.users.users', compact('users'));
@@ -29,6 +30,7 @@ class UserController extends Controller
     public function show(int $id)
     {
         $user = $this->service->getUser($id);
+        $this->authorize('view', [$user, auth()->user()]);
         $ownCourses = $this->service->getOwnUserCourses($user)->paginate(4);
         $assignedCourses = $this->service->getAssignedUserCourses($user)->paginate(4);
         return view('pages.users.profile', compact('user', 'ownCourses', 'assignedCourses'));
@@ -36,11 +38,13 @@ class UserController extends Controller
 
     public function create()
     {
+        $this->authorize('create', [auth()->user()]);
         return view('pages.users.create');
     }
 
     public function store(CreateUserRequest $request): RedirectResponse
     {
+        $this->authorize('create', [auth()->user()]);
         $validated = $request->validated();
         $this->service->create($validated);
         return redirect()->route('users');
@@ -49,11 +53,14 @@ class UserController extends Controller
     public function edit(int $id): View
     {
         $user = $this->service->getUser($id);
+        $this->authorize('update', [$user]);
         return view('pages.users.edit', compact('user'));
     }
 
     public function update(UpdateUserRequest $request, int $id)
     {
+        $user = $this->service->getUser($id);
+        $this->authorize('update', [$user]);
         $validated = $request->validated();
         $this->service->update($validated, $id);
         $user = $this->service->getUser($id);
@@ -63,6 +70,7 @@ class UserController extends Controller
     public function editAvatar(int $id)
     {
         $user = $this->service->getUser($id);
+        $this->authorize('update', [$user]);
         return view('pages.users.edit_avatar', compact('user'));
     }
 
@@ -78,12 +86,15 @@ class UserController extends Controller
 
     public function destroy(int $id)
     {
+        $user = $this->service->getUser($id);
+        $this->authorize('delete', [$user]);
         $this->service->destroy($id);
         return redirect()->route('users');
     }
 
     public function restore(int $id)
     {
+        $this->authorize('restore', [auth()->user()]);
         $this->service->restore($id);
         return redirect()->route('users');
     }
