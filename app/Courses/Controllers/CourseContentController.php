@@ -14,7 +14,6 @@ class CourseContentController extends Controller
 {
     public function __construct(
         private CourseContentService $courseContentService,
-        private CourseService $courseService,
     )
     {
 
