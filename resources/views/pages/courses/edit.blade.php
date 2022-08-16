@@ -11,11 +11,23 @@
             <form method="post" action="{{ route('courses.update', ['id' => $course->course_id]) }}" class="edit__form form">
                 @csrf
                 @method('patch')
+
                 <input name="course_id" value="{{ old('course_id') ?? $course->course_id }}" type="hidden" class="edit__input col-input input">
-                @if ($errors->has('title')) <div class="alert alert-danger"><ul><li>{{ $errors->first('title') }}</li></ul></div>@endif
+
+                @if ($errors->has('title'))
+                    <div class="alert alert-danger">
+                        <ul>@foreach($errors->get('title') as $message)<li>{{$message}}</li>@endforeach</ul>
+                    </div>
+                @endif
                 <input name="title" value="{{ old('title') ?? $course->title }}" class="edit__input col-input input">
-                @if ($errors->has('description')) <div class="alert alert-danger"><ul><li>{{ $errors->first('description') }}</li></ul></div>@endif
+
+                @if ($errors->has('description'))
+                    <div class="alert alert-danger">
+                        <ul>@foreach($errors->get('description') as $message)<li>{{$message}}</li>@endforeach</ul>
+                    </div>
+                @endif
                 <textarea name="description" class="edit__input col-input input h150">{{ old('description') ?? $course->description }}</textarea>
+
                 <button type="submit" class="edit__button rounded-black-button button mb15">Save changes</button>
             </form>
 
@@ -32,9 +44,18 @@
             <form method="post" action="{{ route('courses.create.section', ['id' => $course->course_id]) }}" class="edit__form form">
                 @csrf
                 @method('post')
-                @if ($errors->has('sectionTitle')) <div class="alert alert-danger"><ul><li>{{ $errors->first('sectionTitle') }}</li></ul></div>@endif
+                @if ($errors->has('sectionTitle'))
+                    <div class="alert alert-danger">
+                        <ul>@foreach($errors->get('sectionTitle') as $message)<li>{{$message}}</li>@endforeach</ul>
+                    </div>
+                @endif
                 <input name="sectionTitle" placeholder="Section title" value="{{ old('sectionTitle') }}" type="text" class="edit__input col-input input">
-                @if ($errors->has('sectionType')) <div class="alert alert-danger"><ul><li>{{ $errors->first('sectionType') }}</li></ul></div>@endif
+
+                @if ($errors->has('sectionType'))
+                    <div class="alert alert-danger">
+                        <ul>@foreach($errors->get('sectionType') as $message)<li>{{$message}}</li>@endforeach</ul>
+                    </div>
+                @endif
                 <select class="select mb20" name="sectionType" id="">
                     <option value="Article">Article</option>
                     <option value="YoutubeVideoLink">YouTube video</option>
