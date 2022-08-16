@@ -25,8 +25,8 @@ class CreateCourseContentRequest extends FormRequest
     {
 //        $sectionType = ['Photo', 'Article', 'Link'];
         return [
-            'type' => 'required',
-            'sectionTitle' => 'required|alpha',
+            'sectionType' => 'required',
+            'sectionTitle' => 'required|alpha|max:70',
         ];
     }
 }

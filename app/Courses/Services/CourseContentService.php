@@ -20,19 +20,20 @@ class CourseContentService
 
     public function edit($courseId)
     {
-        if (!$this->courseService->checkOwn($courseId)) {
-            return abort(403);
-        }
+        if (!$this->courseService->checkOwn($courseId)) return abort(403);
     }
 
     public function update($validated, $courseId, $sectionId)
     {
-        if (!$this->courseService->checkOwn($courseId)) {
-            return abort(403);
-        }
+        if (!$this->courseService->checkOwn($courseId)) return abort(403);
         $course = $this->courseService->getCourse($courseId, true);
-        $courseContent = $this->courseService->getCourse($courseId, true)->content;
+        $courseContent = $course->content;
+
+        $validated['title'] = $validated['sectionTitle'];
+        $validated['type'] = $validated['sectionType'];
+        $validated['content'] = $validated['sectionContent'];
         $validated['section_id'] = $sectionId;
+
         $courseContent[$sectionId] = $validated;
         $course->content = json_encode($courseContent);
         return $course->save();
@@ -40,13 +41,18 @@ class CourseContentService
 
     public function store($validated, $courseId)
     {
-        if (!$this->courseService->checkOwn($courseId)) {
-            return abort(403);
-        }
+        if (!$this->courseService->checkOwn($courseId)) return abort(403);
         $course = $this->courseService->getCourse($courseId, true);
-        $courseContent = $this->courseService->getCourse($courseId, true)->content;
-        $validated['section_id'] = count($courseContent);
+        $courseContent = $course->content;
+
+        $validated['type'] = $validated['sectionType'];
         $validated['title'] = $validated['sectionTitle'];
+
+        $newSectionId = 1;
+        if (!empty($courseContent)) {
+            $newSectionId = end($courseContent)['section_id'] + 1;
+        }
+        $validated['section_id'] = $newSectionId;
         $courseContent[$validated['section_id']] = $validated;
         $course->content = json_encode($courseContent);
         $course->save();
@@ -55,12 +61,14 @@ class CourseContentService
 
     public function destroy($courseId, $sectionId)
     {
-        if (!$this->courseService->checkOwn($courseId)) {
-            return abort(403);
-        }
+        if (!$this->courseService->checkOwn($courseId)) return abort(403);
         $course = $this->courseService->getCourse($courseId, true);
-        $courseContent = $this->courseService->getCourse($courseId, true)->content;
-        unset($courseContent[$sectionId]);
+        $courseContent = array_values($course->content);
+        for ($i = 0; $i < count($courseContent); $i++) {
+            if ($courseContent[$i]['section_id'] == $sectionId) {
+                unset($courseContent[$i]);
+            }
+        }
         $course->content = json_encode($courseContent);
         return $course->save();
     }

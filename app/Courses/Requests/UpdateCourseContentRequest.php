@@ -25,9 +25,9 @@ class UpdateCourseContentRequest extends FormRequest
     {
 //        $sectionType = ['Photo', 'Article', 'Link'];
         return [
-            'type' => 'required',
-            'title' => 'required',
-            'content' => 'required',
+            'sectionType' => 'required',
+            'sectionTitle' => 'required|max:70',
+            'sectionContent' => 'required|max:2048',
         ];
     }
 }
