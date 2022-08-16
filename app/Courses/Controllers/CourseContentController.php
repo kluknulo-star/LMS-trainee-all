@@ -14,6 +14,7 @@ class CourseContentController extends Controller
 {
     public function __construct(
         private CourseContentService $courseContentService,
+        private CourseService $courseService,
     )
     {
 
@@ -21,13 +22,16 @@ class CourseContentController extends Controller
 
     public function edit($courseId, $sectionId)
     {
-        $this->courseContentService->edit($courseId);
+        $course = $this->courseService->getCourse($courseId);
+        $this->authorize('update', [$course]);
         $section = $this->courseContentService->getContent($courseId, $sectionId);
         return view('pages.courses.sections.edit', compact('section', 'courseId'));
     }
 
     public function update(UpdateCourseContentRequest $request, $courseId, $sectionId)
     {
+        $course = $this->courseService->getCourse($courseId);
+        $this->authorize('update', [$course]);
         $validated = $request->validated();
         $this->courseContentService->update($validated, $courseId, $sectionId);
         return redirect()->route('courses.edit.section', [$courseId, $sectionId]);
@@ -35,6 +39,7 @@ class CourseContentController extends Controller
 
     public function store(CreateCourseContentRequest $request, $courseId)
     {
+        $this->authorize('create', [auth()->user()]);
         $validated = $request->validated();
         $sectionId = $this->courseContentService->store($validated, $courseId);
         return redirect()->route('courses.edit.section', [$courseId, $sectionId]);
@@ -42,11 +47,9 @@ class CourseContentController extends Controller
 
     public function destroy($courseId, $sectionId)
     {
+        $course = $this->courseService->getCourse($courseId);
+        $this->authorize('delete', [$course]);
         $this->courseContentService->destroy($courseId, $sectionId);
         return redirect()->route('courses.edit', [$courseId]);
-    }
-
-    public function play($courseId, $sectionId)
-    {
     }
 }

@@ -18,14 +18,8 @@ class CourseContentService
         return [];
     }
 
-    public function edit($courseId)
-    {
-        if (!$this->courseService->checkOwn($courseId)) return abort(403);
-    }
-
     public function update($validated, $courseId, $sectionId)
     {
-        if (!$this->courseService->checkOwn($courseId)) return abort(403);
         $course = $this->courseService->getCourse($courseId, true);
         $courseContent = $course->content;
 
@@ -41,7 +35,6 @@ class CourseContentService
 
     public function store($validated, $courseId)
     {
-        if (!$this->courseService->checkOwn($courseId)) return abort(403);
         $course = $this->courseService->getCourse($courseId, true);
         $courseContent = $course->content;
 
@@ -61,7 +54,6 @@ class CourseContentService
 
     public function destroy($courseId, $sectionId)
     {
-        if (!$this->courseService->checkOwn($courseId)) return abort(403);
         $course = $this->courseService->getCourse($courseId, true);
         $courseContent = array_values($course->content);
         for ($i = 0; $i < count($courseContent); $i++) {

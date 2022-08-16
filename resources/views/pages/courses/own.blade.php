@@ -40,7 +40,9 @@
                     @if (!$course->deleted_at)
                         <a href="{{ route('courses.edit', ['id' => $course->course_id]) }}"
                            class="courses__course-edit"><i class="fas fa-pen"></i></a>
-                        <a href="{{ route('courses.play', ['id' => $course->course_id]) }}" class="courses__course-play"><i class="fas fa-play"></i></a>
+                        @can ('view', [$course])
+                            <a href="{{ route('courses.play', ['id' => $course->course_id]) }}" class="courses__course-play"><i class="fas fa-play"></i></a>
+                        @endcan
                     @else
                         <a class="courses__course-edit"
                            onclick="document.getElementById('restore-modal-<?= $course->course_id  ?>').style.display = 'flex'">
