@@ -31,9 +31,13 @@ class UserController extends Controller
     {
         $user = $this->service->getUser($id);
         $this->authorize('view', [$user, auth()->user()]);
-        $ownCourses = $this->service->getOwnUserCourses($user)->paginate(4);
-        $assignedCourses = $this->service->getAssignedUserCourses($user)->paginate(4);
-        return view('pages.users.profile', compact('user', 'ownCourses', 'assignedCourses'));
+
+//        $ownCourses = $user->assignedCourses()->orderByDesc('course_id')->paginate(4);
+//        $assignedCourses = $user->courses()->orderByDesc('course_id')->paginate(4);
+//        $ownCourses = $this->service->getOwnUserCourses($user)->paginate(4);
+//        $assignedCourses = $this->service->getAssignedUserCourses($user)->paginate(4);
+
+        return view('pages.users.profile', compact('user'));
     }
 
     public function create()
@@ -62,8 +66,7 @@ class UserController extends Controller
         $user = $this->service->getUser($id);
         $this->authorize('update', [$user]);
         $validated = $request->validated();
-        $this->service->update($validated, $id);
-        $user = $this->service->getUser($id);
+        $user = $this->service->update($validated, $id);
         return redirect()->route('users.show', ['id' => $user->user_id]);
     }
 

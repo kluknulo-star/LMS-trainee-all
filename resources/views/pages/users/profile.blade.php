@@ -28,69 +28,74 @@
                     <a href="{{ route('users.edit.avatar', ['id' => $user->user_id]) }}"
                        class="profile__edit-button button mb20">Update avatar</a>
                 @endif
-                <div class="text">LMS role: @if ($user->is_teacher == 1)
+                <div class="text">LMS role:
+                    @if ($user->is_teacher == 1)
                         teacher
                     @else
                         student
                     @endif</div>
             </div>
 
-            <div class="profile__column_courses">
+{{--            <div class="profile__column_courses">--}}
 
-                <div class="profile__column mb30">
-                    <div class="profile__courses">
-                        <div class="text h3 mb15">Assigned courses:</div>
+{{--                <div class="profile__column mb30">--}}
+{{--                    <div class="profile__courses">--}}
+{{--                        <div class="text h3 mb15">Assigned courses:</div>--}}
 
-                        @forelse ($assignedCourses as $key => $course)
-                            <div class="profile__course">
-                                <div class="text profile__course-title flex flex-alit-center">{{ $course->title }}</div>
-                                <a href="{{ route('courses.play', ['id' => $course->course_id]) }}"
-                                   class="text profile__course-button flex flex-alit-center">
-                                    <i class="fa-solid fa-play"></i>
-                                </a>
-                            </div>
-                        @empty
-                            Assigned courses not found
-                        @endforelse
+{{--                        @forelse ($assignedCourses as $key => $course)--}}
+{{--                            <div class="profile__course">--}}
+{{--                                <div class="text profile__course-title flex flex-alit-center">{{ $course->title }}</div>--}}
 
-                        @if (!$assignedCourses->isEmpty())
-                            <a href="{{ route('courses.assignments') }}" class="profile__more button">More...</a>
-                        @endif
-                    </div>
-                </div>
+{{--                                @if(auth()->id() == $user->user_id)--}}
+{{--                                    <a href="{{ route('courses.play', ['id' => $course->course_id]) }}"--}}
+{{--                                       class="text profile__course-button flex flex-alit-center">--}}
+{{--                                        <i class="fa-solid fa-play"></i>--}}
+{{--                                    </a>--}}
+{{--                                @endif--}}
+{{--                            </div>--}}
+{{--                        @empty--}}
 
-                @if ($user->is_teacher == 1)
-                    <div class="profile__column">
-                        <div class="profile__courses">
-                            <div class="text h3 mb15">Own courses:</div>
+{{--                            Assigned courses not found--}}
+{{--                        @endforelse--}}
 
-                            @forelse ($ownCourses as $key => $course)
-                                <div class="profile__course">
-                                    <div
-                                        class="text profile__course-title flex flex-alit-center">{{ $course->title  }}</div>
-                                    @if(auth()->id() == $user->user_id)
-                                        <a href="{{ route('courses.edit', ['id' => $course->course_id]) }}"
-                                           class="text profile__course-button flex flex-alit-center">
-                                            <i class="fas fa-pen"></i>
-                                        </a>
-                                    @else
-                                        <a href="{{ route('courses.play', ['id' => $course->course_id]) }}"
-                                           class="text profile__course-button flex flex-alit-center">
-                                            <i class="fa-solid fa-play"></i>
-                                        </a>
-                                    @endif
-                                </div>
-                            @empty
-                                Own courses not found
-                            @endforelse
+{{--                        @if (!$assignedCourses->isEmpty() && auth()->user()->user_id == $user->user_id)--}}
+{{--                            <a href="{{ route('courses.assignments') }}" class="profile__more button">More...</a>--}}
+{{--                        @endif--}}
+{{--                    </div>--}}
+{{--                </div>--}}
 
-                            @if (!$ownCourses->isEmpty())
-                                <a href="{{ route('courses.own') }}" class="profile__more button">More...</a>
-                            @endif
-                        </div>
-                    </div>
-                @endif
-            </div>
+{{--                @if ($user->is_teacher == 1)--}}
+{{--                    <div class="profile__column">--}}
+{{--                        <div class="profile__courses">--}}
+{{--                            <div class="text h3 mb15">Own courses:</div>--}}
+
+{{--                            @forelse ($ownCourses as $key => $course)--}}
+{{--                                <div class="profile__course">--}}
+{{--                                    <div--}}
+{{--                                        class="text profile__course-title flex flex-alit-center">{{ $course->title  }}</div>--}}
+{{--                                    @if(auth()->id() == $user->user_id)--}}
+{{--                                        <a href="{{ route('courses.edit', ['id' => $course->course_id]) }}"--}}
+{{--                                           class="text profile__course-button flex flex-alit-center">--}}
+{{--                                            <i class="fas fa-pen"></i>--}}
+{{--                                        </a>--}}
+{{--                                    @else--}}
+{{--        !                                <a href="{{ route('courses.play', ['id' => $course->course_id]) }}"--}}
+{{--        !                                   class="text profile__course-button flex flex-alit-center">--}}
+{{--        !                                    <i class="fa-solid fa-play"></i>--}}
+{{--        !                               </a>--}}
+{{--                                    @endif--}}
+{{--                                </div>--}}
+{{--                            @empty--}}
+{{--                                Own courses not found--}}
+{{--                            @endforelse--}}
+
+{{--                            @if (!$ownCourses->isEmpty() && auth()->user()->user_id == $user->user_id)--}}
+{{--                                <a href="{{ route('courses.own') }}" class="profile__more button">More...</a>--}}
+{{--                            @endif--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                @endif--}}
+{{--            </div>--}}
         </div>
     </div>
 </div>

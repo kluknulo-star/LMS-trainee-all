@@ -30,7 +30,7 @@ class TeacherPolicy
      */
     public function view(User $user, User $model): bool
     {
-        return $user->is_teacher == true || $model->user_id === $user->user_id;
+        return $user->is_teacher || $model->user_id === $user->user_id;
     }
 
     /**
@@ -53,7 +53,7 @@ class TeacherPolicy
      */
     public function update(User $user, User $model): bool
     {
-        return !$model->is_teacher || $user->user_id == $model->user_id;
+        return !$model->is_teacher || $user->user_id === $model->user_id;
     }
 
     /**
