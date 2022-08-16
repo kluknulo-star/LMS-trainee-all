@@ -24,8 +24,7 @@ class CourseFactory extends Factory
             'author_id' => User::where('is_teacher', true)->get('user_id')->random()->user_id,
             'description' => fake()->text(255),
             'content' => '{"0": {"section_id": "0", "type": "Article", "title": "'.fake()->text(70).'", "content": "'.fake()->text(2048).'"},
-            "1": {"section_id": "1", "type": "YouTube Video", "title": "'.fake()->text(70).'", "content": "'.fake()->domainName.'"},
-            "2": {"section_id": "2", "type": "Test", "title": "'.fake()->text(70).'", "content": "TEST"}}',
+            "1": {"section_id": "1", "type": "YouTube Video", "title": "'.fake()->text(70).'", "content": "'.fake()->domainName.'"}}',
         ];
     }
 }
