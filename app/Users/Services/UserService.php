@@ -9,37 +9,27 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Intervention\Image\Facades\Image;
 use PHPUnit\Exception;
+use Illuminate\Database\Eloquent\Builder;
 
 class UserService
 {
-    public function index($searchParam)
+    public function index($searchParam): Builder
     {
         return User::withTrashed()->orderBy('user_id', 'desc')->search($searchParam);
     }
 
-    public function getUser($id)
+    public function getUser($id): User
     {
         return User::findOrFail($id);
     }
 
-    public function getAssignedUserCourses(User $user)
-    {
-        return $user->assignedCourses()->orderByDesc('course_id');
-    }
-
-    public function getOwnUserCourses(User $user)
-    {
-        return $user->courses()->orderByDesc('course_id');
-    }
-
-    public function create($validated)
+    public function create($validated): User
     {
         $validated['password'] = Hash::make($validated['password']);
-        unset($validated['password_confirmation']);
         return User::create($validated);
     }
 
-    public function update($validated, $id)
+    public function update($validated, $id): User
     {
         if (is_null($validated['password'])) {
             unset($validated['password']);
@@ -51,7 +41,7 @@ class UserService
         return $user;
     }
 
-    public function destroy($id)
+    public function destroy($id): bool
     {
         if (auth()->id() != $id) {
             return optional(User::where('user_id', $id))->delete();
@@ -60,12 +50,12 @@ class UserService
         }
     }
 
-    public function restore($id)
+    public function restore($id): bool
     {
         return optional(User::withTrashed()->where('user_id', $id))->restore();
     }
 
-    public function updateAvatar($avatar)
+    public function updateAvatar($avatar): bool
     {
         auth()->user()->clearAvatars(auth()->id());
         $filename = time() . '.' . $avatar->getClientOriginalExtension();
@@ -73,6 +63,6 @@ class UserService
             ->save( public_path(auth()->user()->getAvatarsPath(auth()->id()) . $filename ) );
 
         auth()->user()->avatar_filename = $filename;
-        auth()->user()->save();
+        return auth()->user()->save();
     }
 }

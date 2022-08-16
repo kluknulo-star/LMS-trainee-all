@@ -9,6 +9,8 @@ use App\Courses\Services\CourseContentService;
 use App\Courses\Services\CourseService;
 use App\Courses\Services\QuizService;
 use App\Http\Controllers\Controller;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 
 class CourseContentController extends Controller
 {
@@ -20,7 +22,7 @@ class CourseContentController extends Controller
 
     }
 
-    public function edit($courseId, $sectionId)
+    public function edit($courseId, $sectionId): View
     {
         $course = $this->courseService->getCourse($courseId);
         $this->authorize('update', [$course]);
@@ -28,7 +30,7 @@ class CourseContentController extends Controller
         return view('pages.courses.sections.edit', compact('section', 'courseId'));
     }
 
-    public function update(UpdateCourseContentRequest $request, $courseId, $sectionId)
+    public function update(UpdateCourseContentRequest $request, $courseId, $sectionId): RedirectResponse
     {
         $course = $this->courseService->getCourse($courseId);
         $this->authorize('update', [$course]);
@@ -37,7 +39,7 @@ class CourseContentController extends Controller
         return redirect()->route('courses.edit.section', [$courseId, $sectionId]);
     }
 
-    public function store(CreateCourseContentRequest $request, $courseId)
+    public function store(CreateCourseContentRequest $request, $courseId): RedirectResponse
     {
         $this->authorize('create', [auth()->user()]);
         $validated = $request->validated();
@@ -45,7 +47,7 @@ class CourseContentController extends Controller
         return redirect()->route('courses.edit.section', [$courseId, $sectionId]);
     }
 
-    public function destroy($courseId, $sectionId)
+    public function destroy($courseId, $sectionId): RedirectResponse
     {
         $course = $this->courseService->getCourse($courseId);
         $this->authorize('delete', [$course]);

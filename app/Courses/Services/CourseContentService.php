@@ -8,7 +8,7 @@ class CourseContentService
     {
     }
 
-    public function getContent($courseId, $sectionId)
+    public function getContent($courseId, $sectionId): array
     {
         foreach ($this->courseService->getCourse($courseId, true)->content as $section) {
             if ($section['section_id'] == $sectionId) {
@@ -18,7 +18,7 @@ class CourseContentService
         return [];
     }
 
-    public function update($validated, $courseId, $sectionId)
+    public function update($validated, $courseId, $sectionId): bool
     {
         $course = $this->courseService->getCourse($courseId, true);
         $courseContent = $course->content;
@@ -33,7 +33,7 @@ class CourseContentService
         return $course->save();
     }
 
-    public function store($validated, $courseId)
+    public function store($validated, $courseId): int
     {
         $course = $this->courseService->getCourse($courseId, true);
         $courseContent = $course->content;
@@ -52,7 +52,7 @@ class CourseContentService
         return $validated['section_id'];
     }
 
-    public function destroy($courseId, $sectionId)
+    public function destroy($courseId, $sectionId): bool
     {
         $course = $this->courseService->getCourse($courseId, true);
         $courseContent = array_values($course->content);
