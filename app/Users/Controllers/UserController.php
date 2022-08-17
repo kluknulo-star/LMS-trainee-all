@@ -42,7 +42,7 @@ class UserController extends Controller
 
     public function store(CreateUserRequest $request): RedirectResponse
     {
-        $this->authorize('create', [auth()->user()]);
+//        $this->authorize('create', [auth()->user()]);
         $validated = $request->validated();
         $this->service->create($validated);
         return redirect()->route('users');
