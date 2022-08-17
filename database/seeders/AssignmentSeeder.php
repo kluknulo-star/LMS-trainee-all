@@ -2,12 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Courses\Models\AssignableCourse;
 use App\Courses\Models\Course;
 use App\Users\Models\User;
-use Database\Factories\UserFactory;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class AssignmentSeeder extends Seeder
 {
@@ -18,14 +16,20 @@ class AssignmentSeeder extends Seeder
      */
     public function run()
     {
+        $data = [];
         $recordCount = 500;
-        for($counter = 1; $counter <= $recordCount; $counter++) {
-            DB::table('assignments')->insert(
-                [
-                    'student_id' => User::get('user_id')->random()->user_id,
-                    'course_id' => Course::get('course_id')->random()->course_id,
-                ]
-            );
+
+        for ($i = 0; $i < $recordCount; $i++) {
+            $data[] = [
+                'student_id' => User::get('user_id')->random()->user_id,
+                'course_id' => Course::get('course_id')->random()->course_id,
+                'created_at' => NOW(),
+                'updated_at' => NOW(),
+            ];
+        }
+
+        foreach (array_chunk($data, 1000) as $chunk) {
+            AssignableCourse::insert($chunk);
         }
     }
 }
