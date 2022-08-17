@@ -14,7 +14,7 @@ use App\Users\Controllers\UserController;
 |
 */
 
-Route::post('/users/', [UserController::class, 'store'])->name('users.store');
+Route::post('/users', [UserController::class, 'store'])->name('users.store');
 
 Route::prefix('users')->middleware('auth.admin')->group(function() {
 
