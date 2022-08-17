@@ -36,7 +36,7 @@ class CourseContentController extends Controller
         $this->authorize('update', [$course]);
         $validated = $request->validated();
         $this->courseContentService->update($validated, $courseId, $sectionId);
-        return redirect()->route('courses.edit.section', [$courseId, $sectionId]);
+        return redirect()->route('courses.edit', [$courseId]);
     }
 
     public function store(CreateCourseContentRequest $request, $courseId): RedirectResponse
