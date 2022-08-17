@@ -21,15 +21,25 @@ class CourseContentService
     public function update($validated, $courseId, $sectionId): bool
     {
         $course = $this->courseService->getCourse($courseId, true);
-        $courseContent = $course->content;
+        $courseContent = array_values($course->content);
 
         $validated['title'] = $validated['sectionTitle'];
         $validated['type'] = $validated['sectionType'];
         $validated['content'] = $validated['sectionContent'];
         $validated['section_id'] = $sectionId;
+        unset($validated['sectionType']);
+        unset($validated['sectionTitle']);
+        unset($validated['sectionContent']);
 
-        $courseContent[$sectionId] = $validated;
+        for ($i = 0; $i < count($courseContent); $i++) {
+            if ($courseContent[$i]['section_id'] == $sectionId) {
+                $courseContent[$i] = $validated;
+            }
+        }
+
         $course->content = json_encode($courseContent);
+        $course->save();
+
         return $course->save();
     }
 
@@ -38,17 +48,20 @@ class CourseContentService
         $course = $this->courseService->getCourse($courseId, true);
         $courseContent = $course->content;
 
-        $validated['type'] = $validated['sectionType'];
-        $validated['title'] = $validated['sectionTitle'];
-
-        $newSectionId = 1;
+        $newSectionId = 0;
         if (!empty($courseContent)) {
-            $newSectionId = end($courseContent)['section_id'] + 1;
+            $newSectionId = end($courseContent)['section_id']+1;
         }
         $validated['section_id'] = $newSectionId;
-        $courseContent[$validated['section_id']] = $validated;
+        $validated['title'] = $validated['sectionTitle'];
+        $validated['type'] = $validated['sectionType'];
+        unset($validated['sectionType']);
+        unset($validated['sectionTitle']);
+
+        array_push($courseContent, $validated);
         $course->content = json_encode($courseContent);
         $course->save();
+
         return $validated['section_id'];
     }
 
@@ -61,6 +74,7 @@ class CourseContentService
                 unset($courseContent[$i]);
             }
         }
+
         $course->content = json_encode($courseContent);
         return $course->save();
     }

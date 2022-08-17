@@ -79,7 +79,7 @@ class CourseService
         return $course->update($validated);
     }
 
-    public function store($validated): bool
+    public function store($validated): Course
     {
         $validated['author_id'] = auth()->id();
         return Course::create($validated);
