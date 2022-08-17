@@ -7,13 +7,7 @@ artisanCmd() {
   php artisan config:cache
 }
 
-if [ "$1" = "php" ]; then
-    echo
-  else
-    artisanCmd
-    sudo supervisord
-fi
+artisanCmd
+sudo supervisord
 
-#php artisan optimize:clear
-#sudo supervisord
 exec "$@"

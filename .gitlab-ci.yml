@@ -9,4 +9,3 @@ default:
 include:
   - project: 'internship/spb/ci-cd'
     file: '/.gitlab-ci.d/backend/.gitlab-ci.yml'
-    ref: 'compose'
