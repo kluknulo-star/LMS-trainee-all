@@ -78,4 +78,20 @@ class StatementController extends Controller
         return $statements;
     }
 
+    public function getCourseRating(int $course_id)
+    {
+
+        /** @var User $user */
+        $user = auth()->user();
+
+        $response = ClientLRS::getStatements(verb: 'create');
+        $statements = json_decode($response->body(), true)["body"];
+
+//        dd($statements);
+
+        return $statements;
+    }
+
+
+
 }

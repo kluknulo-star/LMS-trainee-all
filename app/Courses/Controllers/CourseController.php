@@ -51,6 +51,7 @@ class CourseController extends Controller
         $course = $this->courseService->getCourse($courseId);
         $this->authorize('view', [$course]);
 //        $this->courseService->sendLaunchStatement($course);
+        $myCourseProgress = $this->courseService->getMyProgress($courseId);
         return view('pages.courses.play', compact('course'));
     }
 
