@@ -125,7 +125,7 @@ class ClientLRS
 
     public static function sendStatement($statement): Response
     {
-        $tokenLRS = env('LRS_TOKEN', null);
+        $tokenLRS = config('services.lrs.token');
 
         $response = Http::withHeaders([
             'Authorization' => $tokenLRS,
@@ -138,7 +138,8 @@ class ClientLRS
     {
         // Add loading more 100 rows
         $filters = ClientLRS::compileFilters(actor: $userMail, verb: $verb, object: $object, context: $context);
-        $tokenLRS = env('LRS_TOKEN', null);
+        $tokenLRS = config('services.lrs.token');
+
         $response = Http::withHeaders([
             'Authorization' => $tokenLRS,
         ])->get('http://127.0.0.1:8001/api/statements', $filters);
