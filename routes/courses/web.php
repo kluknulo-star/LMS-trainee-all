@@ -30,12 +30,17 @@ Route::prefix('courses')->middleware('auth')->group(function() {
         Route::get('/edit', [CourseController::class, 'edit'])->where('id', '[0-9]+')->name('courses.edit');
         Route::get('/edit/assignments', [CourseController::class, 'editAssignments'])->where('id', '[0-9]+')->name('courses.edit.assignments');
 
-        Route::get('section/{section_id}/edit', [CourseContentController::class, 'edit'])->name('courses.edit.section');
+        Route::prefix('section')->group(function() {
+            Route::post('', [CourseContentController::class, 'store'])->name('courses.create.section');
 
-        Route::get('section/{section_id}', [CourseContentController::class, 'play'])->name('courses.play.section');
-        Route::patch('section/{section_id}', [CourseContentController::class, 'update'])->name('courses.update.section');
-        Route::delete('section/{section_id}', [CourseContentController::class, 'destroy'])->name('courses.destroy.section');
-        Route::post('section', [CourseContentController::class, 'store'])->name('courses.create.section');
+            Route::prefix('{section_id}')->group(function() {
+                Route::get('/edit', [CourseContentController::class, 'edit'])->name('courses.edit.section');
+                Route::get('', [CourseContentController::class, 'play'])->name('courses.play.section');
+                Route::patch('', [CourseContentController::class, 'update'])->name('courses.update.section');
+                Route::delete('', [CourseContentController::class, 'destroy'])->name('courses.destroy.section');
+            });
+        });
+
     });
 
     /**
