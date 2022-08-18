@@ -16,7 +16,7 @@ class UserServiceTest extends TestCase
      */
     public function testCreateUser()
     {
-        DB::table('users')->where('email', 'TestEmail@test.test')->delete();
+        $this->clearTestingData();
         $userData = [
             'surname' => 'TestSurname',
             'name' => 'TestName',
@@ -61,5 +61,11 @@ class UserServiceTest extends TestCase
         $result = $service->restore($dbUser->user_id);
 
         $this->assertTrue($result);
+        $this->clearTestingData();
+    }
+
+    public function clearTestingData()
+    {
+        DB::table('users')->where('email', 'TestEmail@test.test')->delete();
     }
 }
