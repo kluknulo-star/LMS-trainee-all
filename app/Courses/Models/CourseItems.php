@@ -5,7 +5,7 @@ namespace App\Courses\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class AssignableCourse extends Model
+class CourseItems extends Model
 {
     use HasFactory;
 
@@ -14,14 +14,14 @@ class AssignableCourse extends Model
      *
      * @var string
      */
-    protected $table = 'assignments';
+    protected $table = 'course_items';
 
     /**
      * The primary key associated with the table.
      *
      * @var string
      */
-    protected $primaryKey = 'assignment_id';
+    protected $primaryKey = 'item_id';
 
     /**
      * The attributes that aren't mass assignable.
@@ -36,5 +36,4 @@ class AssignableCourse extends Model
      * @var array<int, string>
      */
     protected $hidden = [];
-
 }

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Query\Expression;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
@@ -13,18 +14,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('assignments', function (Blueprint $table) {
-            $table->id('assignment_id');
-            $table->foreignId('student_id')
-                ->references('user_id')
-                ->on('users')
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
+        Schema::create('course_items', function (Blueprint $table) {
+            $table->id('item_id');
             $table->foreignId('course_id')
                 ->references('course_id')
                 ->on('courses')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
+            $table->json('item_content')->default(new Expression('(JSON_ARRAY())'));
             $table->timestamps();
         });
     }
@@ -36,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('assignments');
+        Schema::dropIfExists('course_items');
     }
 };
