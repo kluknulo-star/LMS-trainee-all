@@ -21,7 +21,13 @@ return new class extends Migration
                 ->on('courses')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->json('item_content')->default(new Expression('(JSON_ARRAY())'));
+            $table->foreignId('type_id')
+                ->references('type_id')
+                ->on('type_of_items')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+            $table->string('title', 90);
+            $table->text('item_content');
             $table->timestamps();
         });
     }

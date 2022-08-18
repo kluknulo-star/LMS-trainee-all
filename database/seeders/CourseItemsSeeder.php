@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 use App\Courses\Models\Course;
 use App\Courses\Models\CourseItems;
+use App\Courses\Models\TypeOfItems;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class CourseItemsSeeder extends Seeder
@@ -21,8 +23,9 @@ class CourseItemsSeeder extends Seeder
         for ($i = 0; $i < $recordCount; $i++) {
             $data[] = [
                 'course_id' => Course::get('course_id')->random()->course_id,
-                'item_content' => '{"0": {"section_id": "0", "type": "Article", "title": "'.fake()->text(70).'", "content": "'.fake()->text(2048).'"},
-            "1": {"section_id": "1", "type": "YouTube Video", "title": "'.fake()->text(70).'", "content": "'.fake()->domainName.'"}}',
+                'type_id' => TypeOfItems::get('type_id')->random()->type_id,
+                'title' => fake()->text(90),
+                'item_content' => 'I dont know how make this column',
                 'created_at' => NOW(),
                 'updated_at' => NOW(),
             ];
