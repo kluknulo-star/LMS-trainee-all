@@ -1,0 +1,11 @@
+---
+default:
+  tags:
+    - devspark-runner
+
+##
+# https://git.devspark.ru/internship/spb/ci-cd
+##
+include:
+  - project: 'internship/spb/ci-cd'
+    file: '/.gitlab-ci.d/backend/.gitlab-ci.yml'
