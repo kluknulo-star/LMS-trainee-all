@@ -24,6 +24,10 @@ Route::post('send-passed/{course_id}/{section_id}', [StatementController::class,
     ->where('section_id', '[0-9]+')
     ->name('send.passed.statement');
 
-Route::get('get-progress/{course_id}/', [StatementController::class, 'getMyCourseProgress'])
-    ->where('course_id', '[0-9]+')
-    ->name('get.course.progress.statement');
+//Route::get('get-my-progress/{course_id}', [StatementController::class, 'getMyCourseProgress'])
+//    ->where('course_id', '[0-9]+')
+//    ->name('get.course.progress.statement');
+//
+//Route::get('get-course-rating/{course_id}', [StatementController::class, 'getCourseRating'])
+//    ->where('course_id', '[0-9]+')
+//    ->name('get.course.progress.statement');

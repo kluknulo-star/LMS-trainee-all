@@ -110,4 +110,12 @@ class CourseService
         $statement = ClientLRS::compileStatement($user, $verb, $course);
         return ClientLRS::sendStatement($statement);
     }
+
+    public function getMyProgress(int $courseId)
+    {
+        /** @var User $user */
+        $user = auth()->user();
+        return ClientLRS::getProgressStudent($user->email, $courseId);
+    }
+
 }
