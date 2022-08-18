@@ -3,10 +3,10 @@
 namespace Database\Seeders;
 
 use App\Courses\Models\Course;
-use App\Users\Models\User;
+use App\Courses\Models\CourseItems;
 use Illuminate\Database\Seeder;
 
-class CourseSeeder extends Seeder
+class CourseItemsSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,24 +15,21 @@ class CourseSeeder extends Seeder
      */
     public function run()
     {
-//        $recordCount = 500;
-//        Course::factory($recordCount)->create();
-
         $data = [];
         $recordCount = 500;
 
         for ($i = 0; $i < $recordCount; $i++) {
             $data[] = [
-                'title' => fake()->sentence(),
-                'author_id' => User::where('is_teacher', true)->get('user_id')->random()->user_id,
-                'description' => fake()->text(255),
+                'course_id' => Course::get('course_id')->random()->course_id,
+                'item_content' => '{"0": {"section_id": "0", "type": "Article", "title": "'.fake()->text(70).'", "content": "'.fake()->text(2048).'"},
+            "1": {"section_id": "1", "type": "YouTube Video", "title": "'.fake()->text(70).'", "content": "'.fake()->domainName.'"}}',
                 'created_at' => NOW(),
                 'updated_at' => NOW(),
             ];
         }
 
         foreach (array_chunk($data, 1000) as $chunk) {
-            Course::insert($chunk);
+            CourseItems::insert($chunk);
         }
     }
 }
