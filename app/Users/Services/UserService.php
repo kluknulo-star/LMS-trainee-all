@@ -31,7 +31,7 @@ class UserService
 
     public function update($validated, $id): User
     {
-        if (is_null($validated['password'])) {
+        if (empty($validated['password'])) {
             unset($validated['password']);
         } else {
             $validated['password'] = Hash::make($validated['password']);
