@@ -30,6 +30,8 @@ class CourseSeeder extends Seeder
                 'description' => fake()->text(255),
                 'content' => '{"0": {"section_id": "0", "type": "Article", "title": "'.fake()->text(70).'", "content": "'.fake()->text(2048).'"},
             "1": {"section_id": "1", "type": "YouTube Video", "title": "'.fake()->text(70).'", "content": "'.fake()->domainName.'"}}',
+                'created_at' => NOW(),
+                'updated_at' => NOW(),
             ];
         }
 

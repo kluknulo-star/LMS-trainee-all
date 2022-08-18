@@ -37,6 +37,8 @@ class UserSeeder extends Seeder
                 //default password - 'Pass-word12345'
                 'is_teacher' => rand(0, 1),
                 'remember_token' => Str::random(20),
+                'created_at' => NOW(),
+                'updated_at' => NOW(),
             ];
         }
 
