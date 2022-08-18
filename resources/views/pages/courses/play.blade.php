@@ -70,7 +70,7 @@
 <script>
 var passedContent = $('.progress').attr('passedContent');
 var allContent = $('.progress').attr('allContent');
-$('.progress').text('Progress: '+ ((passedContent) / allContent * 100) +'%');
+$('.progress').text('Progress: '+ Math.round((passedContent) / allContent * 100) +'%');
 
 $(".send-stmt-button").click(function() {
     var sectionId = $(this).attr('sectionId');
@@ -94,7 +94,7 @@ $(".send-stmt-button").click(function() {
                 setTimeout(() => {
                     $('#' + sectionId + 'passed').html('<i class="fas fa-check-double"></i>');
                 }, 3000);
-                $('.progress').text('Progress: '+ (++passedContent / allContent * 100) +'%');
+                $('.progress').text('Progress: '+ Math.round(++passedContent / allContent * 100) +'%');
             }
             if (verb === 'launched') {
                 $('#' + sectionId + 'launched').text(html).prop('disabled', true).css('color', '#c4aa33');;

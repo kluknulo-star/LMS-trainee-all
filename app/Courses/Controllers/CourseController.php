@@ -52,7 +52,7 @@ class CourseController extends Controller
         $this->authorize('view', [$course]);
 //        $this->courseService->sendLaunchStatement($course);
         $myCourseProgress = $this->courseService->getMyProgress($courseId);
-        return view('pages.courses.play', compact('course'));
+        return view('pages.courses.play', compact('course','myCourseProgress'));
     }
 
     public function edit(int $courseId): View
