@@ -17,14 +17,10 @@ return new class extends Migration
             $table->id('assignment_id');
             $table->foreignId('student_id')
                 ->references('user_id')
-                ->on('users')
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
+                ->on('users');
             $table->foreignId('course_id')
                 ->references('course_id')
-                ->on('courses')
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
+                ->on('courses');
             $table->timestamps();
         });
     }

@@ -17,9 +17,7 @@ return new class extends Migration
             $table->id('option_id');
             $table->foreignId('question_id')
                 ->references('question_id')
-                ->on('quiz_questions')
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
+                ->on('quiz_questions');
             $table->string('option_body', 255)->nullable(false);
             $table->timestamps();
         });

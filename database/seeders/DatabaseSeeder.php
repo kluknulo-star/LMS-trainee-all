@@ -19,7 +19,6 @@ class DatabaseSeeder extends Seeder
             //The seeders are arranged in order of dependence
             UserSeeder::class,
             CourseSeeder::class,
-            CourseItemsSeeder::class,
             AssignmentSeeder::class,
         ]);
     }

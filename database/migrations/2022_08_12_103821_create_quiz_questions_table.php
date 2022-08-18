@@ -18,9 +18,7 @@ return new class extends Migration
             $table->string('question_body', 255)->nullable(false);
             $table->foreignId('quiz_id')
                 ->references('quiz_id')
-                ->on('quizzes')
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
+                ->on('quizzes');
             $table->timestamps();
         });
     }
