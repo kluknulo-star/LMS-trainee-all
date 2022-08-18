@@ -23,17 +23,11 @@ class CourseContentService
         $course = $this->courseService->getCourse($courseId, true);
         $courseContent = array_values($course->content);
 
-        $validated['title'] = $validated['sectionTitle'];
-        $validated['type'] = $validated['sectionType'];
-        $validated['content'] = $validated['sectionContent'];
-        $validated['section_id'] = $sectionId;
-        unset($validated['sectionType']);
-        unset($validated['sectionTitle']);
-        unset($validated['sectionContent']);
-
         for ($i = 0; $i < count($courseContent); $i++) {
             if ($courseContent[$i]['section_id'] == $sectionId) {
-                $courseContent[$i] = $validated;
+                $courseContent[$i]['title'] = $validated['sectionTitle'];
+                $courseContent[$i]['type'] = $validated['sectionType'];
+                $courseContent[$i]['content'] = $validated['sectionContent'];
             }
         }
 
@@ -52,11 +46,12 @@ class CourseContentService
         if (!empty($courseContent)) {
             $newSectionId = end($courseContent)['section_id']+1;
         }
+
         $validated['section_id'] = $newSectionId;
         $validated['title'] = $validated['sectionTitle'];
         $validated['type'] = $validated['sectionType'];
-        unset($validated['sectionType']);
         unset($validated['sectionTitle']);
+        unset($validated['sectionType']);
 
         array_push($courseContent, $validated);
         $course->content = json_encode($courseContent);

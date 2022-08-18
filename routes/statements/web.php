@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('send-watched/{course_id}/{section_id}', [StatementController::class, 'sendLaunchCourseStatement'])
+Route::post('send-launched/{course_id}/{section_id}', [StatementController::class, 'sendLaunchCourseStatement'])
     ->where('course_id', '[0-9]+')
     ->where('section_id', '[0-9]+')
     ->name('send.launched.statement');
