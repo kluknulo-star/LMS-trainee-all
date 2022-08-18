@@ -4,7 +4,7 @@ namespace App\Users\Controllers;
 
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\AvararUpdateRequest;
+use App\Http\Requests\AvatarUpdateRequest;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Users\Services\UserService;
@@ -24,7 +24,7 @@ class UserController extends Controller
         $this->authorize('view', [auth()->user()]);
         $searchParam = $request->input('search');
         $users = $this->service->index($searchParam)->paginate(8);
-        return view('pages.users.users', compact('users'));
+                        return view('pages.users.users', compact('users'));
     }
 
     public function show(int $id): View
@@ -71,7 +71,7 @@ class UserController extends Controller
         return view('pages.users.edit_avatar', compact('user'));
     }
 
-    public function updateAvatar(AvararUpdateRequest $request): RedirectResponse
+    public function updateAvatar(AvatarUpdateRequest $request): RedirectResponse
     {
         if (empty($request)) {
             return redirect()->route('users.show', ['id' => auth()->id()]);
