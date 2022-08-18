@@ -68,7 +68,7 @@ class StatementController extends Controller
         $response = ClientLRS::getStatements($user->name);
         $statements = json_decode($response->body(), true)["body"];
 
-//        dd($statements);
+        dd($statements);
 
 //        foreach($statements as $statement) {
 //            echo $statement['id'];

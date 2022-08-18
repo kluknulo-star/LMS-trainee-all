@@ -3,6 +3,7 @@
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\SocialController;
 use App\Users\Controllers\LoginController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Users\Controllers\UserController;
 
@@ -16,6 +17,10 @@ use App\Users\Controllers\UserController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('/jquery', function (Request $request){
+    return json_encode($request->input('sectionId').' clicked');
+});
 
 Route::get('/', [LoginController::class, 'login'])->name('main')->middleware('guest');
 Route::get('/', [UserController::class, 'index'])->name('main')->middleware('auth.admin');
