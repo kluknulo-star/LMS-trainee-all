@@ -27,7 +27,7 @@ return new class extends Migration
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->string('title', 90);
-            $table->text('item_content');
+            $table->json('item_content')->default(new Expression('(JSON_ARRAY())'));
             $table->timestamps();
         });
     }

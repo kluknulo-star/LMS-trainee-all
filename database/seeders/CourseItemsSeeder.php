@@ -25,7 +25,7 @@ class CourseItemsSeeder extends Seeder
                 'course_id' => Course::get('course_id')->random()->course_id,
                 'type_id' => TypeOfItems::get('type_id')->random()->type_id,
                 'title' => fake()->text(90),
-                'item_content' => 'I dont know how make this column',
+                'item_content' => '{}',
                 'created_at' => NOW(),
                 'updated_at' => NOW(),
             ];
