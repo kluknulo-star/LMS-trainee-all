@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\AvatarUpdateRequest;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Users\Services\UpdateAvatarService;
 use App\Users\Services\UserService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -47,7 +48,6 @@ class UserController extends Controller
 
     public function store(CreateUserRequest $request): RedirectResponse
     {
-//        $this->authorize('create', [auth()->user()]);
         $validated = $request->validated();
         $this->service->create($validated);
         return redirect()->route('users');
@@ -82,7 +82,8 @@ class UserController extends Controller
             return redirect()->route('users.show', ['id' => auth()->id()]);
         }
         $avatar = $request->file('avatar');
-        $this->service->updateAvatar($avatar);
+        $updateAvatarService = new UpdateAvatarService();
+        $updateAvatarService->updateAvatar($avatar);
         return redirect()->route('users.show', ['id' => auth()->id()]);
     }
 

@@ -2,13 +2,8 @@
 
 namespace App\Users\Services;
 
-use App\Courses\Models\Course;
 use App\Users\Models\User;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Intervention\Image\Facades\Image;
-use PHPUnit\Exception;
 use Illuminate\Database\Eloquent\Builder;
 
 class UserService
@@ -53,16 +48,5 @@ class UserService
     public function restore($id): bool
     {
         return optional(User::withTrashed()->where('user_id', $id))->restore();
-    }
-
-    public function updateAvatar($avatar): bool
-    {
-        auth()->user()->clearAvatars(auth()->id());
-        $filename = time() . '.' . $avatar->getClientOriginalExtension();
-        Image::make($avatar)->resize(300, 300)
-            ->save( public_path(auth()->user()->getAvatarsPath(auth()->id()) . $filename ) );
-
-        auth()->user()->avatar_filename = $filename;
-        return auth()->user()->save();
     }
 }
