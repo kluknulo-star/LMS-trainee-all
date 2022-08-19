@@ -3,6 +3,7 @@
 namespace App\Users\Controllers;
 
 
+use App\Courses\Services\ExportCourseService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AvatarUpdateRequest;
 use App\Http\Requests\CreateUserRequest;
@@ -14,7 +15,10 @@ use Illuminate\Contracts\View\View;
 
 class UserController extends Controller
 {
-    public function __construct(private UserService $service)
+    public function __construct(
+        private UserService $service,
+        private ExportCourseService $exportCourseService,
+    )
     {
 
     }
@@ -30,8 +34,9 @@ class UserController extends Controller
     public function show(int $id): View
     {
         $user = $this->service->getUser($id);
+        $exports = $this->exportCourseService->getExports($id);
         $this->authorize('view', [$user, auth()->user()]);
-        return view('pages.users.profile', compact('user'));
+        return view('pages.users.profile', compact('user', 'exports'));
     }
 
     public function create(): View
