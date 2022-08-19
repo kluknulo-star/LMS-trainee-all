@@ -26,7 +26,6 @@ class SocialService
                 $data = ['email' => $email, 'password' => $password, 'name' => $name,
                     'avatar_filename' => $avatar, 'surname' => $surname, 'email_verified_at' => NOW(),
                     'remember_token' => Str::random(20)];
-                //Отправить на почту запрос о смене пароля
 
                 return User::create($data);
             }
@@ -34,11 +33,15 @@ class SocialService
         return false;
     }
 
-    public function checkEmptyColumn(string $email, string $surname, string $name)
+    public function checkEmptyColumn($email, $surname, $name)
     {
         if(empty($email) || empty($surname) || empty($name)) {
             return false;
         }
-        return true;
+        if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
