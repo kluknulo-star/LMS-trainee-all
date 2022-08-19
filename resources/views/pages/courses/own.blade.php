@@ -50,30 +50,28 @@
                         </a>
                         {{--                        <a href="" class="courses__course-edit"><i class="fa-solid fa-arrow-rotate-right"></i></a>--}}
                     @endif
-                </div>
 
-                <div class="modal" id="restore-modal-{{ $course->course_id }}">
-                    <div class="modal-box">
-                        <p class="modal-text modal-text-restore mb20 mr20">You sure to <span>restore</span> course:
-                            "{{ $course->title }}" ?</p>
+                    <div class="modal" id="restore-modal-{{ $course->course_id }}">
+                        <div class="modal-box">
+                            <p class="modal-text modal-text-restore mb20 mr20">You sure to <span>restore</span> course:
+                                "{{ $course->title }}" ?</p>
 
-                        <div class="modal-buttons">
-                            <form class="table-action-form"
-                                  action="{{ route('courses.restore', ['id' => $course->course_id]) }}" method="post">
-                                @csrf
-                                @method('post')
-                                <input name="user_id" type="hidden" value="{{ $course->course_id }}">
-                                <button type="submit" class="table-action-button confirm-button">Confirm</button>
-                            </form>
-                            <button
-                                onclick="document.getElementById('restore-modal-<?= $course->course_id ?>').style.display = 'none'"
-                                class="table-action-button cancel-button">Cancel
-                            </button>
+                            <div class="modal-buttons">
+                                <form class="table-action-form"
+                                      action="{{ route('courses.restore', ['id' => $course->course_id]) }}" method="post">
+                                    @csrf
+                                    @method('post')
+                                    <input name="user_id" type="hidden" value="{{ $course->course_id }}">
+                                    <button type="submit" class="table-action-button confirm-button">Confirm</button>
+                                </form>
+                                <button
+                                    onclick="document.getElementById('restore-modal-<?= $course->course_id ?>').style.display = 'none'"
+                                    class="table-action-button cancel-button">Cancel
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
-
-
             @endforeach
         </div>
     </div>

@@ -427,10 +427,11 @@ nav.flex > div > div > span > a:nth-last-child(-n+2) {
     display: flex;
     flex-direction: column;
     border: 1px solid;
-    border-left: 50px solid;
+    border-left: 25px solid;
     border-radius: 10px 0 0 10px;
     min-height: 300px;
     height: fit-content;
+    /*border-color: #4a5568;*/
 }
 
 .courses__item:nth-child(1n) {
@@ -494,6 +495,7 @@ nav.flex > div > div > span > a:nth-last-child(-n+2) {
 
 a.courses__course-play,
 a.courses__course-edit {
+    border-color: #eb4432;
     color: whitesmoke !important;
     position: absolute;
     height: 50px;
