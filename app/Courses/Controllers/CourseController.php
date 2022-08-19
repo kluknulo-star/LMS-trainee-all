@@ -55,7 +55,7 @@ class CourseController extends Controller
         $myCourseProgress = $this->courseService->getStudentProgress($courseId, $user->email);
 //        dd($myCourseProgress);
 
-        return view('pages.courses.play', compact('course','myCourseProgress'));
+        return view('pages.courses.play', compact('course', 'myCourseProgress'));
     }
 
     public function edit(int $courseId): View
@@ -73,12 +73,14 @@ class CourseController extends Controller
         if ($state == 'already') $users = $this->courseService->getAssignedUsers($searchParam, $courseId)->paginate(8);
 
         $course = $this->courseService->getCourse($courseId);
-        $sectionsCourse = json_decode($course->content,true);
+        $sectionsCourse = json_decode($course->content, true);
         $studentsProgress = [];
-        foreach ($users as $user)
-        {
+        foreach ($users as $user) {
             $progressStatements = $this->courseService->getStudentProgress($courseId, $user->email);
-            $studentsProgress[$user->user_id] = round(count($progressStatements['passed'])/ count($sectionsCourse) * 100) ;
+            if (count($sectionsCourse)) {
+                $studentsProgress[$user->user_id] = round(count($progressStatements['passed']) / count($sectionsCourse) * 100);
+            } else
+                $studentsProgress[$user->user_id] = 0;
         }
 //        dd($studentsProgress);
 
