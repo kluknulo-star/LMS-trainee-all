@@ -48,6 +48,7 @@
                 <th class="users__td">Surname</th>
                 <th class="users__td">Name</th>
                 <th class="users__td">Patronymic</th>
+                <th class="users__td">Progress</th>
                 <th class="users__td"></th>
             </tr>
             </thead>
@@ -65,6 +66,7 @@
                     <th class="users__td">{{ $user->surname }}</th>
                     <th class="users__td">{{ $user->name }}</th>
                     <th class="users__td">{{ $user->patronymic }}</th>
+                    <th class="users__td">{{ $studentsProgress[$user->user_id]}}%</th>
                     <th class="users__td">
                         @if ($state == 'already')
                             <button class="table-action-button table-delete-button" onclick="document.getElementById('deduct-modal-<?= $user->user_id ?>').style.display = 'flex'">
