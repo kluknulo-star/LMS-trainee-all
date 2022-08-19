@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 class UserService
 {
-    public function index($searchParam): Builder
+    public function index($searchParam = ''): Builder
     {
         return User::withTrashed()->orderBy('user_id', 'desc')->search($searchParam);
     }

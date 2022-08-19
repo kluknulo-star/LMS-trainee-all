@@ -6,6 +6,7 @@ use App\Courses\Helpers\ClientLRS;
 use App\Courses\Models\AssignableCourse;
 use App\Courses\Models\Course;
 use App\Users\Models\User;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
@@ -41,9 +42,9 @@ class CourseService
                      ->search($searchParam);
     }
 
-    public function getAll()
+    public function getAll(): Collection
     {
-        return Course::all();
+        return Course::withCount('assignedUsers')->get();
     }
 
     public function assign($userId, $courseId): AssignableCourse
