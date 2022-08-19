@@ -26,9 +26,9 @@ return [
     ],
 
     'vkontakte' => [
-        'client_id' => 51400216,
-        'client_secret' => 'mVHP29JJ3RLwM7DRLtTD',
-        'redirect' => 'http://localhost:8000/vk/auth/callback'
+        'client_id' => env('SOCIALITE_VK_CLIENT_ID'),
+        'client_secret' => env('SOCIALITE_VK_CLIENT_SECRET'),
+        'redirect' => env('SOCIALITE_VK_REDIRECT'),
     ],
 
     'ses' => [
