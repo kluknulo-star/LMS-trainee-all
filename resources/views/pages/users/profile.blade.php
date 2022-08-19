@@ -36,6 +36,22 @@
                     @endif</div>
             </div>
 
+{{--            @if(!\PHPUnit\Framework\isEmpty($export))--}}
+            <div class="profile__column_courses">
+                <p class="h3 mb30">Export to Excel</p>
+                <div class="mb20">
+                    <a class="rounded-black-button" href="{{ route('courses.export', ['type' => 'all']) }}">Export all courses</a>
+                    <a class="rounded-black-button" href="{{ route('courses.export', ['type' => 'own']) }}">Export own courses</a>
+                </div>
+                @foreach($exports as $export)
+                    <form class="mb15" method="post" action="{{ route('courses.export.download', ['id' => $export->export_id]) }}">
+                        @csrf
+                        <button class="button rounded-red-button">Download {{ $export->export_file_path }}</button>
+                    </form>
+                @endforeach
+            </div>
+{{--            @endif--}}
+
 {{--            <div class="profile__column_courses">--}}
 
 {{--                <div class="profile__column mb30">--}}

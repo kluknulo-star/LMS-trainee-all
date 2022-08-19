@@ -22,7 +22,7 @@ class CourseService
         return $course;
     }
 
-    public function getAssignments($searchParam): BelongsToMany
+    public function getAssignments($searchParam = ''): BelongsToMany
     {
         return auth()->user()
                      ->assignedCourses()
@@ -31,7 +31,7 @@ class CourseService
                      ->search($searchParam);
     }
 
-    public function getOwn($searchParam): HasMany
+    public function getOwn($searchParam = ''): HasMany
     {
         return auth()->user()
                      ->courses()
@@ -39,6 +39,11 @@ class CourseService
                      ->withCount('assignedUsers')
                      ->orderByDesc('course_id')
                      ->search($searchParam);
+    }
+
+    public function getAll()
+    {
+        return Course::all();
     }
 
     public function assign($userId, $courseId): AssignableCourse

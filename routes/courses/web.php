@@ -2,6 +2,7 @@
 
 use App\Courses\Controllers\CourseContentController;
 use App\Courses\Controllers\CourseController;
+use App\Courses\Controllers\ExportCourseController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -12,6 +13,9 @@ use Illuminate\Support\Facades\Route;
 | Here is where you can register courses routes for your application.
 |
 */
+
+Route::get('/export/{type}', [ExportCourseController::class, 'export'])->name('courses.export');
+Route::post('/export/download/{id}', [ExportCourseController::class, 'exportDownload'])->name('courses.export.download');
 
 Route::prefix('courses')->middleware('auth')->group(function() {
     Route::get('', [CourseController::class, 'showAssignments'])->name('courses.assignments');
