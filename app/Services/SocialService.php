@@ -26,7 +26,6 @@ class SocialService
                 $data = ['email' => $email, 'password' => $password, 'name' => $name,
                     'avatar_filename' => $avatar, 'surname' => $surname, 'email_verified_at' => NOW(),
                     'remember_token' => Str::random(20)];
-                //Отправить на почту запрос о смене пароля
 
                 return User::create($data);
             }

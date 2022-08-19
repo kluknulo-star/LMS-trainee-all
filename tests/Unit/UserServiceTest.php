@@ -4,7 +4,6 @@ namespace Tests\Unit;
 
 use App\Users\Services\UserService;
 use Illuminate\Support\Facades\DB;
-//use PHPUnit\Framework\TestCase;
 use Tests\TestCase;
 
 class UserServiceTest extends TestCase
