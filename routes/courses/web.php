@@ -33,6 +33,7 @@ Route::prefix('courses')->middleware('auth')->group(function() {
         Route::post('/restore', [CourseController::class, 'restore'])->where('id', '[0-9]+')->name('courses.restore');
         Route::get('/edit', [CourseController::class, 'edit'])->where('id', '[0-9]+')->name('courses.edit');
         Route::get('/edit/assignments', [CourseController::class, 'editAssignments'])->where('id', '[0-9]+')->name('courses.edit.assignments');
+        Route::get('/statistics', [CourseController::class, 'statistics'])->name('courses.statistics');
 
         Route::prefix('section')->group(function() {
             Route::post('', [CourseContentController::class, 'store'])->name('courses.create.section');
@@ -46,12 +47,4 @@ Route::prefix('courses')->middleware('auth')->group(function() {
         });
 
     });
-
-    /**
-     *
-     * Мейби нужен будет но не факт
-     *
-     */
-    Route::get('/{id}/statistics', [CourseController::class, 'statistics'])->name('courses.statistics');
-
 });
