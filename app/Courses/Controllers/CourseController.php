@@ -73,17 +73,16 @@ class CourseController extends Controller
         if ($state == 'already') $users = $this->courseService->getAssignedUsers($searchParam, $courseId)->paginate(8);
 
         $course = $this->courseService->getCourse($courseId);
-        $contentCourse = json_decode($course->content,true);
-        $countSection = count($contentCourse);
-        $coursesProgress = [];
+        $sectionsCourse = json_decode($course->content,true);
+        $studentsProgress = [];
         foreach ($users as $user)
         {
-            $coursesProgress[$user->user_id] = $this->courseService->getStudentProgress($courseId, $user->email);
+            $progressStatements = $this->courseService->getStudentProgress($courseId, $user->email);
+            $studentsProgress[$user->user_id] = round(count($progressStatements['passed'])/ count($sectionsCourse) * 100) ;
         }
-//        dd($coursesProgress);
-//        dd($countSection);
+//        dd($studentsProgress);
 
-        return view('pages.courses.assign', compact('users', 'courseId', 'state', 'coursesProgress', 'countSection'));
+        return view('pages.courses.assign', compact('users', 'courseId', 'state', 'studentsProgress'));
     }
 
     public function update(UpdateCourseRequest $request, int $courseId): RedirectResponse
