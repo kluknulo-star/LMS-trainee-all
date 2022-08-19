@@ -111,11 +111,9 @@ class CourseService
         return ClientLRS::sendStatement($statement);
     }
 
-    public function getMyProgress(int $courseId)
+    public function getStudentProgress(int $courseId, string $email) : array
     {
-        /** @var User $user */
-        $user = auth()->user();
-        return ClientLRS::getProgressStudent($user->email, $courseId);
+        return ClientLRS::getProgressStudent($email, $courseId);
     }
 
 }
