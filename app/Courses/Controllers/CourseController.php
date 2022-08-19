@@ -120,8 +120,16 @@ class CourseController extends Controller
         return redirect()->route('courses.own');
     }
 
-    public function statistics()
+    public function statistics(int $courseId)
     {
-
+        $count = [
+            'CourseLaunched' => 9,
+            'CoursePassed' => 9,
+            'CourseAssigned' => 9,
+            'SectionLaunched' => 9,
+        ];
+        $course = $this->courseService->getCourse($courseId);
+        $this->authorize('update', [$course]);
+        return view('pages.courses.statistics', compact('count', 'courseId'));
     }
 }
