@@ -30,7 +30,7 @@
                     verb="launched"
                     sectionId="{{$element->section_id}}"
                     courseId="{{$course->course_id}}"
-                    @if(isset($myCourseProgress['launched'][$element->section_id]))
+                    @if(in_array($element->section_id,$myCourseProgress['launched']))
                         disabled
                         style="padding: 5px; background: rgba(0,0,0,0); color: #c4aa33 !important;"
                     @else
@@ -44,7 +44,7 @@
                     verb="passed"
                     sectionId="{{$element->section_id}}"
                     courseId="{{$course->course_id}}"
-                    @if(isset($myCourseProgress['passed'][$element->section_id]))
+                    @if(in_array($element->section_id,$myCourseProgress['passed'])))
                         disabled
                         style="padding: 5px; background: rgba(0,0,0,0); color: #c4aa33 !important;"
                     @else
