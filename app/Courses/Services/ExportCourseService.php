@@ -31,25 +31,28 @@ class ExportCourseService extends CourseService
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
 
-        if ($type === 'all') {
-            $teachers = $this->userService->index()->where('is_teacher', 1)->get();
-            $courses = (new CourseService())->getAll();
-            $filteredData = $courses;
-            $fileName = now().'-all-excel.xlsx';
-        } else {
-            $courses = (new CourseService())->getOwn();
-            $teachers = auth()->user();
-            $filteredData = $courses->get();
-            $fileName = now().'-own-excel.xlsx';
+        switch ($type) {
+            case 'all':
+                $teachers = $this->userService->getTeachers()->get();
+                $courses = (new CourseService())->getAll();
+                $fileName = now().'-all-excel.xlsx';
+                break;
+            case 'own':
+                $teachers = auth()->user();
+                $courses = (new CourseService())->getOwn()->get();
+                $fileName = now().'-own-excel.xlsx';
+                break;
         }
 
-        for ($i = 0; $i < count($filteredData); $i++) {
-            $sheet->setCellValue('A' . ($i + 1), $filteredData[$i]->course_id);
-            $sheet->setCellValue('B' . ($i + 1), $filteredData[$i]->title);
-            $sheet->setCellValue('C' . ($i + 1), $filteredData[$i]->assigned_users_count);
-            $sheet->setCellValue('D' . ($i + 1), $teachers->where('user_id', $filteredData[$i]->author_id)->value('user_id'));
-            $sheet->setCellValue('E' . ($i + 1), $teachers->where('user_id', $filteredData[$i]->author_id)->value('name'));
-            $sheet->setCellValue('F' . ($i + 1), $teachers->where('user_id', $filteredData[$i]->author_id)->value('email'));
+        $countFilteredData = count($courses);
+
+        for ($i = 0; $i < $countFilteredData; $i++) {
+            $sheet->setCellValue('A' . ($i + 1), $courses[$i]->course_id);
+            $sheet->setCellValue('B' . ($i + 1), $courses[$i]->title);
+            $sheet->setCellValue('C' . ($i + 1), $courses[$i]->assigned_users_count);
+            $sheet->setCellValue('D' . ($i + 1), $teachers->where('user_id', $courses[$i]->author_id)->value('user_id'));
+            $sheet->setCellValue('E' . ($i + 1), $teachers->where('user_id', $courses[$i]->author_id)->value('name'));
+            $sheet->setCellValue('F' . ($i + 1), $teachers->where('user_id', $courses[$i]->author_id)->value('email'));
         }
 
         $writer = new Xlsx($spreadsheet);
