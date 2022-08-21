@@ -13,6 +13,11 @@ class UserService
         return User::withTrashed()->orderBy('user_id', 'desc')->search($searchParam);
     }
 
+    public function getTeachers(): Builder
+    {
+        return User::withTrashed()->where('is_teacher', 1)->orderBy('user_id', 'desc');
+    }
+
     public function getUser($id): User
     {
         return User::findOrFail($id);

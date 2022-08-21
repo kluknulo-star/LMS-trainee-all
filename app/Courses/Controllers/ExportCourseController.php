@@ -17,7 +17,7 @@ class ExportCourseController extends CourseController
     public function export(string $type)
     {
         $this->exportCourseService->createExport($type);
-        return redirect('/users/'.auth()->user()->user_id);
+        return redirect('/users/'.auth()->user()->user_id); // !
     }
 
     public function exportDownload(Request $request): \Symfony\Component\HttpFoundation\StreamedResponse

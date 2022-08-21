@@ -39,7 +39,7 @@
 {{--            @if(!\PHPUnit\Framework\isEmpty($export))--}}
             <div class="profile__column_courses">
                 <p class="h3 mb30">Export to Excel</p>
-                <div class="mb20">
+                <div class="mb30">
                     <a class="rounded-black-button" href="{{ route('courses.export', ['type' => 'all']) }}">Export all courses</a>
                     <a class="rounded-black-button" href="{{ route('courses.export', ['type' => 'own']) }}">Export own courses</a>
                 </div>
