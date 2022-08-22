@@ -4,8 +4,8 @@ namespace App\Courses\Controllers;
 
 use App\Courses\Services\CourseService;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CreateCourseRequest;
-use App\Http\Requests\UpdateCourseRequest;
+use App\Courses\Requests\CreateCourseRequest;
+use App\Courses\Requests\UpdateCourseRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;

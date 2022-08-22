@@ -3,10 +3,11 @@
 namespace App\Courses\Controllers;
 
 use App\Courses\Services\ExportCourseService;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-class ExportCourseController extends CourseController
+class ExportCourseController extends Controller
 {
     public function __construct(
         private ExportCourseService $exportCourseService,
