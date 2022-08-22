@@ -5,10 +5,8 @@ namespace App\Courses\Helpers;
 use App\Courses\Models\Course;
 use App\Users\Models\User;
 
-//use http\Client\Response;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
-use Psy\Util\Json;
 
 class ClientLRS
 {
@@ -35,7 +33,6 @@ class ClientLRS
                 "id" => "http://course-zone.org/expapi/verbs:" . $verb,
                 "display" => [
                     "en-US" => $verb,
-//                    "ru-Ru" => "запустить",
                 ]
             ],
             "object" => [
@@ -136,7 +133,6 @@ class ClientLRS
 
     public static function getStatements(string $userMail = "", string $verb = "", string $object = "", string $context = ""): Response
     {
-        // Add loading more 100 rows
         $filters = ClientLRS::compileFilters(actor: $userMail, verb: $verb, object: $object, context: $context);
         $tokenLRS = config('services.lrs.token');
 

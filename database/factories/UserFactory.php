@@ -23,10 +23,9 @@ class UserFactory extends Factory
             'surname' => fake()->lastName,
             'name' => fake()->firstName,
             'patronymic' => fake()->lastName,
-            'email' => rand(1, 1000).fake()->email, //rand is salt
+            'email' => rand(1, 1000).fake()->email,
             'email_verified_at' => now(),
             'password' => '$2y$10$G7QWrbOfjIQBXj2y6UdTbO8erlytx7ZEYSiGJ1tN03QCB0BQ2eO1G',
-            //default password - 'Pass-word12345'
             'remember_token' => Str::random(20),
         ];
     }

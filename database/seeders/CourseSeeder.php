@@ -17,9 +17,6 @@ class CourseSeeder extends Seeder
      */
     public function run()
     {
-//        $recordCount = 500;
-//        Course::factory($recordCount)->create();
-
         $data = [];
         $recordCount = 500;
 

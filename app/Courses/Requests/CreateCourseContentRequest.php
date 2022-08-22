@@ -23,7 +23,6 @@ class CreateCourseContentRequest extends FormRequest
      */
     public function rules()
     {
-//        $sectionType = ['Photo', 'Article', 'Link'];
         return [
             'sectionType' => 'required',
             'sectionTitle' => 'required|alpha|max:70',
