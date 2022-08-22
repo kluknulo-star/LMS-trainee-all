@@ -2,12 +2,11 @@
 
 namespace App\Users\Controllers;
 
-
 use App\Courses\Services\ExportCourseService;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\AvatarUpdateRequest;
-use App\Http\Requests\CreateUserRequest;
-use App\Http\Requests\UpdateUserRequest;
+use App\Users\Requests\AvatarUpdateRequest;
+use App\Users\Requests\CreateUserRequest;
+use App\Users\Requests\UpdateUserRequest;
 use App\Users\Services\UpdateAvatarService;
 use App\Users\Services\UserService;
 use Illuminate\Http\RedirectResponse;

@@ -2,12 +2,10 @@
 
 namespace App\Courses\Controllers;
 
-use App\Courses\Quizzes\Models\Quiz;
 use App\Courses\Requests\CreateCourseContentRequest;
 use App\Courses\Requests\UpdateCourseContentRequest;
 use App\Courses\Services\CourseContentService;
 use App\Courses\Services\CourseService;
-use App\Courses\Services\QuizService;
 use App\Http\Controllers\Controller;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;

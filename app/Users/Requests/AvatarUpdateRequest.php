@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Users\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
-class UpdateCourseRequest extends FormRequest
+class AvatarUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,13 +24,8 @@ class UpdateCourseRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => [
-                'required',
-                Rule::unique('courses')->ignore($this->route('id'), 'course_id'),
-                'regex:~^([^<>]*)$~',
-                'between:10,90',
-                ],
-            'description' => 'nullable|regex:~^([^<>]*)$~|max:255',
+            'avatar' =>
+                'required|mimes:jpg,png,jpeg'
         ];
     }
 }
