@@ -50,11 +50,8 @@ class CourseController extends Controller
     {
         $course = $this->courseService->getCourse($courseId);
         $this->authorize('view', [$course]);
-
         $user = auth()->user();
         $myCourseProgress = $this->courseService->getStudentProgress($courseId, $user->email);
-//        dd($myCourseProgress);
-
         return view('pages.courses.play', compact('course', 'myCourseProgress'));
     }
 
@@ -69,20 +66,27 @@ class CourseController extends Controller
     {
         $state = $request->query('assign', 'already');
         $searchParam = $request->input('search');
-        if ($state == 'all') $users = $this->courseService->getUnassignedUsers($searchParam, $courseId)->paginate(8);
-        if ($state == 'already') $users = $this->courseService->getAssignedUsers($searchParam, $courseId)->paginate(8);
+
+        if ($state == 'all') {
+            $users = $this->courseService->getUnassignedUsers($searchParam, $courseId)->paginate(8);
+        }
+
+        if ($state == 'already') {
+            $users = $this->courseService->getAssignedUsers($searchParam, $courseId)->paginate(8);
+        }
 
         $course = $this->courseService->getCourse($courseId);
         $sectionsCourse = json_decode($course->content, true);
         $studentsProgress = [];
+
         foreach ($users as $user) {
             $progressStatements = $this->courseService->getStudentProgress($courseId, $user->email);
             if (count($sectionsCourse)) {
                 $studentsProgress[$user->user_id] = round(count($progressStatements['passed']) / count($sectionsCourse) * 100);
-            } else
+            } else {
                 $studentsProgress[$user->user_id] = 0;
+            }
         }
-//        dd($studentsProgress);
 
         return view('pages.courses.assign', compact('users', 'courseId', 'state', 'studentsProgress'));
     }
@@ -122,16 +126,16 @@ class CourseController extends Controller
         return redirect()->route('courses.own');
     }
 
-    public function statistics(int $courseId)
+    public function statistics(int $courseId): View
     {
+        $course = $this->courseService->getCourse($courseId);
+        $this->authorize('update', [$course]);
         $count = [
             'CourseLaunched' => 9,
             'CoursePassed' => 9,
             'CourseAssigned' => 9,
             'SectionLaunched' => 9,
         ];
-        $course = $this->courseService->getCourse($courseId);
-        $this->authorize('update', [$course]);
         return view('pages.courses.statistics', compact('count', 'courseId'));
     }
 }
