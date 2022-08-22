@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             CourseSeeder::class,
             TypeOfItemsSeeders::class,
             CourseItemsSeeder::class,
+            ItemsStatsSeeders::class,
             AssignmentSeeder::class,
         ]);
     }
