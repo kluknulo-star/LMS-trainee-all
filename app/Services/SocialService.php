@@ -18,18 +18,18 @@ class SocialService
         $avatar = $user->getAvatar();
 
         if($this->checkEmptyColumn($email, $surname, $name)) {
-            $user = User::firstOrCreate([
+            $user = User::firstOrCreate(
                 ['email' => $email],
                 [
-                    'email' => $email,
+                    'email' => "$email",
                     'password' => Hash::make(Str::random(60)),
                     'name' => $name,
                     'avatar_filename' => $avatar,
                     'surname' => $surname,
                     'email_verified_at' => NOW(),
-                    'remember_token' => Str::random(20)
+                    'remember_token' => Str::random(20),
                 ]
-            ]);
+            );
             return $user;
         }
         return false;
