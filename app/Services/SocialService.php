@@ -15,20 +15,22 @@ class SocialService
         $partOfName = explode(" ", $fullname);
         $surname = $partOfName[1];
         $name = $partOfName[0];
+        $avatar = $user->getAvatar();
 
         if($this->checkEmptyColumn($email, $surname, $name)) {
-            $u = User::where('email', $email)->first();
-            if ($u) {
-                return $u;
-            } else {
-                $avatar = $user->getAvatar();
-                $password = Hash::make(Str::random(60));
-                $data = ['email' => $email, 'password' => $password, 'name' => $name,
-                    'avatar_filename' => $avatar, 'surname' => $surname, 'email_verified_at' => NOW(),
-                    'remember_token' => Str::random(20)];
-
-                return User::create($data);
-            }
+            $user = User::firstOrCreate([
+                ['email' => $email],
+                [
+                    'email' => $email,
+                    'password' => Hash::make(Str::random(60)),
+                    'name' => $name,
+                    'avatar_filename' => $avatar,
+                    'surname' => $surname,
+                    'email_verified_at' => NOW(),
+                    'remember_token' => Str::random(20)
+                ]
+            ]);
+            return $user;
         }
         return false;
     }
