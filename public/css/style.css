@@ -195,10 +195,10 @@ a.users__title-link .fa-plus:hover {
     display: inline-block;
 }
 
-.table-action-form .table-action-button {
-    background: none !important;
-    color: #eb4432 !important;
-}
+/*.table-action-form .table-action-button {*/
+/*    background: none !important;*/
+/*    color: #eb4432 !important;*/
+/*}*/
 
 button.table-action-button {
     background: none;
@@ -563,11 +563,13 @@ a.courses__course-play {
 
 .confirm-button {
     left: 0;
+    top: 0;
     background: #2d3748 !important;
 }
 
 .cancel-button {
     right: 0;
+    top: 0;
     background: #eb4432 !important;
 }
 

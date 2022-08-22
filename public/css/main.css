@@ -131,6 +131,9 @@ a {
 .flex-just-start {
     justify-content: start;
 }
+.w100p {
+    width: 100%;
+}
 .w1200 {
     width: 1200px;
 }
