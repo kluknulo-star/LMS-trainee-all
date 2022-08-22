@@ -251,7 +251,7 @@ button.table-restore-button {
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
-    max-width: 1000px;
+    width: fit-content;
 }
 
 .profile__title {

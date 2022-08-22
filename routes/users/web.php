@@ -22,7 +22,8 @@ Route::prefix('users')->middleware('auth.admin')->group(function() {
     Route::get('/create', [UserController::class, 'create'])->name('users.create');
 
     Route::prefix('{id}')->group(function() {
-        Route::post('/restore', [UserController::class, 'restore'])->name('users.restore')->where('id', '[0-9]+');
+        Route::patch('/assign-teacher', [UserController::class, 'assignTeacher'])->where('id', '[0-9]+')->name('users.assign.teacher');
+        Route::post('/restore', [UserController::class, 'restore'])->where('id', '[0-9]+')->name('users.restore');
         Route::delete('/', [UserController::class, 'destroy'])->where('id', '[0-9]+')->name('users.delete');
     });
 

@@ -101,4 +101,10 @@ class UserController extends Controller
         $this->service->restore($id);
         return redirect()->route('users');
     }
+
+    public function assignTeacher(int $id): RedirectResponse
+    {
+        $this->service->assignTeacher($id);
+        return redirect()->route('users.show', ['id' => $id]);
+    }
 }

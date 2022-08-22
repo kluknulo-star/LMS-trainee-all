@@ -54,4 +54,11 @@ class UserService
     {
         return optional(User::withTrashed()->where('user_id', $id))->restore();
     }
+
+    public function assignTeacher($id): bool
+    {
+        $user = $this->getUser($id);
+        $user->is_teacher = 1;
+        return $user->save();
+    }
 }
