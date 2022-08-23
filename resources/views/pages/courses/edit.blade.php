@@ -122,18 +122,18 @@
 </div>
 
 
-<div class="modal" id="delete-modal-{{ $element->section_id }}">
+<div class="modal" id="delete-modal-{{ $element->item_id }}">
     <div class="modal-box">
         <p class="modal-text modal-text-delete mb20 mr20">You sure to <span>delete</span> course section {{ $element->title }}?</p>
 
         <div class="modal-buttons">
-            <form class="table-action-form" action="{{ route('courses.destroy.section', ['id' => $course->course_id, 'section_id' => $element->section_id]) }}" method="post">
+            <form class="table-action-form" action="{{ route('courses.destroy.section', ['id' => $course->course_id, 'section_id' => $element->item_id]) }}" method="post">
                 @csrf
                 @method('delete')
                 <input name="user_id" type="hidden" value="{{ $course->course_id }}">
                 <button type="submit" class="table-action-button confirm-button">Confirm</button>
             </form>
-            <button onclick="document.getElementById('delete-modal-<?= $element->section_id ?>').style.display = 'none'" class="table-action-button cancel-button">Cancel</button>
+            <button onclick="document.getElementById('delete-modal-<?= $element->item_id ?>').style.display = 'none'" class="table-action-button cancel-button">Cancel</button>
         </div>
 
     </div>
