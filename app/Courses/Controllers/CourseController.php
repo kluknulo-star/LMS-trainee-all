@@ -80,7 +80,7 @@ class CourseController extends Controller
             $sectionsCourse = json_decode($course->content, true);
 
             foreach ($users as $user) {
-                $progressStatements = $this->courseService->getStudentProgress($courseId, $user->email);
+                $progressStatements = $this->statementsService->getStudentProgress($courseId, $user->email);
                 if (count($sectionsCourse)) {
                     $studentsProgress[$user->user_id] = round(count($progressStatements['passed']) / count($sectionsCourse) * 100);
                 } else {
