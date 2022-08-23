@@ -1,11 +1,15 @@
 <?php
 
+use App\Courses\Helpers\ContentMigratorHelper;
+use App\Courses\Models\Course;
+use App\Courses\Models\CourseItems;
+use App\Courses\Models\TypeOfItems;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\SocialController;
 use App\Users\Controllers\LoginController;
+use App\Users\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Users\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,6 +21,10 @@ use App\Users\Controllers\UserController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('/test', function () {
+
+});
 
 Route::get('/jquery', function (Request $request){
     return json_encode($request->input('sectionId').' clicked');
