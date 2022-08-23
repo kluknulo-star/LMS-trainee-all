@@ -29,7 +29,7 @@
                     verb="launched"
                     sectionId="{{$element->item_id}}"
                     courseId="{{$course->course_id}}"
-                    @if(in_array($element->item_id,$myCourseProgress['launched']))
+                    @if(in_array($element->item_id, $myCourseProgress['launched']))
                         disabled
                         style="padding: 5px; background: rgba(0,0,0,0); color: #c4aa33 !important;"
                     @else
@@ -43,7 +43,7 @@
                     verb="passed"
                     sectionId="{{$element->item_id}}"
                     courseId="{{$course->course_id}}"
-                    @if(in_array($element->item_id,$myCourseProgress['passed'])))
+                    @if(in_array($element->item_id, $myCourseProgress['passed'])))
                         disabled
                         style="padding: 5px; background: rgba(0,0,0,0); color: #c4aa33 !important;"
                     @else
@@ -57,7 +57,7 @@
                 @method('post')
             </form><br>
 
-            <p>{{$element->content ?? ""}}
+            <p>{{ json_decode($element->item_content) ?? ""}}
             </p>
             <br>
         </div>
@@ -79,6 +79,7 @@ $(".send-stmt-button").click(function() {
     var sectionId = $(this).attr('sectionId');
     var courseId = $(this).attr('courseId');
     var verb = $(this).attr('verb');
+    console.log('/send-'+verb+'/'+courseId+'/'+sectionId);
 
     console.log('начала работать');
     $.ajax({
@@ -86,12 +87,10 @@ $(".send-stmt-button").click(function() {
             'X-Csrf-Token': $('input[name="_token"]').val()
         },
         type: 'POST',  // http method
-        // data: { sectionId: sectionId, courseId: courseId, verb: verb },  // data to submit
         dataType: 'html',
         url: '/send-'+verb+'/'+courseId+'/'+sectionId,
         timeout: 500,
         success: function (html) {
-            console.log('/send-'+verb+'/'+courseId+'/'+sectionId);
             if (verb === 'passed') {
                 $('#' + sectionId + 'passed').text(html).prop('disabled', true).css('color', '#c4aa33');
                 setTimeout(() => {

@@ -11,7 +11,7 @@ class StatementService
         $section = [];
 
         foreach ($allCourseContent as $element) {
-            if ($element->section_id == $sectionId) {
+            if ($element->item_id == $sectionId) {
                 $section = $element;
                 break;
             }

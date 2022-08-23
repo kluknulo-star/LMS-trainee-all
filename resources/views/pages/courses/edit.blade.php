@@ -121,7 +121,7 @@
     </div>
 </div>
 
-
+@if(!$course->content)
 <div class="modal" id="delete-modal-{{ $element->item_id }}">
     <div class="modal-box">
         <p class="modal-text modal-text-delete mb20 mr20">You sure to <span>delete</span> course section {{ $element->title }}?</p>
@@ -138,6 +138,7 @@
 
     </div>
 </div>
+@endif
 
 <div class="modal" id="delete-modal-{{ $course->course_id }}">
     <div class="modal-box">
