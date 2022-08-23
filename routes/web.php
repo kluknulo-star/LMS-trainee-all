@@ -22,10 +22,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/test', function () {
-
-});
-
 Route::get('/jquery', function (Request $request){
     return json_encode($request->input('sectionId').' clicked');
 });
@@ -37,8 +33,6 @@ Route::get('/login', [LoginController::class, 'login'])->name('login')->middlewa
 Route::get('/register', [LoginController::class, 'register'])->name('register')->middleware('guest');
 Route::post('/authenticate', [LoginController::class, 'authenticate'])->name('authenticate')->middleware('guest');
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout')->middleware('auth');
-
-Route::get('/about', [AboutController::class, 'index'])->name('about')->middleware('auth');
 
 Route::group(['middleware' => 'guest'], function () {
     Route::get('/vk/auth', [SocialController::class, 'index'])->name('vk.auth');
