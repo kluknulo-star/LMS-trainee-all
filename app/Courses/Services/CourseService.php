@@ -2,7 +2,6 @@
 
 namespace App\Courses\Services;
 
-use App\Courses\Helpers\ClientLRS;
 use App\Courses\Models\AssignableCourse;
 use App\Courses\Models\Course;
 use App\Users\Models\User;
@@ -107,19 +106,4 @@ class CourseService
             ['author_id', '=', auth()->id()],
         ])->restore();
     }
-
-    public function sendLaunchStatement(Course $course)
-    {
-        /** @var User $user */
-        $user = auth()->user();
-        $verb = 'launched';
-        $statement = ClientLRS::compileStatement($user, $verb, $course);
-        return ClientLRS::sendStatement($statement);
-    }
-
-    public function getStudentProgress(int $courseId, string $email) : array
-    {
-        return ClientLRS::getProgressStudent($email, $courseId);
-    }
-
 }

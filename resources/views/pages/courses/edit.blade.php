@@ -32,12 +32,12 @@
             <div class="flex flex-just-spbtw">
                 <button form="edit-course-form" type="submit" class="w24p edit__button rounded-green-button button mb15">Save changes</button>
 
-                <button type="button" class="edit__button rounded-black-button w24p button mb15">
-                    <a class="whitesmoke-text" href="{{ route('courses.edit.assignments', ['id' => $course->course_id]) }}" >Assign students</a>
-                </button>
-                <button class="edit__button rounded-blue-button button mb15 w24p">
-                    <a class="whitesmoke-text" href="{{ route('courses.statistics', ['id' => $course->course_id]) }}">Course statistics</a>
-                </button>
+                <form method="get" class="w24p" action="{{ route('courses.edit.assignments', ['id' => $course->course_id]) }}">
+                    <button type="submit" class="edit__button rounded-black-button button w100p mb15 whitesmoke-text">Assign students</button>
+                </form>
+                <form method="get" class="w24p" action="{{ route('courses.statistics', ['id' => $course->course_id]) }}">
+                    <button type="submit" class="edit__button rounded-blue-button button w100p mb15 whitesmoke-text">Course statistics</button>
+                </form>
                 <button class="edit__button rounded-red-button button w24p mb15" onclick="document.getElementById('delete-modal-<?= $course->course_id  ?>').style.display = 'flex'">
                     Delete course
                 </button>
@@ -122,10 +122,27 @@
 </div>
 
 
+<div class="modal" id="delete-modal-{{ $element->section_id }}">
+    <div class="modal-box">
+        <p class="modal-text modal-text-delete mb20 mr20">You sure to <span>delete</span> course section {{ $element->title }}?</p>
+
+        <div class="modal-buttons">
+            <form class="table-action-form" action="{{ route('courses.destroy.section', ['id' => $course->course_id, 'section_id' => $element->section_id]) }}" method="post">
+                @csrf
+                @method('delete')
+                <input name="user_id" type="hidden" value="{{ $course->course_id }}">
+                <button type="submit" class="table-action-button confirm-button">Confirm</button>
+            </form>
+            <button onclick="document.getElementById('delete-modal-<?= $element->section_id ?>').style.display = 'none'" class="table-action-button cancel-button">Cancel</button>
+        </div>
+
+    </div>
+</div>
 
 <div class="modal" id="delete-modal-{{ $course->course_id }}">
     <div class="modal-box">
         <p class="modal-text modal-text-delete mb20 mr20">You sure to <span>delete</span> course: "{{ $course->title }}"?</p>
+
         <div class="modal-buttons">
             <form class="table-action-form" action="{{ route('courses.delete', ['id' => $course->course_id]) }}" method="post">
                 @csrf

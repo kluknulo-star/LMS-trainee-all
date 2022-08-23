@@ -27,6 +27,12 @@
                        class="profile__edit-button button mb20">Edit profile</a>
                     <a href="{{ route('users.edit.avatar', ['id' => $user->user_id]) }}"
                        class="profile__edit-button button mb20">Update avatar</a>
+                @elseif (auth()->user()->is_teacher == 1 && $user->is_teacher != 1)
+                    <form method="post" action="{{ route('users.assign.teacher', ['id' => $user->user_id]) }}">
+                        @csrf
+                        @method('patch')
+                        <button type="submit" class="rounded-black-button button mb15">Assign user as teacher</button>
+                    </form>
                 @endif
                 <div class="text">LMS role:
                     @if ($user->is_teacher == 1)
@@ -36,7 +42,8 @@
                     @endif</div>
             </div>
 
-{{--            @if(!\PHPUnit\Framework\isEmpty($export))--}}
+{{-- Проверка на наличие экспортов --}}
+            @if(auth()->id() == $user->user_id)
             <div class="profile__column_courses">
                 <p class="h3 mb30">Export to Excel</p>
                 <div class="mb30">
@@ -50,6 +57,7 @@
                     </form>
                 @endforeach
             </div>
+            @endif
 {{--            @endif--}}
 
 {{--            <div class="profile__column_courses">--}}
