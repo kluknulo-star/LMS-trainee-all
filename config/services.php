@@ -39,6 +39,7 @@ return [
 
     'lrs' => [
         "token" => env('LRS_TOKEN'),
+        "domain" => env('LRS_DOMAIN'),
     ]
 
 ];
