@@ -21,6 +21,7 @@ return new class extends Migration
             $table->foreignId('course_id')
                 ->references('course_id')
                 ->on('courses');
+            $table->unsignedInteger('progress')->default(0);
             $table->timestamps();
         });
     }
