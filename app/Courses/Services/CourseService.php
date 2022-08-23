@@ -43,7 +43,7 @@ class CourseService
 
     public function assign($userId, $courseId): AssignableCourse
     {
-        return AssignableCourse::create([
+        return AssignableCourse::firstOrCreate([
             'student_id' => $userId,
             'course_id' => $courseId,
         ]);
