@@ -6,10 +6,13 @@ namespace App\Courses\Helpers;
 use App\Courses\Models\Course;
 use App\Users\Models\User;
 
-class StatementsHelper
+class StatementHelper
 {
-
-    //done
+    /**
+     * Simple builder for xAPI statements
+     *
+     * @return bool|string $compiledStatement
+     */
     public static function compileStatement(User $user, string $verb, Course $course, mixed $section = null): bool|string
     {
         $baseStatement = [
@@ -59,51 +62,59 @@ class StatementsHelper
         }
 
         $compiledStatement = json_encode(array_merge($baseStatement, $tailStatement));
-
         return $compiledStatement;
     }
 
-    //done
+    /**
+     * Simple filter builder for xAPI statements
+     *
+     * @return array $compiledStatement
+     */
     public static function compileFilters(string $actor = "", string $verb = "", string $object = "", string $context = ""): array
     {
-        $compileFilters = [];
+        $compiledFilters = [];
         if ($verb) {
-            $compileFilters['verb-filter'] = "http://course-zone.org/expapi/verbs/" . $verb;
+            $compiledFilters['verb-filter'] = "http://adlnet.gov/expapi/verbs/" . $verb;
         }
+
         if ($actor) {
-            $compileFilters['actor-filter'] = "mailto:" . $actor;
+            $compiledFilters['actor-filter'] = "mailto:" . $actor;
         }
 
         if ($context){
-            $compileFilters['context-filter'] = 'http://course-zone.org/expapi/courses/' . $context;
+            $compiledFilters['context-filter'] = 'http://course-zone.org/expapi/courses/' . $context;
         }
 
         if ($object) {
-            $compileFilters['object-filter'] = "http://course-zone.org/expapi/courses/" . $object;
+            $compiledFilters['object-filter'] = "http://course-zone.org/expapi/courses/" . $object;
         }
 
         if ($context && $object) {
-            $compileFilters['object-filter'] = "http://course-zone.org/expapi/courses/section/" . $object;
+            $compiledFilters['object-filter'] = "http://course-zone.org/expapi/courses/section/" . $object;
         }
 
-        return $compileFilters;
+        return $compiledFilters;
     }
 
-    public static function getStaticByVerbFromStatement(array $statements, string $verb): array
+    /**
+     * Extracting section ids from statements
+     *
+     * @return array $sectionIds
+     */
+    public static function getIdSections(array $statements): array
     {
-        $staticVerb = [];
+        $sectionIds = [];
 
         foreach ($statements as $statement) {
             $content = json_decode($statement->content);
-            $object = explode(':', $content->object->id);
+            $object = explode('/', $content->object->id);
 
             $sectionId = end($object);
-            if (!in_array($sectionId, $staticVerb)) {
-                $staticVerb[] = $sectionId;
+            if (!in_array($sectionId, $sectionIds)) {
+                $sectionIds[] = $sectionId;
             }
         }
 
-        return $staticVerb;
+        return $sectionIds;
     }
-
 }

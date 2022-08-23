@@ -2,13 +2,21 @@
 
 namespace App\Courses\Helpers;
 
+use App\Courses\Models\Course;
+use App\Users\Models\User;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 
 class ClientLRS
 {
-    public static function sendStatement($statement): Response
+    /**
+     * Simple sender xAPI statements
+     *
+     * @return Response $response
+     */
+    public static function sendStatement(User $user, string $verb, Course $course, mixed $section = null): Response
     {
+        $statement = StatementHelper::compileStatement($user, $verb, $course, $section);
         $tokenLRS = config('services.lrs.token');
         $domainLRS = config('services.lrs.domain');
 
@@ -20,9 +28,14 @@ class ClientLRS
         return $response;
     }
 
+    /**
+     * Simple getter xAPI statements
+     *
+     * @return Response $response
+     */
     public static function getStatements(string $userMail = "", string $verb = "", string $object = "", string $context = ""): Response
     {
-        $filters = StatementsHelper::compileFilters(actor: $userMail, verb: $verb, object: $object, context: $context);
+        $filters = StatementHelper::compileFilters(actor: $userMail, verb: $verb, object: $object, context: $context);
 
         $tokenLRS = config('services.lrs.token');
         $domainLRS = config('services.lrs.domain');
@@ -34,19 +47,23 @@ class ClientLRS
         return $response;
     }
 
+    /**
+     * Simple getter and converter xAPI statements to short user statistic for a specific course
+     *
+     * @return array $progressSections
+     */
     public static function getProgressStudent(string $userMail, int $courseId) : array
     {
-        $progressSections = [];
+        $responsePassed = ClientLRS::getStatements(userMail: $userMail, verb: 'passed', context: $courseId);
+        $responseLaunched = ClientLRS::getStatements(userMail: $userMail, verb: 'launched', context: $courseId);
 
-        $requestPassed = ClientLRS::getStatements(userMail: $userMail, verb: 'passed', context: $courseId);
-        $requestLaunched = ClientLRS::getStatements(userMail: $userMail, verb: 'launched', context: $courseId);
+        $passedStatements = json_decode($responsePassed->body())->body;
+        $launchedStatements = json_decode($responseLaunched->body())->body;
 
-
-        $bodyPassedRequest = json_decode($requestPassed->body())->body;
-        $bodyLaunchedRequest = json_decode($requestLaunched->body())->body;
-
-        $progressSections['passed'] = StatementsHelper::getStaticByVerbFromStatement($bodyPassedRequest, 'passed');
-        $progressSections['launched'] = StatementsHelper::getStaticByVerbFromStatement($bodyLaunchedRequest, 'launched');
+        $progressSections = [
+            'passed' => StatementHelper::getIdSections($passedStatements),
+            'launched' => StatementHelper::getIdSections($launchedStatements),
+        ];
 
         return $progressSections;
     }

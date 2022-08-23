@@ -3,6 +3,7 @@
 namespace App\Courses\Controllers;
 
 use App\Courses\Services\CourseService;
+use App\Courses\Services\StatementService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateCourseRequest;
 use App\Http\Requests\UpdateCourseRequest;
@@ -13,9 +14,8 @@ use Illuminate\Contracts\View\View;
 
 class CourseController extends Controller
 {
-    public function __construct(private CourseService $courseService)
+    public function __construct(private CourseService $courseService, private StatementService $statementsService)
     {
-
     }
 
     public function showAssignments(Request $request): View
@@ -51,7 +51,7 @@ class CourseController extends Controller
         $course = $this->courseService->getCourse($courseId);
         $this->authorize('view', [$course]);
         $user = auth()->user();
-        $myCourseProgress = $this->courseService->getStudentProgress($courseId, $user->email);
+        $myCourseProgress = $this->statementsService->getStudentProgress($courseId, $user->email);
         return view('pages.courses.play', compact('course', 'myCourseProgress'));
     }
 
@@ -80,7 +80,7 @@ class CourseController extends Controller
         $studentsProgress = [];
 
         foreach ($users as $user) {
-            $progressStatements = $this->courseService->getStudentProgress($courseId, $user->email);
+            $progressStatements = $this->statementsService->getStudentProgress($courseId, $user->email);
             if (count($sectionsCourse)) {
                 $studentsProgress[$user->user_id] = round(count($progressStatements['passed']) / count($sectionsCourse) * 100);
             } else {
