@@ -4,6 +4,7 @@ namespace App\Courses\Helpers;
 
 use App\Courses\Models\Course;
 use App\Users\Models\User;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 
@@ -14,7 +15,7 @@ class ClientLRS
      *
      * @return Response $response
      */
-    public static function sendStatement(User $user, string $verb, Course $course, mixed $section = null): Response
+    public static function sendStatement(User $user, string $verb, Model $course, mixed $section = null): Response
     {
         $statement = StatementHelper::compileStatement($user, $verb, $course, $section);
         $tokenLRS = config('services.lrs.token');

@@ -2,9 +2,9 @@
 
 namespace App\Courses\Helpers;
 
-
 use App\Courses\Models\Course;
 use App\Users\Models\User;
+use Illuminate\Database\Eloquent\Model;
 
 class StatementHelper
 {
@@ -13,7 +13,7 @@ class StatementHelper
      *
      * @return bool|string $compiledStatement
      */
-    public static function compileStatement(User $user, string $verb, Course $course, mixed $section = null): bool|string
+    public static function compileStatement(User $user, string $verb, Model $course, mixed $section = null): bool|string
     {
         $baseStatement = [
             "actor" => [
@@ -45,8 +45,8 @@ class StatementHelper
         if ($section) {
             $tailStatement = [
                 "object" => [
-                    "id" => "http://course-zone.org/expapi/courses/section/" . $section->section_id,
-                    "type" => "http://course-zone.org/expapi/courses/section/type/" . $section->type,
+                    "id" => "http://course-zone.org/expapi/courses/section/" . $section->item_id,
+                    "type" => "http://course-zone.org/expapi/courses/section/type/" . $section->type_id,
                     "display" => [
                         "en-US" => $section->title,
                     ],
