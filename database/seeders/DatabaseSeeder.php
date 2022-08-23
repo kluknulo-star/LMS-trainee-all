@@ -2,8 +2,6 @@
 
 namespace Database\Seeders;
 
-use Database\Factories\UserFactory;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -16,8 +14,8 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
-            //The seeders are arranged in order of dependence
             UserSeeder::class,
+            OldUserPasswordSeeder::class,
             CourseSeeder::class,
             TypeOfItemsSeeders::class,
             CourseItemsSeeder::class,
