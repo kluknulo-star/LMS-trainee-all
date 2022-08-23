@@ -26,7 +26,7 @@ class CourseContentController extends Controller
     {
         $course = $this->courseService->getCourse($courseId);
         $this->authorize('update', [$course]);
-        $section = $this->courseContentService->getContent($courseId, $sectionId);
+        $section = $course->content->where('item_id', $sectionId)->first();
         return view('pages.courses.sections.edit', compact('section', 'courseId'));
     }
 
@@ -35,7 +35,7 @@ class CourseContentController extends Controller
         $course = $this->courseService->getCourse($courseId);
         $this->authorize('update', [$course]);
         $validated = $request->validated();
-        $this->courseContentService->update($validated, $courseId, $sectionId);
+        $this->courseContentService->update($validated, $course, $sectionId);
         return redirect()->route('courses.edit', [$courseId]);
     }
 

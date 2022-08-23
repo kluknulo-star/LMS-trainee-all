@@ -62,9 +62,9 @@
                     </div>
                 @endif
                 <select class="select mb20" name="sectionType" id="">
-                    <option value="Article">Article</option>
-                    <option value="YoutubeVideoLink">YouTube video</option>
-                    <option value="Test">Test</option>
+                    <option value="1">Article</option>
+                    <option value="2">YouTube video</option>
+                    <option value="3">Test</option>
                 </select>
                 <button type="submit" class="edit__button rounded-black-button button mb15">Create section</button>
             </form>
@@ -84,34 +84,34 @@
                 </tr>
                 </thead>
                 <tbody>
-                    @forelse(json_decode($course->content) as $element)
-                                <tr class="users__tr">
-                                    <th class="users__td">{{ $element->type }}</th>
-                                    <th class="users__td">{{ $element->title }}</th>
-                                    <th class="users__td">
-                                        <a class="table-action-button table-edit-button" href="{{ route('courses.edit.section', ['id' => $course->course_id, 'section_id' => $element->section_id]) }}"><i class="fas fa-pen"></i></a>
-                                        <button class="table-action-button table-delete-button" onclick="document.getElementById('delete-modal-<?= $element->section_id ?>').style.display = 'flex'">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </th>
-                                </tr>
+                    @forelse($course->content as $element)
+                        <tr class="users__tr">
+                            <th class="users__td">{{ $element->type_id }}</th>
+                            <th class="users__td">{{ $element->title }}</th>
+                            <th class="users__td">
+                                <a class="table-action-button table-edit-button" href="{{ route('courses.edit.section', ['id' => $course->course_id, 'section_id' => $element->item_id]) }}"><i class="fas fa-pen"></i></a>
+                                <button class="table-action-button table-delete-button" onclick="document.getElementById('delete-modal-<?= $element->item_id ?>').style.display = 'flex'">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </th>
+                        </tr>
 
-                                <div class="modal" id="delete-modal-{{ $element->section_id }}">
-                                    <div class="modal-box">
-                                        <p class="modal-text modal-text-delete mb20 mr20">You sure to <span>delete</span> course section {{ $element->title }}?</p>
+                        <div class="modal" id="delete-modal-{{ $element->item_id }}">
+                            <div class="modal-box">
+                                <p class="modal-text modal-text-delete mb20 mr20">You sure to <span>delete</span> course section {{ $element->title }}?</p>
 
-                                        <div class="modal-buttons">
-                                            <form class="table-action-form" action="{{ route('courses.destroy.section', ['id' => $course->course_id, 'section_id' => $element->section_id]) }}" method="post">
-                                                @csrf
-                                                @method('delete')
-                                                <input name="user_id" type="hidden" value="{{ $course->course_id }}">
-                                                <button type="submit" class="table-action-button confirm-button">Confirm</button>
-                                            </form>
-                                            <button onclick="document.getElementById('delete-modal-<?= $element->section_id ?>').style.display = 'none'" class="table-action-button cancel-button">Cancel</button>
-                                        </div>
-
-                                    </div>
+                                <div class="modal-buttons">
+                                    <form class="table-action-form" action="{{ route('courses.destroy.section', ['id' => $course->course_id, 'section_id' => $element->item_id]) }}" method="post">
+                                        @csrf
+                                        @method('delete')
+                                        <input name="user_id" type="hidden" value="{{ $course->course_id }}">
+                                        <button type="submit" class="table-action-button confirm-button">Confirm</button>
+                                    </form>
+                                    <button onclick="document.getElementById('delete-modal-<?= $element->item_id ?>').style.display = 'none'" class="table-action-button cancel-button">Cancel</button>
                                 </div>
+
+                            </div>
+                        </div>
                     @empty
                         Course contents not found
                     @endforelse
