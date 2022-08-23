@@ -35,4 +35,10 @@ class CourseItems extends Model
      * @var array<int, string>
      */
     protected $hidden = [];
+
+
+    public function type()
+    {
+        return $this->belongsTo(TypeOfItems::class, 'type_id', 'type_id');
+    }
 }

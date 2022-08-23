@@ -13,16 +13,15 @@
     </div>
     <div class="courses__course-description mb30">Description: {{ Str::limit($course->description, 200, '...') }}</div>
 
-    <p style="color: whitesmoke;" allContent="{{ count(json_decode($course->content, true)) }}"
+    <p style="color: whitesmoke;" allContent="{{ count($course->content) }}"
                 passedContent="{{ round(count($myCourseProgress['passed'])) }}"
                 class="progress h3"></p>
     <br><br>
-
     <div class="h2 mb20">Course content:</div>
-    @foreach(json_decode($course->content) as $element)
+    @foreach($course->content as $element)
         <div class="margin20-0">
             <b class="h3">{{$element->title}}</b><br><br>
-            ❮{{$element->type_id}}❯
+            ❮{{$element->type->type}}❯
 
             <button class="send-stmt-button"
                     id="{{$element->item_id}}launched"

@@ -5,6 +5,7 @@ namespace App\Courses\Services;
 use App\Courses\Models\AssignableCourse;
 use App\Courses\Models\Course;
 use App\Users\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -14,7 +15,7 @@ class CourseService
 {
     public function getCourse($id): Model
     {
-        return Course::with('content')->find($id);
+        return Course::with('content.type')->find($id);
     }
 
     public function getAssignments($searchParam = ''): BelongsToMany
@@ -55,14 +56,9 @@ class CourseService
             ['course_id', '=', $courseId],
             ['student_id', '=', $userId],
         ])->delete();
-
-//        dd(Course::query()->whereHas('assignedUsers', function(Builder $query) {
-//            $query->where('student_id', '=', '7')
-//                  ->where('course_id', '=', '251');
-//        })->get());
     }
 
-    public function getUnassignedUsers($searchParam, $courseId) // Builder ?
+    public function getUnassignedUsers($searchParam, $courseId): Builder
     {
         $users = $this->getCourse($courseId)->assignedUsers();
         $users = User::whereNotIn('user_id', $users->pluck('user_id')->toArray());
