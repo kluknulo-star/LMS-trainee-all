@@ -23,6 +23,7 @@ return new class extends Migration
                 ->on('users')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
+            $table->json('content')->default(new Expression('(JSON_ARRAY())'));
             $table->timestamps();
             $table->softDeletes();
         });

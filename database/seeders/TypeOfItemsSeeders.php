@@ -14,8 +14,8 @@ class TypeOfItemsSeeders extends Seeder
      */
     public function run()
     {
-        TypeOfItems::insert(['type' => 'Article']);
-        TypeOfItems::insert(['type' => 'YouTubeVideoLink']);
-        TypeOfItems::insert(['type' => 'Test']);
+        TypeOfItems::insert(['type' => 'Article', 'created_at' => NOW(), 'updated_at' => NOW()]);
+        TypeOfItems::insert(['type' => 'YouTubeVideoLink', 'created_at' => NOW(), 'updated_at' => NOW()]);
+        TypeOfItems::insert(['type' => 'Test', 'created_at' => NOW(), 'updated_at' => NOW()]);
     }
 }
