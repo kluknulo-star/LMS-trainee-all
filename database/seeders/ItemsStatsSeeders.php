@@ -3,12 +3,14 @@
 namespace Database\Seeders;
 
 use App\Courses\Models\Course;
+use App\Courses\Models\CourseItems;
+use App\Courses\Models\ItemsStats;
+use App\Courses\Models\TypeOfItems;
 use App\Users\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Str;
 
-class CourseSeeder extends Seeder
+class ItemsStatsSeeders extends Seeder
 {
     /**
      * Run the database seeds.
@@ -19,19 +21,20 @@ class CourseSeeder extends Seeder
     {
         $data = [];
         $recordCount = 500;
+        $status = ['passed', 'failed'];
 
         for ($i = 0; $i < $recordCount; $i++) {
             $data[] = [
-                'title' => fake()->text(90),
-                'author_id' => User::where('is_teacher', true)->get('user_id')->random()->user_id,
-                'description' => fake()->text(255),
+                'user_id' => User::get('user_id')->random()->user_id,
+                'item_id' => CourseItems::get('item_id')->random()->item_id,
+                'status' => $status[array_rand($status, 1)],
                 'created_at' => NOW(),
                 'updated_at' => NOW(),
             ];
         }
 
         foreach (array_chunk($data, 1000) as $chunk) {
-            Course::insert($chunk);
+            ItemsStats::insert($chunk);
         }
     }
 }

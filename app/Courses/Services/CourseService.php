@@ -6,20 +6,15 @@ use App\Courses\Models\AssignableCourse;
 use App\Courses\Models\Course;
 use App\Users\Models\User;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class CourseService
 {
-    public function getCourse($id, $decodeContent = false): Course
+    public function getCourse($id): Model
     {
-        $course = Course::findOrFail($id);
-
-        if ($decodeContent) {
-            $course->content = json_decode($course->content, true);
-        }
-
-        return $course;
+        return Course::with('content')->find($id);
     }
 
     public function getAssignments($searchParam = ''): BelongsToMany
@@ -60,6 +55,11 @@ class CourseService
             ['course_id', '=', $courseId],
             ['student_id', '=', $userId],
         ])->delete();
+
+//        dd(Course::query()->whereHas('assignedUsers', function(Builder $query) {
+//            $query->where('student_id', '=', '7')
+//                  ->where('course_id', '=', '251');
+//        })->get());
     }
 
     public function getUnassignedUsers($searchParam, $courseId) // Builder ?
