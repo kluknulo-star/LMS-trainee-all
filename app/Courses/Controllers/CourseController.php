@@ -4,8 +4,8 @@ namespace App\Courses\Controllers;
 
 use App\Courses\Services\CourseService;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CreateCourseRequest;
-use App\Http\Requests\UpdateCourseRequest;
+use App\Courses\Requests\CreateCourseRequest;
+use App\Courses\Requests\UpdateCourseRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
@@ -67,26 +67,29 @@ class CourseController extends Controller
         $state = $request->query('assign', 'already');
         $searchParam = $request->input('search');
 
+        $course = $this->courseService->getCourse($courseId);
+        $studentsProgress = [];
+
+
         if ($state == 'all') {
             $users = $this->courseService->getUnassignedUsers($searchParam, $courseId)->paginate(8);
         }
 
         if ($state == 'already') {
             $users = $this->courseService->getAssignedUsers($searchParam, $courseId)->paginate(8);
-        }
+            $sectionsCourse = json_decode($course->content, true);
 
-        $course = $this->courseService->getCourse($courseId);
-        $sectionsCourse = json_decode($course->content, true);
-        $studentsProgress = [];
-
-        foreach ($users as $user) {
-            $progressStatements = $this->courseService->getStudentProgress($courseId, $user->email);
-            if (count($sectionsCourse)) {
-                $studentsProgress[$user->user_id] = round(count($progressStatements['passed']) / count($sectionsCourse) * 100);
-            } else {
-                $studentsProgress[$user->user_id] = 0;
+            foreach ($users as $user) {
+                $progressStatements = $this->courseService->getStudentProgress($courseId, $user->email);
+                if (count($sectionsCourse)) {
+                    $studentsProgress[$user->user_id] = round(count($progressStatements['passed']) / count($sectionsCourse) * 100);
+                } else {
+                    $studentsProgress[$user->user_id] = 0;
+                }
             }
         }
+
+
 
         return view('pages.courses.assign', compact('users', 'courseId', 'state', 'studentsProgress'));
     }
@@ -115,7 +118,7 @@ class CourseController extends Controller
     public function destroy(int $courseId): RedirectResponse
     {
         $course = $this->courseService->getCourse($courseId);
-        $this->authorize('delete', [auth()->user(), $course]);
+        $this->authorize('delete', [$course]);
         $this->courseService->destroy($courseId);
         return redirect()->route('courses.own');
     }

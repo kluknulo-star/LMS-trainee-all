@@ -4,13 +4,10 @@ namespace App\Courses\Controllers;
 
 use App\Courses\Helpers\ClientLRS;
 use App\Courses\Services\CourseService;
-
-
 use App\Http\Controllers\Controller;
 use App\Users\Models\User;
 use Illuminate\Http\Client\Response;
 use Illuminate\Http\Request;
-
 
 class StatementController extends Controller
 {
@@ -34,9 +31,7 @@ class StatementController extends Controller
 
         /** @var User $user */
         $user = auth()->user();
-
         $statement = ClientLRS::compileStatement($user, 'launched', $course, $section);
-
         return ClientLRS::sendStatement($statement);
     }
 
@@ -55,9 +50,7 @@ class StatementController extends Controller
 
         /** @var User $user */
         $user = auth()->user();
-
         $statement = ClientLRS::compileStatement($user, 'passed', $course, $section);
-
         return ClientLRS::sendStatement($statement);
     }
 
@@ -67,28 +60,16 @@ class StatementController extends Controller
         $user = auth()->user();
         $response = ClientLRS::getStatements($user->name);
         $statements = json_decode($response->body(), true)["body"];
-
         dd($statements);
-
-//        foreach($statements as $statement) {
-//            echo $statement['id'];
-//            $statement['content'] = json_decode($statement['content']);
-//            echo "<pre>" . json_encode($statement['content'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) . "</pre>";
-//        }
         return $statements;
     }
 
     public function getCourseRating(int $course_id)
     {
-
         /** @var User $user */
         $user = auth()->user();
-
         $response = ClientLRS::getStatements(verb: 'create');
         $statements = json_decode($response->body(), true)["body"];
-
-//        dd($statements);
-
         return $statements;
     }
 
