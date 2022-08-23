@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Courses\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AvatarUpdateRequest extends FormRequest
+class CreateCourseRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,8 @@ class AvatarUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'avatar' =>
-                'required|mimes:jpg,png,jpeg'
+            'title' => 'required|unique:courses,title|regex:~^([^<>]*)$~|between:5,90',
+            'description' => 'nullable|regex:~^([^<>]*)$~|max:255',
         ];
     }
 }

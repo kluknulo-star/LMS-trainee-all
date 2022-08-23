@@ -48,7 +48,7 @@
             <input name="password" type="password" placeholder="Password" class="welcome__input input" required>
             <input name="password_confirmation" type="password" placeholder="Confirm password" class="welcome__input input" required>
             <p class="welcome__text">Registered?&nbsp<a href="{{ route('login') }}">Sign in</a></p>
-            <button type="submit" class="welcome__button rounded-red-button button">Register</button>
+            <button type="submit" class="welcome__button rounded-red-button button w100p">Register</button>
         </form>
 
     </div>
