@@ -55,11 +55,6 @@ class CourseService
             ['course_id', '=', $courseId],
             ['student_id', '=', $userId],
         ])->delete();
-
-//        dd(Course::query()->whereHas('assignedUsers', function(Builder $query) {
-//            $query->where('student_id', '=', '7')
-//                  ->where('course_id', '=', '251');
-//        })->get());
     }
 
     public function getUnassignedUsers($searchParam, $courseId) // Builder ?
