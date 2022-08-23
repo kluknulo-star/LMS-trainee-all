@@ -13,7 +13,6 @@
     </div>
     <div class="courses__course-description mb30">Description: {{ Str::limit($course->description, 200, '...') }}</div>
 
-    {{--    Progress bar will be here     --}}
     <p style="color: whitesmoke;" allContent="{{ count(json_decode($course->content, true)) }}"
                 passedContent="{{ round(count($myCourseProgress['passed'])) }}"
                 class="progress h3"></p>
@@ -23,14 +22,14 @@
     @foreach(json_decode($course->content) as $element)
         <div class="margin20-0">
             <b class="h3">{{$element->title}}</b><br><br>
-            ❮{{$element->type}}❯
+            ❮{{$element->type_id}}❯
 
             <button class="send-stmt-button"
-                    id="{{$element->section_id}}launched"
+                    id="{{$element->item_id}}launched"
                     verb="launched"
-                    sectionId="{{$element->section_id}}"
+                    sectionId="{{$element->item_id}}"
                     courseId="{{$course->course_id}}"
-                    @if(in_array($element->section_id,$myCourseProgress['launched']))
+                    @if(in_array($element->item_id,$myCourseProgress['launched']))
                         disabled
                         style="padding: 5px; background: rgba(0,0,0,0); color: #c4aa33 !important;"
                     @else
@@ -40,11 +39,11 @@
             </button>
 
             <button class="send-stmt-button"
-                    id="{{$element->section_id}}passed"
+                    id="{{$element->item_id}}passed"
                     verb="passed"
-                    sectionId="{{$element->section_id}}"
+                    sectionId="{{$element->item_id}}"
                     courseId="{{$course->course_id}}"
-                    @if(in_array($element->section_id,$myCourseProgress['passed'])))
+                    @if(in_array($element->item_id,$myCourseProgress['passed'])))
                         disabled
                         style="padding: 5px; background: rgba(0,0,0,0); color: #c4aa33 !important;"
                     @else
