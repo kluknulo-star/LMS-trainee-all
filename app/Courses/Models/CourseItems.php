@@ -36,6 +36,13 @@ class CourseItems extends Model
      */
     protected $hidden = [];
 
+    protected $casts = [
+        'course_id' => 'integer',
+        'type_id' => 'integer',
+        'title' => 'string',
+        'item_content' => 'string',
+    ];
+
 
     public function type()
     {

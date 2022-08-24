@@ -41,6 +41,13 @@ class Course extends Model
      */
     protected $hidden = [];
 
+    protected $casts = [
+        'title' => 'string',
+        'description' => 'string',
+        'author_id' => 'integer',
+        'all_content' => 'string',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class, 'author_id', 'user_id');
