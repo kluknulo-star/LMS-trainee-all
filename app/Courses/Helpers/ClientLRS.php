@@ -58,6 +58,10 @@ class ClientLRS
         $responsePassed = ClientLRS::getStatements(userMail: $userMail, verb: 'passed', context: $courseId);
         $responseLaunched = ClientLRS::getStatements(userMail: $userMail, verb: 'launched', context: $courseId);
 
+        if ($responsePassed->status() != 200){
+            dd($responsePassed->body());
+        }
+
         $passedStatements = json_decode($responsePassed->body())->body;
         $launchedStatements = json_decode($responseLaunched->body())->body;
 
