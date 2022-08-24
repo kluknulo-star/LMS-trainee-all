@@ -42,8 +42,7 @@
                     @endif</div>
             </div>
 
-{{-- Проверка на наличие экспортов --}}
-            @if(auth()->id() == $user->user_id)
+            @if(auth()->id() == $user->user_id && auth()->user()->is_teacher == 1)
             <div class="profile__column_courses">
                 <p class="h3 mb30">{{ __('main.export') }} {{ __('main.to') }} Excel</p>
                 <div class="mb30">
@@ -58,68 +57,6 @@
                 @endforeach
             </div>
             @endif
-{{--            @endif--}}
-
-{{--            <div class="profile__column_courses">--}}
-
-{{--                <div class="profile__column mb30">--}}
-{{--                    <div class="profile__courses">--}}
-{{--                        <div class="text h3 mb15">Assigned courses:</div>--}}
-
-{{--                        @forelse ($assignedCourses as $key => $course)--}}
-{{--                            <div class="profile__course">--}}
-{{--                                <div class="text profile__course-title flex flex-alit-center">{{ $course->title }}</div>--}}
-
-{{--                                @if(auth()->id() == $user->user_id)--}}
-{{--                                    <a href="{{ route('courses.play', ['id' => $course->course_id]) }}"--}}
-{{--                                       class="text profile__course-button flex flex-alit-center">--}}
-{{--                                        <i class="fa-solid fa-play"></i>--}}
-{{--                                    </a>--}}
-{{--                                @endif--}}
-{{--                            </div>--}}
-{{--                        @empty--}}
-
-{{--                            Assigned courses not found--}}
-{{--                        @endforelse--}}
-
-{{--                        @if (!$assignedCourses->isEmpty() && auth()->user()->user_id == $user->user_id)--}}
-{{--                            <a href="{{ route('courses.assignments') }}" class="profile__more button">More...</a>--}}
-{{--                        @endif--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-
-{{--                @if ($user->is_teacher == 1)--}}
-{{--                    <div class="profile__column">--}}
-{{--                        <div class="profile__courses">--}}
-{{--                            <div class="text h3 mb15">Own courses:</div>--}}
-
-{{--                            @forelse ($ownCourses as $key => $course)--}}
-{{--                                <div class="profile__course">--}}
-{{--                                    <div--}}
-{{--                                        class="text profile__course-title flex flex-alit-center">{{ $course->title  }}</div>--}}
-{{--                                    @if(auth()->id() == $user->user_id)--}}
-{{--                                        <a href="{{ route('courses.edit', ['id' => $course->course_id]) }}"--}}
-{{--                                           class="text profile__course-button flex flex-alit-center">--}}
-{{--                                            <i class="fas fa-pen"></i>--}}
-{{--                                        </a>--}}
-{{--                                    @else--}}
-{{--        !                                <a href="{{ route('courses.play', ['id' => $course->course_id]) }}"--}}
-{{--        !                                   class="text profile__course-button flex flex-alit-center">--}}
-{{--        !                                    <i class="fa-solid fa-play"></i>--}}
-{{--        !                               </a>--}}
-{{--                                    @endif--}}
-{{--                                </div>--}}
-{{--                            @empty--}}
-{{--                                Own courses not found--}}
-{{--                            @endforelse--}}
-
-{{--                            @if (!$ownCourses->isEmpty() && auth()->user()->user_id == $user->user_id)--}}
-{{--                                <a href="{{ route('courses.own') }}" class="profile__more button">More...</a>--}}
-{{--                            @endif--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                @endif--}}
-{{--            </div>--}}
         </div>
     </div>
 </div>

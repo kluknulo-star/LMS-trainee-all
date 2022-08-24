@@ -40,15 +40,15 @@ class ContentTransferBack extends Command
             $itemContent = json_decode($item->item_content, TRUE);
 
             $course = Course::where('course_id', $courseId)->first();
-            $content = json_decode($course->content, TRUE);
+            $content = json_decode($course->all_content, TRUE);
             $newItem = [
                 'type' => $itemType,
                 'title' => $itemTitle,
-                'content' => $itemContent,
+                'all_content' => $itemContent,
                 'section_id' => count($content),
             ];
             $content[] = $newItem;
-            $course->content = json_encode($content);
+            $course->all_content = json_encode($content);
             $course->save();
             if($newItem) {
                 DB::table('course_items')->where('item_id', $itemId)->delete();
