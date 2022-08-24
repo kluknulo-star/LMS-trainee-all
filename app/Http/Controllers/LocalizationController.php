@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Session;
 
 class LocalizationController extends Controller
 {
-    public function changeLanguage(Request $request)
+    public function changeLanguage()
     {
         $locale = Session::get('lang');
 
