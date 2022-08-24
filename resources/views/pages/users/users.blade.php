@@ -6,7 +6,7 @@
 <div class="container">
     <div class="users w1200">
         <div class="users__title h1">
-            Students
+            {{ __('main.students') }}
             <div class="users__after-title-links">
                 <a href="{{ route('users.create') }}" class="users__title-link">
                     <i class="fas fa-plus"></i>
@@ -20,12 +20,12 @@
         <table class="users__table classic-box">
             <thead>
                 <tr class="users__tr users__tr_head">
-                    <th class="users__td users__td-img">Ava</th>
+                    <th class="users__td users__td-img">{{ __('main.avatar') }}</th>
                     <th class="users__td">ID</th>
-                    <th class="users__td">E-mail</th>
-                    <th class="users__td">Surname</th>
-                    <th class="users__td">Name</th>
-                    <th class="users__td">Patronymic</th>
+                    <th class="users__td">{{ __('main.email') }}</th>
+                    <th class="users__td">{{ __('main.surname') }}</th>
+                    <th class="users__td">{{ __('main.name') }}</th>
+                    <th class="users__td">{{ __('main.patronymic') }}</th>
                     <th class="users__td"></th>
                 </tr>
             </thead>

@@ -6,18 +6,18 @@
 
 <div class="container">
     <img src="" alt="" class="courses__img">
-    <div class="h1 mb20">Title: {{ $course->title }}</div>
+    <div class="h1 mb20">{{ __('main.title') }}: {{ $course->title }}</div>
     <div class="margin5">
-        Author: <a
+        {{ __('main.author') }}: <a
             href="{{ route('users.show', ['id' => $course->user()->value("user_id")]) }}">{{ $course->user()->value("email") }}</a>
     </div>
-    <div class="courses__course-description mb30">Description: {{ Str::limit($course->description, 200, '...') }}</div>
+    <div class="courses__course-description mb30">{{ __('main.description') }}: {{ Str::limit($course->description, 200, '...') }}</div>
 
     <p style="color: whitesmoke;" allContent="{{ count($course->content) }}"
                 passedContent="{{ round(count($myCourseProgress['passed'])) }}"
                 class="progress h3"></p>
     <br><br>
-    <div class="h2 mb20">Course content:</div>
+    <div class="h2 mb20">{{ __('main.courseContent') }}:</div>
     @foreach($course->content as $element)
         <div class="margin20-0">
             <b class="h3">{{$element->title}}</b><br><br>

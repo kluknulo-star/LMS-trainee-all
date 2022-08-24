@@ -10,30 +10,30 @@
                 <li class="assigned-users-navbar">
                     <ul class="assigned-users-navbar-elem">
                         <a href="{{ route('courses.edit.assignments', ['assign' => 'already', 'id' => $courseId]) }}" class="aside__link button">
-                            Already assigned students
+                            {{ __('main.assigned') }} {{ __('main.students') }}
                         </a>
                     </ul>
                     <ul class="assigned-users-navbar-elem">
                         <a href="{{ route('courses.edit.assignments', ['assign' => 'all', 'id' => $courseId]) }}" class="aside__link button">
-                            All students
+                            {{ __('main.all') }} {{ __('main.students') }}
                         </a>
                     </ul>
                     <ul class="assigned-users-navbar-elem" >
                         <a href="{{ route('courses.edit', ['id' => $courseId]) }}" class="aside__link button">
-                            Go back to edit course
+                            {{ __('main.back') }} {{ __('main.to') }} {{ __('main.edit') }} {{ __('main.course') }}
                         </a>
                     </ul>
                 </li>
             </div>
             @if ($state == 'already')
                 <form action="{{ route('courses.edit.assignments', ['id' => $courseId]) }}" method="get" class="users__form-search">
-                    <input name="search" type="text" placeholder="Search" class="users__input-search">
+                    <input name="search" type="text" placeholder="{{ __('main.search') }}" class="users__input-search">
                     <input name="assign" value="already" type="hidden">
                     <button type="submit" class="users__button-search"><i class="fas fa-search"></i></button>
                 </form>
             @elseif ($state == 'all')
                 <form action="{{ route('courses.edit.assignments', ['id' => $courseId]) }}" method="get" class="users__form-search">
-                    <input name="search" type="text" placeholder="Search" class="users__input-search">
+                    <input name="search" type="text" placeholder="{{ __('main.search') }}" class="users__input-search">
                     <input name="assign" value="all" type="hidden">
                     <button type="submit" class="users__button-search"><i class="fas fa-search"></i></button>
                 </form>
@@ -42,13 +42,13 @@
         <table class="users__table classic-box">
             <thead>
             <tr class="users__tr users__tr_head">
-                <th class="users__td users__td-img">Ava</th>
+                <th class="users__td users__td-img">{{ __('main.avatar') }}</th>
                 <th class="users__td">ID</th>
-                <th class="users__td">E-mail</th>
-                <th class="users__td">Surname</th>
-                <th class="users__td">Name</th>
-                <th class="users__td">Patronymic</th>
-                <th class="users__td">Progress</th>
+                <th class="users__td">{{ __('main.email') }}</th>
+                <th class="users__td">{{ __('main.surname') }}</th>
+                <th class="users__td">{{ __('main.name') }}</th>
+                <th class="users__td">{{ __('main.patronymic') }}</th>
+                <th class="users__td">{{ __('main.progress') }}</th>
                 <th class="users__td"></th>
             </tr>
             </thead>
@@ -81,7 +81,7 @@
                 </tr>
                 <div class="modal" id="deduct-modal-{{ $user->user_id }}">
                     <div class="modal-box">
-                        <p class="modal-text modal-text-delete mb20 mr20">Are you really want to deduct {{ $user->name }} from you course?</p>
+                        <p class="modal-text modal-text-delete mb20 mr20">{{ __('main.sureQuestion') }} {{ __('main.deduct') }} {{ $user->name }} {{ __('main.fromYourCourse') }}?</p>
 
                         <div class="modal-buttons">
                             <form class="table-action-form" action="{{ route('courses.course.deduct', ['id' => $courseId]) }}" method="post">
@@ -89,9 +89,9 @@
                                 @method('post')
                                 <input name="user_id" type="hidden" value="{{ $user->user_id }}">
                                 <input name="action" type="hidden" value="deduct">
-                                <button type="submit" class="table-action-button confirm-button">Confirm</button>
+                                <button type="submit" class="table-action-button confirm-button">{{ __('main.confirm') }}</button>
                             </form>
-                            <button onclick="document.getElementById('deduct-modal-<?= $user->user_id ?>').style.display = 'none'" class="table-action-button cancel-button">Cancel</button>
+                            <button onclick="document.getElementById('deduct-modal-<?= $user->user_id ?>').style.display = 'none'" class="table-action-button cancel-button">{{ __('main.cancel') }}</button>
                         </div>
 
                     </div>
@@ -99,7 +99,7 @@
 
                 <div class="modal" id="assign-modal-{{ $user->user_id }}">
                     <div class="modal-box">
-                        <p class="modal-text modal-text-restore mb20 mr20">Are you really want to assign {{ $user->name }} to your course?</p>
+                        <p class="modal-text modal-text-restore mb20 mr20">{{ __('main.sureQuestion') }} {{ __('main.assign') }} {{ $user->name }} {{ __('main.toYourCourse') }}?</p>
 
                         <div class="modal-buttons">
                             <form class="table-action-form" action="{{ route('courses.course.assgin', ['id' => $courseId]) }}" method="post">
