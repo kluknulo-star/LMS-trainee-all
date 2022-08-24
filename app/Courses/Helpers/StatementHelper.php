@@ -106,7 +106,7 @@ class StatementHelper
         $sectionIds = [];
 
         foreach ($statements as $statement) {
-            $content = json_decode($statement->content);
+            $content = $statement->content;
             $object = explode('/', $content->object->id);
 
             $sectionId = end($object);
