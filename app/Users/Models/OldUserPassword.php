@@ -35,4 +35,9 @@ class OldUserPassword extends Model
      * @var array<int, string>
      */
     protected $hidden = [];
+
+    protected $casts = [
+        'user_id' => 'integer',
+        'old_password' => 'string',
+    ];
 }

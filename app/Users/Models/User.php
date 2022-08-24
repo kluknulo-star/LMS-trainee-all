@@ -69,7 +69,14 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array<string, string>
      */
     protected $casts = [
+        'surname' => 'string',
+        'name' => 'string',
+        'patronymic' => 'string',
+        'email' => 'string',
+        'password' => 'string',
+        'is_teacher' => 'boolean',
         'email_verified_at' => 'datetime',
+        'avatar_filename' => 'string',
     ];
 
     public function courses()

@@ -35,4 +35,10 @@ class ItemsStats extends Model
      * @var array<int, string>
      */
     protected $hidden = [];
+
+    protected $casts = [
+        'user_id' => 'integer',
+        'item_id' => 'integer',
+        'status' => 'string',
+    ];
 }

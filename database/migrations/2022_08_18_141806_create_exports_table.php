@@ -17,7 +17,9 @@ return new class extends Migration
             $table->id('export_id');
             $table->foreignId('export_owner_id')
                 ->references('user_id')
-                ->on('users');
+                ->on('users')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->string('export_file_path', 255);
             $table->timestamps();
         });

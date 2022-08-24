@@ -35,4 +35,9 @@ class Export extends Model
      * @var array<int, string>
      */
     protected $hidden = [];
+
+    protected $casts = [
+        'export_owner_id' => 'integer',
+        'export_file_path' => 'string',
+    ];
 }

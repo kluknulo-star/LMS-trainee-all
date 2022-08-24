@@ -37,4 +37,9 @@ class AssignableCourse extends Model
      */
     protected $hidden = [];
 
+    protected $casts = [
+        'student_id' => 'integer',
+        'course_id' => 'integer',
+        'progress' => 'integer',
+    ];
 }
