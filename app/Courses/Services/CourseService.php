@@ -60,7 +60,7 @@ class CourseService
 
     public function getUnassignedUsers($searchParam, $courseId): Builder
     {
-        $users = User::whereDoesntHave('courses', function(Builder $query) use ($courseId) {
+        $users = User::whereDoesntHave('assignableCourses', function(Builder $query) use ($courseId) {
             $query->where('course_id', '=', $courseId);
         });
 
