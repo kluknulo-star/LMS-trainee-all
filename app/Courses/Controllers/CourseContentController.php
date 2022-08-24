@@ -9,6 +9,8 @@ use App\Courses\Services\CourseService;
 use App\Http\Controllers\Controller;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Session;
 
 class CourseContentController extends Controller
 {
@@ -17,11 +19,11 @@ class CourseContentController extends Controller
         private CourseService $courseService,
     )
     {
-
     }
 
     public function edit($courseId, $sectionId): View
     {
+        App::setLocale(Session::get('lang'));
         $course = $this->courseService->getCourse($courseId);
         $this->authorize('update', [$course]);
         $section = $course->content->where('item_id', $sectionId)->first();

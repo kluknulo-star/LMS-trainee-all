@@ -5,8 +5,10 @@ namespace App\Users\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Session;
 
 class LoginController extends Controller
 {
@@ -53,11 +55,13 @@ class LoginController extends Controller
 
     public function login(): View
     {
+        App::setLocale(Session::get('lang'));
         return view('pages/login');
     }
 
     public function register(): View
     {
+        App::setLocale(Session::get('lang'));
         return view('pages/register');
     }
 }

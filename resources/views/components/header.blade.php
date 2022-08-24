@@ -16,3 +16,7 @@
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 </head>
 <body>
+
+<a href="{{ route('change.language') }}" class="change-lang-button">
+    <i class="fa-solid fa-globe"></i>
+</a>
