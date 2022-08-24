@@ -37,13 +37,13 @@ class ContentTransfer extends Command
         foreach($courses as $course) {
             $courseId = $course['course_id'];
 
-            foreach (json_decode($course['content']) as $item) {
+            foreach (json_decode($course['all_content']) as $item) {
                 $itemType = $item->type;
                 $typeOfItem = TypeOfItems::firstOrCreate(
                     ['type' => $itemType]
                 );
                 $itemTitle = $item->title;
-                $itemContent = $item->content;
+                $itemContent = $item->all_content;
 
                 $newItem = CourseItems::create([
                     'course_id' => $courseId,
@@ -52,7 +52,7 @@ class ContentTransfer extends Command
                     'item_content' => json_encode($itemContent),
                 ]);
                 if($newItem) {
-                    DB::table('courses')->where('course_id', $courseId)->update(['content' => new Expression('(JSON_ARRAY())')]);
+                    DB::table('courses')->where('course_id', $courseId)->update(['all_content' => new Expression('(JSON_ARRAY())')]);
                 }
             }
         }
