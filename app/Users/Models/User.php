@@ -2,10 +2,12 @@
 
 namespace App\Users\Models;
 
+use App\Courses\Models\AssignableCourse;
 use App\Courses\Models\Course;
 use Database\Factories\UserFactory;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -73,6 +75,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function courses()
     {
         return $this->hasMany(Course::class, 'author_id', 'user_id');
+    }
+
+    public function assignableCourses(): HasMany
+    {
+        return $this->hasMany(AssignableCourse::class, 'student_id', 'user_id');
     }
 
     public function assignedCourses()
