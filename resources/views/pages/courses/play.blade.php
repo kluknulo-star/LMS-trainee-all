@@ -69,9 +69,9 @@
 var passedContent = $('.progress').attr('passedContent');
 var allContent = $('.progress').attr('allContent');
 if (allContent == 0) {
-    $('.progress').text('Progress: 0%');
+    $('.progress').text('{{ __('main.progress') }}: 0%');
 } else {
-    $('.progress').text('Progress: '+ Math.round((passedContent) / allContent * 100) +'%');
+    $('.progress').text('{{ __('main.progress') }}: '+ Math.round((passedContent) / allContent * 100) +'%');
 }
 
 $(".send-stmt-button").click(function() {

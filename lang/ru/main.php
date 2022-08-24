@@ -75,6 +75,6 @@ return [
     'user' => 'пользователь',
     'userVin' => 'пользователя',
     'teacherTvor' => 'учителем',
-    'courseContent' => 'Course content',
+    'courseContent' => 'Контент курса',
 
 ];
