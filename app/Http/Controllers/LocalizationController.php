@@ -9,6 +9,10 @@ class LocalizationController extends Controller
 {
     public function changeLanguage()
     {
+        if (Session::get('lang') === NULL) {
+            Session::put('lang', 'ru');
+        }
+
         $locale = Session::get('lang');
 
         if ($locale == 'ru') {
