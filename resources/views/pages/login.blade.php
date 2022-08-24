@@ -7,7 +7,7 @@
             CourseZone
         </div>
         <div class="welcome__title h2">
-            Sign In
+            {{ __('main.login') }}
         </div>
 
         @if ($errors->any())
@@ -22,10 +22,10 @@
 
         <form method="post" action="{{ route('authenticate') }}" class="welcome__form form">
             @csrf
-            <input name="email" type="email" placeholder="E-mail" class="welcome__input input" required>
-            <input name="password" type="password" placeholder="Password" class="welcome__input input" required>
-            <p class="welcome__text">Not registered?&nbsp<a href="{{ route('register') }}">Register</a> Or <a href="{{ route('vk.auth') }}">VK.com</a> </p>
-            <button type="submit" class="welcome__button rounded-red-button button w100p">Sign in</button>
+            <input name="email" type="email" placeholder="{{ __('main.email') }}" class="welcome__input input" required>
+            <input name="password" type="password" placeholder="{{ __('main.password') }}" class="welcome__input input" required>
+            <p class="welcome__text">{{ __('main.isNotRegisteredQ') }}&nbsp<a href="{{ route('register') }}">{{ __('main.register') }}</a> {{ __('main.or') }} <a href="{{ route('vk.auth') }}">VK.com</a> </p>
+            <button type="submit" class="welcome__button rounded-red-button button w100p">{{ __('main.signIn') }}</button>
         </form>
 
     </div>

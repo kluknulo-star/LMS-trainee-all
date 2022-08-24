@@ -7,7 +7,7 @@
 <div class="container">
     <div class="edit flex">
         <div class="edit__container edit__container-course classic-box mrauto">
-            <div class="edit__title h2 mb30">Edit Course</div>
+            <div class="edit__title h2 mb30">{{ __('main.edit') }} {{ __('main.course') }}</div>
             <form id="edit-course-form" method="post" action="{{ route('courses.update', ['id' => $course->course_id]) }}" class="edit__form form">
                 @csrf
                 @method('patch')
@@ -19,33 +19,33 @@
                         <ul>@foreach($errors->get('title') as $message)<li>{{$message}}</li>@endforeach</ul>
                     </div>
                 @endif
-                <input name="title" value="{{ old('title') ?? $course->title }}" class="edit__input col-input input">
+                <input placeholder="{{ __('main.title') }}" name="title" value="{{ old('title') ?? $course->title }}" class="edit__input col-input input">
 
                 @if ($errors->has('description'))
                     <div class="alert alert-danger">
                         <ul>@foreach($errors->get('description') as $message)<li>{{$message}}</li>@endforeach</ul>
                     </div>
                 @endif
-                <textarea name="description" class="edit__input col-input input h150">{{ old('description') ?? $course->description }}</textarea>
+                <textarea placeholder="{{ __('main.description') }}" name="description" class="edit__input col-input input h150">{{ old('description') ?? $course->description }}</textarea>
             </form>
 
             <div class="flex flex-just-spbtw">
-                <button form="edit-course-form" type="submit" class="w24p edit__button rounded-green-button button mb15">Save changes</button>
+                <button form="edit-course-form" type="submit" class="w24p edit__button rounded-green-button button mb15">{{ __('main.save') }} {{ __('main.changes') }}</button>
 
                 <form method="get" class="w24p" action="{{ route('courses.edit.assignments', ['id' => $course->course_id]) }}">
-                    <button type="submit" class="edit__button rounded-black-button button w100p mb15 whitesmoke-text">Assign students</button>
+                    <button type="submit" class="edit__button rounded-black-button button w100p mb15 whitesmoke-text">{{ __('main.assign') }} {{ __('main.students') }}</button>
                 </form>
                 <form method="get" class="w24p" action="{{ route('courses.statistics', ['id' => $course->course_id]) }}">
-                    <button type="submit" class="edit__button rounded-blue-button button w100p mb15 whitesmoke-text">Course statistics</button>
+                    <button type="submit" class="edit__button rounded-blue-button button w100p mb15 whitesmoke-text">{{ __('main.course') }} {{ __('main.statistics') }}</button>
                 </form>
                 <button class="edit__button rounded-red-button button w24p mb15" onclick="document.getElementById('delete-modal-<?= $course->course_id  ?>').style.display = 'flex'">
-                    Delete course
+                    {{ __('main.delete') }} {{ __('main.course') }}
                 </button>
             </div>
 
         </div>
         <div class="edit__container edit__container-course classic-box">
-            <div class="edit__title h2 mb30">Create course section</div>
+            <div class="edit__title h2 mb30">{{ __('main.add') }} {{ Lang::choice('main.sectionVin', 1) }}</div>
             <form method="post" action="{{ route('courses.create.section', ['id' => $course->course_id]) }}" class="edit__form form">
                 @csrf
                 @method('post')
@@ -54,7 +54,7 @@
                         <ul>@foreach($errors->get('sectionTitle') as $message)<li>{{$message}}</li>@endforeach</ul>
                     </div>
                 @endif
-                <input name="sectionTitle" placeholder="Section title" value="{{ old('sectionTitle') }}" type="text" class="edit__input col-input input">
+                <input name="sectionTitle" placeholder="{{ __('main.sectionTitle') }}" value="{{ old('sectionTitle') }}" type="text" class="edit__input col-input input">
 
                 @if ($errors->has('sectionType'))
                     <div class="alert alert-danger">
@@ -62,31 +62,39 @@
                     </div>
                 @endif
                 <select class="select mb20" name="sectionType" id="">
-                    <option value="1">Article</option>
-                    <option value="2">YouTube video</option>
-                    <option value="3">Test</option>
+                    <option value="1">{{ __('main.article') }}</option>
+                    <option value="2">{{ __('main.YouTubeLink') }}</option>
+                    <option value="3">{{ __('main.quiz') }}</option>
                 </select>
-                <button type="submit" class="edit__button rounded-black-button button mb15">Create section</button>
+                <button type="submit" class="edit__button rounded-black-button button mb15">{{ __('main.create') }} {{ Lang::choice('main.sectionVin', 1) }}</button>
             </form>
         </div>
     </div>
     <div class="edit">
         <div class="edit__container edit__container-course classic-box mrauto">
             <div class="edit__title h2 mb30">
-                Course sections
+                {{ __('main.courseSections') }}
             </div>
             <table class="users__table">
                 <thead>
                 <tr class="users__tr users__tr_head">
-                    <th class="users__td">Type</th>
-                    <th class="users__td">Title</th>
+                    <th class="users__td">{{ __('main.type') }}</th>
+                    <th class="users__td">{{ __('main.title') }}</th>
                     <th class="users__td"></th>
                 </tr>
                 </thead>
                 <tbody>
                     @forelse($course->content as $element)
                         <tr class="users__tr">
-                            <th class="users__td">{{ $element->type_id }}</th>
+                            <th class="users__td">
+                                @if($element->type->type == 'Article')
+                                    {{ __('main.article') }}
+                                @elseif($element->type->type == 'YouTubeVideoLink')
+                                    {{ __('main.YouTubeLink') }}
+                                @elseif($element->type->type == 'Test')
+                                    {{ __('main.quiz') }}
+                                @endif
+                            </th>
                             <th class="users__td">{{ $element->title }}</th>
                             <th class="users__td">
                                 <a class="table-action-button table-edit-button" href="{{ route('courses.edit.section', ['id' => $course->course_id, 'section_id' => $element->item_id]) }}"><i class="fas fa-pen"></i></a>
@@ -98,22 +106,22 @@
 
                         <div class="modal" id="delete-modal-{{ $element->item_id }}">
                             <div class="modal-box">
-                                <p class="modal-text modal-text-delete mb20 mr20">You sure to <span>delete</span> course section {{ $element->title }}?</p>
+                                <p class="modal-text modal-text-delete mb20 mr20">{{ __('main.sureQuestion') }} <span>{{ __('main.delete') }}</span> {{ $element->title }}?</p>
 
                                 <div class="modal-buttons">
                                     <form class="table-action-form" action="{{ route('courses.destroy.section', ['id' => $course->course_id, 'section_id' => $element->item_id]) }}" method="post">
                                         @csrf
                                         @method('delete')
                                         <input name="user_id" type="hidden" value="{{ $course->course_id }}">
-                                        <button type="submit" class="table-action-button confirm-button">Confirm</button>
+                                        <button type="submit" class="table-action-button confirm-button">{{ __('main.confirm') }}</button>
                                     </form>
-                                    <button onclick="document.getElementById('delete-modal-<?= $element->item_id ?>').style.display = 'none'" class="table-action-button cancel-button">Cancel</button>
+                                    <button onclick="document.getElementById('delete-modal-<?= $element->item_id ?>').style.display = 'none'" class="table-action-button cancel-button">{{ __('main.cancel') }}</button>
                                 </div>
 
                             </div>
                         </div>
                     @empty
-                        Course contents not found
+                        {{ __('main.course') }} contents not found
                     @endforelse
                 </tbody>
             </table>
@@ -124,7 +132,7 @@
 @if(!$course->content)
 <div class="modal" id="delete-modal-{{ $element->item_id }}">
     <div class="modal-box">
-        <p class="modal-text modal-text-delete mb20 mr20">You sure to <span>delete</span> course section {{ $element->title }}?</p>
+        <p class="modal-text modal-text-delete mb20 mr20"> {{ $element->title }}?</p>
 
         <div class="modal-buttons">
             <form class="table-action-form" action="{{ route('courses.destroy.section', ['id' => $course->course_id, 'section_id' => $element->item_id]) }}" method="post">

@@ -8,7 +8,7 @@
     <div class="container">
 
         <div class="courses__title flex flex-just-spbtw flex-alit-center h1 w1200">
-            My courses
+            {{ __('main.myCourses') }}
 
             <div class="courses__after-title-links">
                 <a href="{{ route('courses.create') }}" class="users__title-link">
@@ -17,7 +17,7 @@
             </div>
 
             <form action="{{ route('courses.own') }}" method="get" class="courses__form-search">
-                <input name="search" type="text" placeholder="Search course" class="courses__input-search">
+                <input name="search" type="text" placeholder="{{ __('main.search') }}" class="courses__input-search">
                 <button type="submit" class="courses__button-search"><i class="fas fa-search"></i></button>
             </form>
 
@@ -32,7 +32,7 @@
                     <div
                         class="courses__course-description mb30">{{ Str::limit($course->description, 100, '...') }}</div>
                     <div class="courses__course-author">
-                        Author: <a
+                        {{ __('main.author') }}: <a
                             href="{{ route('users.show', ['id' => auth()->id()]) }}">{{ auth()->user()->email }}</a>
                     </div>
                     <div class="courses__course-assign-count"><i
