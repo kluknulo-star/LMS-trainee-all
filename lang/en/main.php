@@ -3,8 +3,8 @@
 return [
     'students' => 'Students',
     'student' => 'student',
-    'myСourses' => 'My courses',
-    'assignedСourses' => 'Assigned Courses',
+    'myCourses' => 'My courses',
+    'assignedCourses' => 'Assigned Courses',
     'logout' => 'Logout',
     'login' => 'Login',
     'signIn' => 'Sign In',

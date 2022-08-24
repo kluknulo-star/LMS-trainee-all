@@ -172,3 +172,11 @@ a {
 .whitesmoke-text {
     color: whitesmoke !important;
 }
+.change-lang-button {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+}
+.change-lang-button i {
+    font-size: 30px;
+}
