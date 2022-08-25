@@ -15,7 +15,9 @@ return new class extends Migration
     {
         Schema::create('quizzes', function (Blueprint $table) {
             $table->id('quiz_id');
+            $table->unsignedInteger('count_questions_to_pass')->default(0);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

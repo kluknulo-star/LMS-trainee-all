@@ -27,6 +27,7 @@ return new class extends Migration
                 ->onDelete('cascade');
             $table->string('status',50);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

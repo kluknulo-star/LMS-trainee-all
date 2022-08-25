@@ -20,6 +20,7 @@ return new class extends Migration
                 ->references('question_id')
                 ->on('quiz_questions');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
