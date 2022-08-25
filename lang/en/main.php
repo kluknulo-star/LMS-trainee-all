@@ -76,5 +76,8 @@ return [
     'userVin' => 'user',
     'teacherTvor' => 'as teacher',
     'courseContent' => 'Course content',
+    'multiply' => 'Multiply',
+    'adding' => 'adding',
+    'multiplyAddingPlaceholder' => 'Enter here emails all students you want to assign',
 
 ];

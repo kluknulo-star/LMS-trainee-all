@@ -10,7 +10,6 @@ use App\Http\Controllers\Controller;
 use App\Users\Models\User;
 use Illuminate\Http\Client\Response;
 
-
 class StatementController extends Controller
 {
     public function __construct(private CourseService $courseService, private StatementService $statementService)
@@ -46,5 +45,4 @@ class StatementController extends Controller
 
         return ClientLRS::sendStatement($user, 'passed', $course, $section);
     }
-
 }

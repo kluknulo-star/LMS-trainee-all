@@ -55,13 +55,11 @@ class LoginController extends Controller
 
     public function login(): View
     {
-        App::setLocale(Session::get('lang'));
         return view('pages/login');
     }
 
     public function register(): View
     {
-        App::setLocale(Session::get('lang'));
         return view('pages/register');
     }
 }
