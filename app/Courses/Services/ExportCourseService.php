@@ -12,6 +12,7 @@ class ExportCourseService extends CourseService
 {
     public function __construct(
         private UserService $userService,
+        private CourseService $courseService,
     )
     {
     }
@@ -34,12 +35,12 @@ class ExportCourseService extends CourseService
         switch ($type) {
             case 'all':
                 $teachers = $this->userService->getTeachers()->get();
-                $courses = (new CourseService())->getAll();
+                $courses = $this->courseService->getAll();
                 $fileName = now().'-all-excel.xlsx';
                 break;
             case 'own':
                 $teachers = auth()->user();
-                $courses = (new CourseService())->getOwn()->get();
+                $courses = $this->courseService->getOwnCourses()->get();
                 $fileName = now().'-own-excel.xlsx';
                 break;
         }

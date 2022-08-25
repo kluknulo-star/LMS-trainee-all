@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Ramsey\Collection\Collection;
 
 class CourseRepository
 {
@@ -37,7 +36,7 @@ class CourseRepository
                      ->search($searchParam);
     }
 
-    public function getAll(): Collection
+    public function getAll()
     {
         return Course::withCount('assignedUsers')->get();
     }

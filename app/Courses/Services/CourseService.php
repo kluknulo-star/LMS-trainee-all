@@ -5,7 +5,6 @@ namespace App\Courses\Services;
 use App\Courses\Models\Assignment;
 use App\Courses\Models\Course;
 use App\Courses\Repositories\CourseRepository;
-use Ramsey\Collection\Collection;
 use App\Users\Repositories\UserRepository;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -36,7 +35,7 @@ class CourseService
         return $this->courseRepository->getOwnCourses($searchParam);
     }
 
-    public function getAll(): Collection
+    public function getAll()
     {
         return $this->courseRepository->getAll();
     }
