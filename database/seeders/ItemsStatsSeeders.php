@@ -21,7 +21,7 @@ class ItemsStatsSeeders extends Seeder
     {
         $data = [];
         $recordCount = 500;
-        $status = ['passed', 'failed'];
+        $status = ['passed', 'launched', 'failed'];
 
         for ($i = 0; $i < $recordCount; $i++) {
             $data[] = [

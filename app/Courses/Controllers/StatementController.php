@@ -3,6 +3,7 @@
 namespace App\Courses\Controllers;
 
 use App\Courses\Helpers\ClientLRS;
+use App\Courses\Helpers\StatementLocalSend;
 use App\Courses\Services\CourseService;
 use App\Courses\Services\StatementService;
 use App\Http\Controllers\Controller;
@@ -24,6 +25,9 @@ class StatementController extends Controller
         /** @var User $user */
         $user = auth()->user();
 
+        $statementLocalSend = new StatementLocalSend();
+        $statementLocalSend->sendLocalStatement($user->user_id, $sectionId, 'launched');
+
         return ClientLRS::sendStatement($user, 'launched', $course, $section);
     }
 
@@ -35,6 +39,9 @@ class StatementController extends Controller
 
         /** @var User $user */
         $user = auth()->user();
+
+        $statementLocalSend = new StatementLocalSend();
+        $statementLocalSend->sendLocalStatement($user->user_id, $sectionId, 'passed');
 
         return ClientLRS::sendStatement($user, 'passed', $course, $section);
     }
