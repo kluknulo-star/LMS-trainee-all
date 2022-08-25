@@ -1,10 +1,5 @@
 <?php
 
-use App\Courses\Helpers\ContentMigratorHelper;
-use App\Courses\Models\Course;
-use App\Courses\Models\CourseItems;
-use App\Courses\Models\TypeOfItems;
-use App\Http\Controllers\AboutController;
 use App\Http\Controllers\LocalizationController;
 use App\Http\Controllers\SocialController;
 use App\Users\Controllers\LoginController;
