@@ -7,68 +7,84 @@ use App\Courses\Quizzes\Models\Option;
 use App\Courses\Quizzes\Models\Question;
 use App\Courses\Quizzes\Models\Quiz;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\DB;
+use phpDocumentor\Reflection\Types\Boolean;
 
 class QuizService
 {
-    public function __construct(private Quiz $quiz)
+    public function getQuiz(int $id, array $relations=[]) : Quiz
     {
+        return Quiz::with($relations)->find($id)->first();
     }
 
-    public function getQuestions() :  Collection|null
+    public function createQuestion(Quiz $quiz, string $question) : Question
     {
-        return $this->quiz->questions()->get();
-    }
-
-    public function getQuestion(int $id) : Question|null
-    {
-        return $this->getQuestions()->where('question_id', $id)->first();
-    }
-
-    public function deleteQuestion(int $id) : void
-    {
-        Question::where('question_id', $id)->delete();
-    }
-
-    public function addQuestion(string $question) : void
-    {
-        Question::create([
+        return Question::firstOrcreate([
             'question_body' => $question,
-            'quiz_id' => $this->quiz->id(),
+            'quiz_id' => $quiz->getKey(),
         ]);
     }
 
-    public function getQuestionAnswer(int $id) : Answer|null
+    public function deleteAllQuestionOptions(Quiz $quiz, int $questionId) : void
     {
-       return $this->getQuestion($id)->answer()->first();
+        $quiz->questions->where('question_id', $questionId)->first()->options()->delete();
     }
 
-    public function addQuestionAnswer(int $id, string $answerBody) : void
+    public function addQuestionOption(int $questionId, array $option) : void
     {
-        $this->getQuestion($id)->answer()->updateOrCreate(
-            ['question_id' => $id],
-            ['answer_body' => $answerBody]
+        $opt = Option::firstOrNew(
+            [
+                'question_id' => $questionId,
+                'option_body' => $option['optionBody'],
+            ],
+            [
+                'option_body' => $option['optionBody'],
+                'is_correct' => $option['isCorrect']
+            ]
         );
+
+        $opt->option_body = $option['optionBody'];
+        $opt->is_correct = $option['isCorrect'];
+        $opt->save();
     }
 
-    public function getQuestionOptions(int $id) :  Collection|null
+    public function deleteQuestion(Quiz $quiz, int $questionId) : void
     {
-        return $this->getQuestion($id)->options()->get();
-    }
-
-    public function addQuestionOption(int $id, string $option) : void
-    {
-        Option::create([
-            'option_body' => $option,
-            'question_id' => $id,
-        ]);
-    }
-
-    public function deleteQuestionOption(int $questionId, int $optionId) : void
-    {
-        Option::where([
-            'question_id', '=', $questionId,
-            'option_id', '=', $optionId,
+        Question::where([
+            'question_id' => $questionId,
+            'quiz_id' => $quiz->getKey(),
         ])->delete();
     }
 
+    public function storeResults(Quiz $quiz, int $correctAnswersCount)
+    {
+        DB::table('quiz_results')->insert([
+            'count_correct_questions' => $correctAnswersCount,
+            'count_questions_to_pass' => $quiz->count_questions_to_pass,
+            'count_questions'=> $quiz->questions->count(),
+            'quiz_id' => $quiz->getKey(),
+            'user_id' => auth()->id(),
+        ]);
+    }
+
+    public function retrieveResults(Quiz $quiz)
+    {
+        return DB::table('quiz_results')
+            ->where([
+            ['quiz_id', '=', $quiz->getKey()],
+            ['user_id', '=', auth()->id()],
+            ])
+            ->orderByDesc('result_id')
+            ->first();
+    }
+
+    public function isAnswerSelected(array $options)
+    {
+        foreach($options as $option) {
+            if ($option['isCorrect']) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
