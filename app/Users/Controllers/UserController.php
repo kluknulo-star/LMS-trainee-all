@@ -27,7 +27,6 @@ class UserController extends Controller
 
     public function index(Request $request): View
     {
-        App::setLocale(Session::get('lang'));
         $this->authorize('view', [auth()->user()]);
         $searchParam = $request->input('search');
         $users = $this->service->index($searchParam)->paginate(8);
@@ -36,7 +35,6 @@ class UserController extends Controller
 
     public function show(int $id): View
     {
-        App::setLocale(Session::get('lang'));
         $user = $this->service->getUser($id);
         $exports = $this->exportCourseService->getExports($id);
         $this->authorize('view', [$user, auth()->user()]);
@@ -45,7 +43,6 @@ class UserController extends Controller
 
     public function create(): View
     {
-        App::setLocale(Session::get('lang'));
         $this->authorize('create', [auth()->user()]);
         return view('pages.users.create');
     }
@@ -59,7 +56,6 @@ class UserController extends Controller
 
     public function edit(int $id): View
     {
-        App::setLocale(Session::get('lang'));
         $user = $this->service->getUser($id);
         $this->authorize('update', [$user]);
         return view('pages.users.edit', compact('user'));
@@ -76,7 +72,6 @@ class UserController extends Controller
 
     public function editAvatar(int $id): View
     {
-        App::setLocale(Session::get('lang'));
         $user = $this->service->getUser($id);
         $this->authorize('update', [$user]);
         return view('pages.users.edit_avatar', compact('user'));

@@ -21,7 +21,6 @@ class CourseController extends Controller
 
     public function showAssignments(Request $request): View
     {
-        App::setLocale(Session::get('lang'));
         $searchParam = $request->input('search');
         $courses = $this->courseService->getAssignments($searchParam)->paginate(4);
         return view('pages.courses.assignments', compact('courses'));
@@ -29,7 +28,6 @@ class CourseController extends Controller
 
     public function showOwn(Request $request): View
     {
-        App::setLocale(Session::get('lang'));
         $searchParam = $request->input('search');
         $courses = $this->courseService->getOwn($searchParam)->paginate(4);
         return view('pages.courses.own', compact('courses'));
@@ -56,7 +54,6 @@ class CourseController extends Controller
 
     public function play(int $courseId): View
     {
-        App::setLocale(Session::get('lang'));
         $course = $this->courseService->getCourse($courseId);
         $this->authorize('view', [$course]);
         $user = auth()->user();
@@ -66,7 +63,6 @@ class CourseController extends Controller
 
     public function edit(int $courseId): View
     {
-        App::setLocale(Session::get('lang'));
         $course = $this->courseService->getCourse($courseId);
         $this->authorize('update', [$course]);
         return view('pages.courses.edit', compact('course'));
@@ -74,7 +70,6 @@ class CourseController extends Controller
 
     public function editAssignments(Request $request, int $courseId, string $state): View
     {
-        App::setLocale(Session::get('lang'));
         $searchParam = $request->input('search');
 
         $course = $this->courseService->getCourse($courseId);
@@ -111,7 +106,6 @@ class CourseController extends Controller
 
     public function create(): View
     {
-        App::setLocale(Session::get('lang'));
         $this->authorize('create', [auth()->user()]);
         return view('pages.courses.create');
     }
@@ -140,7 +134,6 @@ class CourseController extends Controller
 
     public function statistics(int $courseId): View
     {
-        App::setLocale(Session::get('lang'));
         $course = $this->courseService->getCourse($courseId);
         $this->authorize('update', [$course]);
         $count = [

@@ -175,7 +175,7 @@ a {
 .change-lang-button {
     position: absolute;
     right: 20px;
-    bottom: 20px;
+    top: 30px;
     transition: .2s;
     z-index: 9999;
 }
