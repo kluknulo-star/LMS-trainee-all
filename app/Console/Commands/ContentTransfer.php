@@ -33,26 +33,28 @@ class ContentTransfer extends Command
     public function handle()
     {
         $courses = Course::withTrashed()->get();
+        $types =  TypeOfItems::all();
 
         foreach($courses as $course) {
             $courseId = $course['course_id'];
 
             foreach (json_decode($course['all_content']) as $item) {
                 $itemType = $item->type;
-                $typeOfItem = TypeOfItems::firstOrCreate(
-                    ['type' => $itemType]
-                );
+                foreach ($types as $type) {
+                    if($itemType == $type->type){
+                        $typeId = $type->type_id;
+                    }
+                }
                 $itemTitle = $item->title;
                 $itemContent = $item->all_content;
 
-                $newItem = CourseItems::create([
-                    'course_id' => $courseId,
-                    'type_id' => $typeOfItem->type_id,
-                    'title' => $itemTitle,
-                    'item_content' => json_encode($itemContent),
-                ]);
-                if($newItem) {
-                    DB::table('courses')->where('course_id', $courseId)->update(['all_content' => new Expression('(JSON_ARRAY())')]);
+                if(!empty($courseId) && !empty($typeId) && !empty($itemTitle) && !empty($itemContent)) {
+                    CourseItems::insert([
+                        'course_id' => $courseId,
+                        'type_id' => $typeId,
+                        'title' => $itemTitle,
+                        'item_content' => json_encode($itemContent),
+                    ]);
                 }
             }
         }
