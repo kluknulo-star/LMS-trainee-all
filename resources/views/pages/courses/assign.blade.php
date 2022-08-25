@@ -67,7 +67,9 @@
 
             @forelse ($users as $key => $user)
                 <tr class="users__tr">
-                    @if($user->avatar_filename && file_exists('images/avatars/'.$user->user_id."/".$user->avatar_filename))
+                    @if(mb_substr($user->avatar_filename,0,4) == 'http')
+                        <th class="users__td users__td-img"><img src="{{ URL::asset($user->avatar_filename) }}" alt="" class="profile__img"></th>
+                    @elseif($user->avatar_filename && file_exists('images/avatars/'.$user->user_id."/".$user->avatar_filename))
                         <th class="users__td users__td-img"><img src="{{ URL::asset('images/avatars/'.$user->user_id."/".$user->avatar_filename) }}" alt="" class="profile__img"></th>
                     @else
                         <th class="users__td users__td-img"><img src="{{ URL::asset('images/default-avatar.png') }}" alt="" class="profile__img"></th>
