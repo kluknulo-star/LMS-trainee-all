@@ -37,16 +37,21 @@ class CourseController extends Controller
 
     public function assign(Request $request, int $courseId): RedirectResponse
     {
-        $userId = $request->input('user_id');
-        $this->courseService->assign($userId, $courseId);
-        return redirect()->route('courses.edit.assignments', ['id' => $courseId]);
+        if (empty($request->input('studentEmails'))) {
+            $userId = $request->input('user_id');
+            $this->courseService->assign($userId, $courseId);
+        } else {
+            $emails = preg_split('/\n|\r\n?/', $request->input('studentEmails'));
+            $this->courseService->assignMany($emails, $courseId);
+        }
+        return redirect()->route('courses.edit.assignments', ['id' => $courseId, 'state' => 'all']);
     }
 
     public function deduct(Request $request, int $courseId): RedirectResponse
     {
         $userId = $request->input('user_id');
         $this->courseService->deduct($userId, $courseId);
-        return redirect()->route('courses.edit.assignments', ['id' => $courseId]);
+        return redirect()->route('courses.edit.assignments', ['id' => $courseId, 'state' => 'already']);
     }
 
     public function play(int $courseId): View
@@ -67,10 +72,9 @@ class CourseController extends Controller
         return view('pages.courses.edit', compact('course'));
     }
 
-    public function editAssignments(Request $request, int $courseId): View
+    public function editAssignments(Request $request, int $courseId, string $state): View
     {
         App::setLocale(Session::get('lang'));
-        $state = $request->query('assign', 'already');
         $searchParam = $request->input('search');
 
         $course = $this->courseService->getCourse($courseId);

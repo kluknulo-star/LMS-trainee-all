@@ -177,6 +177,7 @@ a {
     right: 20px;
     bottom: 20px;
     transition: .2s;
+    z-index: 9999;
 }
 .change-lang-button i {
     font-size: 30px;
