@@ -22,6 +22,7 @@ return new class extends Migration
                 ->onDelete('cascade');
             $table->string('old_password', 60);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -29,6 +29,7 @@ return new class extends Migration
             $table->string('title', 90);
             $table->json('item_content')->default(new Expression('(JSON_ARRAY())'));
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

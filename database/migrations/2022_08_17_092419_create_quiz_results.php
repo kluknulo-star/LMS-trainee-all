@@ -22,7 +22,10 @@ return new class extends Migration
             $table->foreignId('quiz_id')
                 ->references('quiz_id')
                 ->on('quizzes');
+            $table->unsignedInteger('count_questions_to_pass')->default(0);
+            $table->unsignedInteger('count_questions')->default(0);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

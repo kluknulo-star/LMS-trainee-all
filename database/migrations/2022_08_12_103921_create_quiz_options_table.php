@@ -19,7 +19,9 @@ return new class extends Migration
                 ->references('question_id')
                 ->on('quiz_questions');
             $table->string('option_body', 255)->nullable(false);
+            $table->boolean('is_correct')->default(0);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
