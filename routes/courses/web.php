@@ -32,7 +32,7 @@ Route::prefix('courses')->middleware('auth')->group(function() {
         Route::delete('', [CourseController::class, 'destroy'])->where('id', '[0-9]+')->name('courses.delete');
         Route::post('/restore', [CourseController::class, 'restore'])->where('id', '[0-9]+')->name('courses.restore');
         Route::get('/edit', [CourseController::class, 'edit'])->where('id', '[0-9]+')->name('courses.edit');
-        Route::get('/edit/assignments', [CourseController::class, 'editAssignments'])->where('id', '[0-9]+')->name('courses.edit.assignments');
+        Route::get('/edit/assignments/{state}', [CourseController::class, 'editAssignments'])->where('id', '[0-9]+')->name('courses.edit.assignments');
         Route::get('/statistics', [CourseController::class, 'statistics'])->name('courses.statistics');
 
         Route::prefix('section')->group(function() {

@@ -50,6 +50,16 @@ class CourseService
         ]);
     }
 
+    public function assignMany($emails, $courseId)
+    {
+        $ids = User::query()->whereIn('email', $emails)->get()->pluck('user_id');
+        $assignData = [];
+        foreach ($ids as $id) {
+            $assignData[] = ['student_id' => $id, 'course_id' => $courseId];
+        }
+        return AssignableCourse::upsert($assignData, ['student_id', 'course_id']);
+    }
+
     public function deduct($userId, $courseId): bool
     {
         return AssignableCourse::where([

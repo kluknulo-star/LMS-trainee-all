@@ -32,7 +32,7 @@
             <div class="flex flex-just-spbtw">
                 <button form="edit-course-form" type="submit" class="w24p edit__button rounded-green-button button mb15">{{ __('main.save') }} {{ __('main.changes') }}</button>
 
-                <form method="get" class="w24p" action="{{ route('courses.edit.assignments', ['id' => $course->course_id]) }}">
+                <form method="get" class="w24p" action="{{ route('courses.edit.assignments', ['id' => $course->course_id, 'state' => 'already']) }}">
                     <button type="submit" class="edit__button rounded-black-button button w100p mb15 whitesmoke-text">{{ __('main.assign') }} {{ __('main.students') }}</button>
                 </form>
                 <form method="get" class="w24p" action="{{ route('courses.statistics', ['id' => $course->course_id]) }}">
