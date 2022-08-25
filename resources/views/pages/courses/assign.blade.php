@@ -40,12 +40,12 @@
             @endif
         </div>
         <div class="classic-box mb30">
-            <p class="h2 mb30">Множественное добавление</p>
+            <p class="h2 mb30">{{ __('main.multiply') }} {{ __('main.adding') }}</p>
             <form method="post" action="{{ route('courses.course.assgin', ['id' => $courseId]) }}">
                 @csrf
                 @method('post')
                 <textarea
-                    placeholder="Введите сюда все электронные почты пользователей, которых хотите назначить на курс"
+                    placeholder="{{ __('main.multiplyAddingPlaceholder') }}"
                     class="edit__input col-input input h150" name="studentEmails" id="" cols="30" rows="10"></textarea>
                 <button type="submit" class="rounded-black-button">{{ __('main.add') }}</button>
             </form>
