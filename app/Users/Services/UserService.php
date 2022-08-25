@@ -3,30 +3,35 @@
 namespace App\Users\Services;
 
 use App\Users\Models\User;
+use App\Users\Repositories\UserRepository;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Eloquent\Builder;
 
 class UserService
 {
+    public function __construct(private UserRepository $userRepository)
+    {
+    }
+
     public function index($searchParam = ''): Builder
     {
-        return User::withTrashed()->orderBy('user_id', 'desc')->search($searchParam);
+        return $this->userRepository->getAll($searchParam);
     }
 
     public function getTeachers(): Builder
     {
-        return User::withTrashed()->where('is_teacher', 1)->orderBy('user_id', 'desc');
+        return $this->userRepository->getTeachers();
     }
 
-    public function getUser($id): User
+    public function getUser(int $id): User
     {
-        return User::findOrFail($id);
+        return $this->userRepository->getUserById($id);
     }
 
-    public function create($validated): User
+    public function store($validated): User
     {
         $validated['password'] = Hash::make($validated['password']);
-        return User::create($validated);
+        return $this->userRepository->store($validated);
     }
 
     public function update($validated, $id): User
@@ -44,7 +49,7 @@ class UserService
     public function destroy($id): bool
     {
         if (auth()->id() != $id) {
-            return optional(User::where('user_id', $id))->delete();
+            return $this->userRepository->destroy($id);
         } else {
             return false;
         }
@@ -52,7 +57,7 @@ class UserService
 
     public function restore($id): bool
     {
-        return optional(User::withTrashed()->where('user_id', $id))->restore();
+        return $this->userRepository->restore($id);
     }
 
     public function assignTeacher($id): bool

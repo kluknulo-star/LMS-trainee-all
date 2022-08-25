@@ -9,8 +9,6 @@ use App\Courses\Services\CourseService;
 use App\Http\Controllers\Controller;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Session;
 
 class CourseContentController extends Controller
 {
@@ -34,7 +32,7 @@ class CourseContentController extends Controller
         $course = $this->courseService->getCourse($courseId);
         $this->authorize('update', [$course]);
         $validated = $request->validated();
-        $this->courseContentService->update($validated, $course, $sectionId);
+        $this->courseContentService->update($validated, $sectionId);
         return redirect()->route('courses.edit', [$courseId]);
     }
 
@@ -50,7 +48,7 @@ class CourseContentController extends Controller
     {
         $course = $this->courseService->getCourse($courseId);
         $this->authorize('delete', [$course]);
-        $this->courseContentService->destroy($courseId, $sectionId);
+        $this->courseContentService->destroy($sectionId);
         return redirect()->route('courses.edit', [$courseId]);
     }
 }

@@ -25,7 +25,7 @@ class UserServiceTest extends TestCase
         ];
 
         $service = new UserService();
-        $service->create($userData);
+        $service->store($userData);
 
         $dbUser = DB::table('users')->where('email', 'TestEmail@test.test')->first();
         $this->assertTrue($dbUser->email == $userData['email']);

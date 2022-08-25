@@ -12,8 +12,6 @@ use App\Users\Services\UserService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
 {
@@ -30,7 +28,7 @@ class UserController extends Controller
         $this->authorize('view', [auth()->user()]);
         $searchParam = $request->input('search');
         $users = $this->service->index($searchParam)->paginate(8);
-                        return view('pages.users.users', compact('users'));
+        return view('pages.users.users', compact('users'));
     }
 
     public function show(int $id): View
@@ -50,7 +48,7 @@ class UserController extends Controller
     public function store(CreateUserRequest $request): RedirectResponse
     {
         $validated = $request->validated();
-        $this->service->create($validated);
+        $this->service->store($validated);
         return redirect()->route('users');
     }
 

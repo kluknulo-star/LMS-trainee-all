@@ -3,29 +3,20 @@
 namespace App\Courses\Services;
 
 use App\Courses\Models\CourseItems;
+use App\Courses\Repositories\CourseContentRepository;
 
 class CourseContentService
 {
-    public function __construct(private CourseService $courseService)
+    public function __construct(private CourseContentRepository $courseContentRepository)
     {
     }
 
-//    public function getContent($courseId, $sectionId): array
-//    {
-//        foreach ($this->courseService->getCourse($courseId, true)->content as $section) {
-//            if ($section['section_id'] == $sectionId) {
-//                return $section;
-//            }
-//        }
-//        return [];
-//    }
-
-    public function update($validated, $course, $sectionId): bool
+    public function update($validated, $sectionId): bool
     {
         $courseContent['title'] = $validated['sectionTitle'];
         $courseContent['type_id'] = $validated['sectionType'];
         $courseContent['item_content'] = json_encode($validated['sectionContent']);
-        return CourseItems::where('item_id', $sectionId)->update($courseContent);
+        return $this->courseContentRepository->update($sectionId, $courseContent);
     }
 
     public function store($validated, $courseId): CourseItems
@@ -34,11 +25,11 @@ class CourseContentService
         $courseContent['title'] = $validated['sectionTitle'];
         $courseContent['type_id'] = $validated['sectionType'];
         $courseContent['item_content'] = json_encode('');
-        return CourseItems::create($courseContent);
+        return $this->courseContentRepository->create($courseContent);
     }
 
-    public function destroy($courseId, $sectionId): bool
+    public function destroy($sectionId): bool
     {
-        return CourseItems::findOrFail($sectionId)->delete();
+        return $this->courseContentRepository->destroy($sectionId);
     }
 }
