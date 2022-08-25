@@ -20,7 +20,8 @@ return new class extends Migration
             $table->string('patronymic', 70)->nullable();
             $table->string('email', 255)->unique();
             $table->string('password', 60);
-            $table->timestamp('email_verified_at')->nullable();
+            $table->timestamp('email_confirmed_at')->nullable();
+            $table->string('email_confirmation_token', 16)->nullable();
             $table->boolean('is_teacher')->default(false);
             $table->string('avatar_filename')->nullable();
             $table->rememberToken();

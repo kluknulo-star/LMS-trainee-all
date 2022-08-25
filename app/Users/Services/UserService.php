@@ -5,6 +5,7 @@ namespace App\Users\Services;
 use App\Users\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Str;
 
 class UserService
 {
@@ -60,5 +61,14 @@ class UserService
         $user = $this->getUser($id);
         $user->is_teacher = 1;
         return $user->save();
+    }
+
+    public function getEmailConfirmationToken(User $user) : string
+    {
+        $user->update([
+            'email_confirmation_token' => $token = Str::random(),
+        ]);
+
+        return $token;
     }
 }
