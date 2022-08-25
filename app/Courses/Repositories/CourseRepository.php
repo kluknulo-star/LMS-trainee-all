@@ -51,6 +51,7 @@ class CourseRepository
 
     public function createManyAssignments($assignData): int
     {
+        $createCount = 0;
         for ($i = 0; $i < count($assignData); $i++) {
             if (Assignment::firstOrCreate($assignData[$i])) {
                 $createCount++;
