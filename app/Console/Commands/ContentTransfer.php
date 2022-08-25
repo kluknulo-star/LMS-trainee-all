@@ -36,24 +36,15 @@ class ContentTransfer extends Command
         $types =  TypeOfItems::all();
 
         foreach($courses as $course) {
-            $courseId = $course['course_id'];
-
             foreach (json_decode($course['all_content']) as $item) {
-                $itemType = $item->type;
-                foreach ($types as $type) {
-                    if($itemType == $type->type){
-                        $typeId = $type->type_id;
-                    }
-                }
-                $itemTitle = $item->title;
-                $itemContent = $item->all_content;
+                $typeId = optional($types->where('type', $item->type)->first())->getKey();
 
-                if(!empty($courseId) && !empty($typeId) && !empty($itemTitle) && !empty($itemContent)) {
+                if(!empty($course->course_id) && !empty($typeId) && !empty($item->title) && !empty($item->all_content)) {
                     CourseItems::insert([
-                        'course_id' => $courseId,
+                        'course_id' => $course->course_id,
                         'type_id' => $typeId,
-                        'title' => $itemTitle,
-                        'item_content' => json_encode($itemContent),
+                        'title' => $item->title,
+                        'item_content' => json_encode($item->all_content),
                     ]);
                 }
             }
