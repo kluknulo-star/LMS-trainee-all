@@ -68,32 +68,48 @@ class StatementHelper
     /**
      * Simple filter builder for xAPI statements
      *
-     * @return array $compiledStatement
+     * @return string|null $compiledStatement
      */
-    public static function compileFilters(string $actor = "", string $verb = "", string $object = "", string $context = ""): array
+    public static function compileFilters(array $actors = [], array $verbs = [], array $objects = [], array $contexts = []): string|null
     {
-        $compiledFilters = [];
-        if ($verb) {
-            $compiledFilters['verb-filter'] = "http://adlnet.gov/expapi/verbs/" . $verb;
+        $compileFilters = [];
+        if ($verbs) {
+            array_walk($verbs, function (&$item) {
+                $item = 'http://adlnet.gov/expapi/verbs/' . $item;
+            });
+            $compileFilters['verb-filter'] = $verbs;
         }
 
-        if ($actor) {
-            $compiledFilters['actor-filter'] = "mailto:" . $actor;
+        if ($actors) {
+            array_walk($actors, function (&$item) {
+                $item = 'mailto:' . $item;
+            });
+            $compileFilters['actor-filter'] = $actors;
         }
 
-        if ($context){
-            $compiledFilters['context-filter'] = 'http://course-zone.org/expapi/courses/' . $context;
+        if ($contexts) {
+            array_walk($contexts, function (&$item) {
+                $item = 'http://course-zone.org/expapi/courses/' . $item;
+            });
+            $compileFilters['context-filter'] = $contexts;
         }
 
-        if ($object) {
-            $compiledFilters['object-filter'] = "http://course-zone.org/expapi/courses/" . $object;
+        if ($objects) {
+            array_walk($objects, function (&$item) {
+                $item = 'http://course-zone.org/expapi/courses/' . $item;
+            });
+            $compileFilters['object-filter'] = $objects;
         }
 
-        if ($context && $object) {
-            $compiledFilters['object-filter'] = "http://course-zone.org/expapi/courses/section/" . $object;
+        if ($contexts && $objects) {
+            array_walk($contexts, function (&$item) {
+                $item = 'http://course-zone.org/expapi/courses/sections/' . $item;
+            });
+            $compileFilters['object-filter'] = $contexts;
         }
 
-        return $compiledFilters;
+        $compiledFilters = ['filter-parameters' => $compileFilters];
+        return json_encode($compiledFilters);
     }
 
     /**
