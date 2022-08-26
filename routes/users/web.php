@@ -2,6 +2,7 @@
 
 use App\Courses\Controllers\CourseController;
 use App\Users\Controllers\LoginController;
+use App\Users\Controllers\UserEmailConfirmationController;
 use Illuminate\Support\Facades\Route;
 use App\Users\Controllers\UserController;
 
@@ -16,7 +17,7 @@ use App\Users\Controllers\UserController;
 
 Route::post('/users', [UserController::class, 'store'])->name('users.store');
 
-Route::prefix('users')->middleware('auth.admin')->group(function() {
+Route::prefix('users')->middleware(['auth.admin', 'confirmed'])->group(function() {
 
     Route::get('', [UserController::class, 'index'])->name('users');
     Route::get('/create', [UserController::class, 'create'])->name('users.create');
@@ -29,7 +30,7 @@ Route::prefix('users')->middleware('auth.admin')->group(function() {
 
 });
 
-Route::prefix('users/{id}')->middleware('auth')->group(function() {
+Route::prefix('users/{id}')->middleware(['auth', 'confirmed'])->group(function() {
         Route::get('/', [UserController::class, 'show'])->name('users.show')->where('id', '[0-9]+');
         Route::get('/edit', [UserController::class, 'edit'])->where('id', '[0-9]+')->name('users.edit');
         Route::patch('/', [UserController::class, 'update'])->where('id', '[0-9]+')->name('users.update');

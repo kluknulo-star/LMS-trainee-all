@@ -24,7 +24,7 @@ class UserSeeder extends Seeder
                 'name' => fake()->firstName,
                 'patronymic' => fake()->lastName,
                 'email' => rand(1, 1000).fake()->email, //rand is salt
-                'email_verified_at' => now(),
+                'email_confirmed_at' => now(),
                 'password' => '$2y$10$G7QWrbOfjIQBXj2y6UdTbO8erlytx7ZEYSiGJ1tN03QCB0BQ2eO1G',
                 'is_teacher' => rand(0, 1),
                 'remember_token' => Str::random(20),

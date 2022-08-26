@@ -4,6 +4,7 @@ use App\Http\Controllers\LocalizationController;
 use App\Http\Controllers\SocialController;
 use App\Users\Controllers\LoginController;
 use App\Users\Controllers\UserController;
+use App\Users\Controllers\UserEmailConfirmationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,9 +17,12 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/users/{id}/request-email-confirmation', [UserEmailConfirmationController::class, 'requestEmailConfirmation'])->middleware('auth')->where('id', '[0-9]+')->name('users.request.email.confirmation');
+Route::post('/users/{id}/send-email-confirmation', [UserEmailConfirmationController::class, 'sendEmailConfirmation'])->middleware('auth')->where('id', '[0-9]+')->name('users.send.email.confirmation');
+Route::get('/users/{id}/email-confirmed/{token}', [UserEmailConfirmationController::class, 'emailConfirmed'])->where('id', '[0-9]+')->name('users.email.confirmed');
 
 Route::get('/', [LoginController::class, 'login'])->name('main')->middleware('guest');
-Route::get('/', [UserController::class, 'index'])->name('main')->middleware('auth.admin');
+Route::get('/', [UserController::class, 'index'])->name('main')->middleware(['auth.admin', 'confirmed']);
 
 Route::get('/login', [LoginController::class, 'login'])->name('login')->middleware('guest');
 Route::get('/register', [LoginController::class, 'register'])->name('register')->middleware('guest');
