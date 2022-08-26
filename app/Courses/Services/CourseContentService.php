@@ -32,4 +32,9 @@ class CourseContentService
     {
         return $this->courseContentRepository->destroy($sectionId);
     }
+
+    public function restore($sectionId): bool
+    {
+        return $this->courseContentRepository->restore($sectionId);
+    }
 }

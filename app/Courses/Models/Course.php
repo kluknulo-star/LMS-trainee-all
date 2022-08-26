@@ -55,7 +55,7 @@ class Course extends Model
 
     public function content()
     {
-        return $this->hasMany(CourseItems::class, 'course_id', 'course_id');
+        return $this->hasMany(CourseItems::class, 'course_id', 'course_id')->withTrashed();
     }
 
     public function assignedUsers()

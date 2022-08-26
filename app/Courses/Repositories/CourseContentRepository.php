@@ -20,4 +20,9 @@ class CourseContentRepository
     {
         return CourseItems::findOrFail($sectionId)->delete();
     }
+
+    public function restore($sectionId): bool
+    {
+        return CourseItems::where([['item_id', '=', $sectionId]])->restore();
+    }
 }
