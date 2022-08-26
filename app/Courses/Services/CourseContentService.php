@@ -7,7 +7,10 @@ use App\Courses\Repositories\CourseContentRepository;
 
 class CourseContentService
 {
-    public function __construct(private CourseContentRepository $courseContentRepository)
+    public function __construct(
+        private CourseContentRepository $courseContentRepository,
+        private QuizService $quizService
+    )
     {
     }
 
@@ -24,7 +27,14 @@ class CourseContentService
         $courseContent['course_id'] = $courseId;
         $courseContent['title'] = $validated['sectionTitle'];
         $courseContent['type_id'] = $validated['sectionType'];
-        $courseContent['item_content'] = json_encode('');
+
+        if ($courseContent['type_id'] == 3) {
+            $quizId = ($this->quizService->createQuiz())->getKey();
+            $courseContent['item_content'] = json_encode(['quiz_id' => $quizId]);
+        } else {
+            $courseContent['item_content'] = json_encode('');
+        }
+
         return $this->courseContentRepository->create($courseContent);
     }
 

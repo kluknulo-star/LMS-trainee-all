@@ -19,12 +19,12 @@
     </div>
 <script>
     async function start() {
-        let response = await fetch("{{ route('quiz.results.retrieve', ['quiz' => $quiz]) }}", {
+        let response = await fetch("{{ route('quiz.results.retrieve', ['id' => $id, 'section_id' => $section_id, 'quiz' => $quiz]) }}", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
-                'url': "{{ route('quiz.results.retrieve', ['quiz' => $quiz]) }}",
+                'url': "{{ route('quiz.results.retrieve', ['id' => $id, 'section_id' => $section_id, 'quiz' => $quiz]) }}",
                 "X-CSRF-Token": document.head.querySelector("[name=csrf-token]").content
             },
         });
