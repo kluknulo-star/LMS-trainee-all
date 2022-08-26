@@ -23,6 +23,7 @@ return new class extends Migration
                 ->on('courses');
             $table->unsignedInteger('progress')->default(0);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

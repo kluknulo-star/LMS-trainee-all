@@ -2,115 +2,95 @@
 
 namespace App\Courses\Services;
 
-use App\Courses\Models\AssignableCourse;
+use App\Courses\Models\Assignment;
 use App\Courses\Models\Course;
-use App\Users\Models\User;
+use App\Courses\Repositories\CourseRepository;
+use App\Users\Repositories\UserRepository;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class CourseService
 {
+    public function __construct(
+        private CourseRepository $courseRepository,
+        private UserRepository $userRepository,
+    )
+    {
+    }
+
     public function getCourse($id): Model
     {
-        return Course::with('content.type')->find($id);
+        return $this->courseRepository->getCourse($id);
     }
 
-    public function getAssignments($searchParam = ''): BelongsToMany
+    public function getAssignedCourses($searchParam = ''): BelongsToMany
     {
-        return auth()->user()
-                     ->assignedCourses()
-                     ->withCount('assignedUsers')
-                     ->orderByDesc('course_id')
-                     ->search($searchParam);
+        return $this->courseRepository->getAssignedCourses($searchParam);
     }
 
-    public function getOwn($searchParam = ''): HasMany
+    public function getOwnCourses($searchParam = ''): HasMany
     {
-        return auth()->user()
-                     ->courses()
-                     ->withTrashed()
-                     ->withCount('assignedUsers')
-                     ->orderByDesc('course_id')
-                     ->search($searchParam);
+        return $this->courseRepository->getOwnCourses($searchParam);
     }
 
-    public function getAll(): Collection
+    public function getAll()
     {
-        return Course::withCount('assignedUsers')->get();
+        return $this->courseRepository->getAll();
     }
 
-    public function assign($userId, $courseId): AssignableCourse
+    public function assign($userId, $courseId): Assignment
     {
-        return AssignableCourse::firstOrCreate([
-            'student_id' => $userId,
-            'course_id' => $courseId,
-        ]);
+        return $this->courseRepository->createAssign($userId, $courseId);
     }
 
-    public function assignMany($emails, $courseId)
+    public function assignMany($emails, $courseId): int
     {
-        $ids = User::query()->whereIn('email', $emails)->get()->pluck('user_id');
+        $userIds = $this->userRepository->getUserIdsByEmails($emails);
         $assignData = [];
-        foreach ($ids as $id) {
+        foreach ($userIds as $id) {
             $assignData[] = ['student_id' => $id, 'course_id' => $courseId];
         }
-        return AssignableCourse::upsert($assignData, ['student_id', 'course_id']);
+        return $this->courseRepository->createManyAssignments($assignData);
     }
 
     public function deduct($userId, $courseId): bool
     {
-        return AssignableCourse::where([
-            ['course_id', '=', $courseId],
-            ['student_id', '=', $userId],
-        ])->delete();
+        return $this->courseRepository->destroyAssignment($userId, $courseId);
     }
 
     public function getUnassignedUsers($searchParam, $courseId): Builder
     {
-        $users = User::whereDoesntHave('assignableCourses', function(Builder $query) use ($courseId) {
-            $query->where('course_id', '=', $courseId);
-        });
-
-        return $users->orderByDesc('user_id')
-                     ->search($searchParam);
+        $users = $this->courseRepository->getUnassignedUsers($courseId);
+        return $users->orderByDesc('user_id')->search($searchParam);
     }
 
     public function getAssignedUsers($searchParam, $courseId): BelongsToMany
     {
-        $users = $this->getCourse($courseId)->assignedUsers();
-
-        return $users->orderByDesc('user_id')
-                     ->search($searchParam);
+        $users = $this->courseRepository->getCourse($courseId)->assignedUsers();
+        return $users->orderByDesc('user_id')->search($searchParam);
     }
 
     public function update($courseId, $validated): bool
     {
-        $course = $this->getCourse($courseId);
+        $course = $this->courseRepository->getCourse($courseId);
         return $course->update($validated);
     }
 
     public function store($validated): Course
     {
         $validated['author_id'] = auth()->id();
-        return Course::create($validated);
+        return $this->courseRepository->store($validated);
     }
 
     public function destroy($courseId): bool
     {
-        return Course::where([
-            ['course_id', '=', $courseId],
-            ['author_id', '=', auth()->id()],
-        ])->delete();
+        return $this->courseRepository->destroy($courseId);
     }
 
     public function restore($courseId): bool
     {
-        return Course::where([
-            ['course_id', '=', $courseId],
-            ['author_id', '=', auth()->id()],
-        ])->restore();
+        return $this->courseRepository->restore($courseId);
     }
 }

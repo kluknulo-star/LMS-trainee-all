@@ -10,8 +10,6 @@ use App\Courses\Requests\UpdateCourseRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Session;
 
 class CourseController extends Controller
 {
@@ -19,17 +17,17 @@ class CourseController extends Controller
     {
     }
 
-    public function showAssignments(Request $request): View
+    public function showAssignedCourses(Request $request): View
     {
         $searchParam = $request->input('search');
-        $courses = $this->courseService->getAssignments($searchParam)->paginate(4);
+        $courses = $this->courseService->getAssignedCourses($searchParam)->paginate(4);
         return view('pages.courses.assignments', compact('courses'));
     }
 
-    public function showOwn(Request $request): View
+    public function showOwnCourses(Request $request): View
     {
         $searchParam = $request->input('search');
-        $courses = $this->courseService->getOwn($searchParam)->paginate(4);
+        $courses = $this->courseService->getOwnCourses($searchParam)->paginate(4);
         return view('pages.courses.own', compact('courses'));
     }
 
@@ -40,6 +38,9 @@ class CourseController extends Controller
             $this->courseService->assign($userId, $courseId);
         } else {
             $emails = preg_split('/\n|\r\n?/', $request->input('studentEmails'));
+            for ($i = 0; $i < count($emails); $i++) {
+                $emails[$i] = trim($emails[$i]);
+            }
             $this->courseService->assignMany($emails, $courseId);
         }
         return redirect()->route('courses.edit.assignments', ['id' => $courseId, 'state' => 'all']);
@@ -56,8 +57,8 @@ class CourseController extends Controller
     {
         $course = $this->courseService->getCourse($courseId);
         $this->authorize('view', [$course]);
-        $user = auth()->user();
-        $myCourseProgress = $this->statementsService->getStudentProgress($courseId, $user->email);
+        $myCourseProgress = $this->statementsService->getStudentLocalProgress(auth()->id(), $courseId, count($course->content));
+
         return view('pages.courses.play', compact('course', 'myCourseProgress'));
     }
 

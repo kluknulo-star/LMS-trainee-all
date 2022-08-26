@@ -10,6 +10,11 @@ use Illuminate\Support\Facades\Http;
 
 class ClientLRS
 {
+    const LAUNCHED = 'launched';
+    const PASSED = 'passed';
+    const FAILED = 'failed';
+    const COMPLETED = 'completed';
+
     /**
      * Simple sender xAPI statements
      *
@@ -34,16 +39,16 @@ class ClientLRS
      *
      * @return Response $response
      */
-    public static function getStatements(string $userMail = "", string $verb = "", string $object = "", string $context = ""): Response
+    public static function getStatements(array $userMails = [], array $verbs = [], array $objects = [], array $contexts = []): Response
     {
-        $filters = StatementHelper::compileFilters(actor: $userMail, verb: $verb, object: $object, context: $context);
-
+        $filters = StatementHelper::compileFilters(actors: $userMails, verbs: $verbs, objects: $objects, contexts: $contexts);
         $tokenLRS = config('services.lrs.token');
         $domainLRS = config('services.lrs.domain');
 
         $response = Http::withHeaders([
             'Authorization' => $tokenLRS,
-        ])->get($domainLRS . '/api/statements', $filters);
+        ])->withBody($filters, 'application/json')
+            ->post($domainLRS . '/api/statements/get');
 
         return $response;
     }
@@ -55,8 +60,8 @@ class ClientLRS
      */
     public static function getProgressStudent(string $userMail, int $courseId) : array
     {
-        $responsePassed = ClientLRS::getStatements(userMail: $userMail, verb: 'passed', context: $courseId);
-        $responseLaunched = ClientLRS::getStatements(userMail: $userMail, verb: 'launched', context: $courseId);
+        $responsePassed = ClientLRS::getStatements(userMails:[$userMail], verbs:[self::PASSED], contexts:[$courseId]);
+        $responseLaunched = ClientLRS::getStatements(userMails:[$userMail], verbs:[self::LAUNCHED], contexts:[$courseId]);
 
         if ($responsePassed->status() != 200){
             dd($responsePassed->body());
@@ -64,10 +69,9 @@ class ClientLRS
 
         $passedStatements = json_decode($responsePassed->body())->body;
         $launchedStatements = json_decode($responseLaunched->body())->body;
-
         $progressSections = [
-            'passed' => StatementHelper::getIdSections($passedStatements),
-            'launched' => StatementHelper::getIdSections($launchedStatements),
+            self::PASSED => StatementHelper::getIdSections($passedStatements),
+            self::LAUNCHED => StatementHelper::getIdSections($launchedStatements),
         ];
 
         return $progressSections;

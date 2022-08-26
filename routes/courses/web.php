@@ -17,9 +17,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/export/{type}', [ExportCourseController::class, 'export'])->name('courses.export');
 Route::post('/export/download/{id}', [ExportCourseController::class, 'exportDownload'])->name('courses.export.download');
 
-Route::prefix('courses')->middleware(['auth', 'confirmed'])->group(function() {
-    Route::get('', [CourseController::class, 'showAssignments'])->name('courses.assignments');
-    Route::get('/my', [CourseController::class, 'showOwn'])->name('courses.own');
+Route::prefix('courses')->middleware('auth')->group(function() {
+    Route::get('', [CourseController::class, 'showAssignedCourses'])->name('courses.assignments');
+    Route::get('/my', [CourseController::class, 'showOwnCourses'])->name('courses.own');
     Route::get('/create', [CourseController::class, 'create'])->name('courses.create');
     Route::post('', [CourseController::class, 'store'])->name('courses.store');
 
