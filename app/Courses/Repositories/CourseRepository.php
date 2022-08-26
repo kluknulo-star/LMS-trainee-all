@@ -17,6 +17,11 @@ class CourseRepository
         return Course::with('content.type')->with('author')->find($id);
     }
 
+    public function getCourseWithTrashed($id)
+    {
+        return Course::withTrashed()->with('content.type')->with('author')->find($id);
+    }
+
     public function getAssignedCourses($searchParam): BelongsToMany
     {
         return auth()->user()
@@ -83,17 +88,11 @@ class CourseRepository
 
     public function destroy($courseId): bool
     {
-        return Course::where([
-            ['course_id', '=', $courseId],
-            ['author_id', '=', auth()->id()],
-        ])->delete();
+        return Course::where([['course_id', '=', $courseId]])->delete();
     }
 
     public function restore($courseId): bool
     {
-        return Course::where([
-            ['course_id', '=', $courseId],
-            ['author_id', '=', auth()->id()],
-        ])->restore();
+        return Course::where([['course_id', '=', $courseId]])->restore();
     }
 }

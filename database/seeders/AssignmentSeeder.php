@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Courses\Models\AssignableCourse;
+use App\Courses\Models\Assignment;
 use App\Courses\Models\Course;
 use App\Users\Models\User;
 use Illuminate\Database\Seeder;
@@ -29,7 +29,7 @@ class AssignmentSeeder extends Seeder
         }
 
         foreach (array_chunk($data, 1000) as $chunk) {
-            AssignableCourse::insert($chunk);
+            Assignment::insert($chunk);
         }
     }
 }
