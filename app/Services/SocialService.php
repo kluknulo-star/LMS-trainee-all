@@ -26,7 +26,7 @@ class SocialService
                     'name' => $name,
                     'avatar_filename' => $avatar,
                     'surname' => $surname,
-                    'email_verified_at' => NOW(),
+                    'email_confirmed_at' => NOW(),
                     'remember_token' => Str::random(20),
                 ]
             );
