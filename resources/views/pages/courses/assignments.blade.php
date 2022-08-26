@@ -25,7 +25,7 @@
                     <div
                         class="courses__course-description mb30">{{ Str::limit($course->description, 100, '...') }}</div>
                     <div class="courses__course-author">{{ __('main.author') }}: <a
-                            href="{{ route('users.show', ['id' => $course->user()->value('user_id')]) }}">{{ $course->user()->value('email') }}</a>
+                            href="{{ route('users.show', ['id' => $course->author_id]) }}">{{ $course->author->email }}</a>
                     </div>
                     <div class="courses__course-assign-count"><i class="fa-solid fa-user"></i> {{ $course->assigned_users_count }}</div>
                     <a href="{{ route('courses.play', ['id' => $course->course_id]) }}" class="courses__course-play"><i class="fas fa-play"></i></a>

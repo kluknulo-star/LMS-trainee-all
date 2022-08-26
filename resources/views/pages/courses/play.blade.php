@@ -9,13 +9,15 @@
     <div class="h1 mb20">{{ __('main.title') }}: {{ $course->title }}</div>
     <div class="margin5">
         {{ __('main.author') }}: <a
-            href="{{ route('users.show', ['id' => $course->user()->value("user_id")]) }}">{{ $course->user()->value("email") }}</a>
+            href="{{ route('users.show', ['id' => $course->author->user_id]) }}">
+            {{ $course->author->email }}
+        </a>
     </div>
     <div class="courses__course-description mb30">{{ __('main.description') }}: {{ Str::limit($course->description, 200, '...') }}</div>
 
     <p style="color: whitesmoke;" allContent="{{ count($course->content) }}"
                 passedContent="{{ round(count($myCourseProgress['passed'])) }}"
-                class="progress h3"></p>
+                class="progress h3">{{ $myCourseProgress['progress'] }}</p>
     <br><br>
     <div class="h2 mb20">{{ __('main.courseContent') }}:</div>
     @foreach($course->content as $element)
