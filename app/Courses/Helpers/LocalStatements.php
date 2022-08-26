@@ -22,39 +22,24 @@ class LocalStatements
 
     public function getProgressStudent(int $userId, int $courseId, int $allContentCount): array
     {
-        $statementsLaunched =
-            ItemsStats::where('status', 'launched')
-            ->where('user_id', $userId)
+        $statements =
+            ItemsStats::where('user_id', $userId)
             ->join('course_items', 'course_items_users_stats.item_id', '=', 'course_items.item_id')
             ->where('course_id', $courseId)
-            ->get('course_items_users_stats.item_id');
+            ->get(['course_items_users_stats.item_id', 'course_items_users_stats.status']);
 
-        $statementsLaunchedNew = [];
-        foreach ($statementsLaunched as $statement){
-            $statementsLaunchedNew[] = $statement->item_id;
-        }
+        $statementsLaunched = $statements->where('status', 'launched')->pluck('item_id')->ToArray();
+        $statementsPassed = $statements->where('status', 'passed')->pluck('item_id')->ToArray();
 
-        $statementsPassed =
-            ItemsStats::where('status', 'passed')
-                ->where('user_id', $userId)
-                ->join('course_items', 'course_items_users_stats.item_id', '=', 'course_items.item_id')
-                ->where('course_id', $courseId)
-                ->get('course_items_users_stats.item_id');
-
-        $statementsPassedNew = [];
-        foreach ($statementsPassed as $statement){
-            $statementsPassedNew[] = $statement->item_id;
-        }
-
-        $progress = (int)round(count($statementsPassedNew) / $allContentCount * 100);
+        $progress = (int)round(count($statementsPassed) / $allContentCount * 100);
 
         Assignment::where('student_id', $userId)
             ->where('course_id', $courseId)
             ->update(['progress' => $progress]);
 
         $statements = [
-            'launched' => $statementsLaunchedNew,
-            'passed' => $statementsPassedNew,
+            'launched' => $statementsLaunched,
+            'passed' => $statementsPassed,
             'progress' => $progress,
         ];
 
