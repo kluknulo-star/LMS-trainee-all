@@ -2,7 +2,6 @@
 
 namespace App\Courses\Helpers;
 
-use App\Courses\Models\Assignment;
 use App\Courses\Models\ItemsStats;
 
 class LocalStatements
@@ -32,10 +31,6 @@ class LocalStatements
         $statementsPassed = $statements->where('status', 'passed')->pluck('item_id')->ToArray();
 
         $progress = (int)round(count($statementsPassed) / $allContentCount * 100);
-
-        Assignment::where('student_id', $userId)
-            ->where('course_id', $courseId)
-            ->update(['progress' => $progress]);
 
         $statements = [
             'launched' => $statementsLaunched,
