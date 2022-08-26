@@ -1,10 +1,5 @@
 <?php
 
-use App\Courses\Helpers\ContentMigratorHelper;
-use App\Courses\Models\Course;
-use App\Courses\Models\CourseItems;
-use App\Courses\Models\TypeOfItems;
-use App\Http\Controllers\AboutController;
 use App\Http\Controllers\LocalizationController;
 use App\Http\Controllers\SocialController;
 use App\Users\Controllers\LoginController;
@@ -36,3 +31,40 @@ Route::group(['middleware' => 'guest'], function () {
 });
 
 Route::get('/change-lang', [LocalizationController::class, 'changeLanguage'])->name('change.language');
+
+Route::get('/test', function (){
+    $lrs = new TinCan\RemoteLRS();
+    $lrs->setEndpoint('http://127.0.0.1:8001/api/statements');
+
+
+
+    $actor = new TinCan\Agent(
+        [ 'mbox' => 'mailto:info@tincanapi.com' ]
+    );
+    $verb = new TinCan\Verb(
+        [ 'id' => 'http://adlnet.gov/expapi/verbs/experienced' ]
+    );
+    $activity = new TinCan\Activity(
+        [ 'id' => 'http://rusticisoftware.github.com/TinCanPHP' ]
+    );
+    $statement = new TinCan\Statement(
+        [
+            'actor' => $actor,
+            'verb'  => $verb,
+            'object' => $activity,
+        ]
+    );
+
+    $saveResponse = $lrs->saveState(
+        $activity,
+        $actor,
+        'testDocument',
+        'someValue'
+    );
+
+    dump($saveResponse);
+//    $retriveResponse = $lrs->retrieveStatement(1);
+
+//    dump($retriveResponse);
+});
+
