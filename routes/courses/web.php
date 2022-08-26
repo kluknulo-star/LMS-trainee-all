@@ -40,6 +40,7 @@ Route::prefix('courses')->middleware(['auth', 'confirmed'])->group(function() {
 
             Route::prefix('{section_id}')->group(function() {
                 Route::get('/edit', [CourseContentController::class, 'edit'])->name('courses.edit.section');
+                Route::patch('/restore', [CourseContentController::class, 'restore'])->name('courses.restore.section');
                 Route::patch('', [CourseContentController::class, 'update'])->name('courses.update.section');
                 Route::delete('', [CourseContentController::class, 'destroy'])->name('courses.destroy.section');
             });

@@ -4,10 +4,13 @@ namespace App\Courses\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class CourseItems extends Model
 {
     use HasFactory;
+    use SoftDeletes;
+
     /**
      * The table associated with the model.
      *
@@ -42,7 +45,6 @@ class CourseItems extends Model
         'title' => 'string',
         'item_content' => 'string',
     ];
-
 
     public function type()
     {

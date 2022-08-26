@@ -51,4 +51,12 @@ class CourseContentController extends Controller
         $this->courseContentService->destroy($sectionId);
         return redirect()->route('courses.edit', [$courseId]);
     }
+
+    public function restore($courseId, $sectionId)
+    {
+        $course = $this->courseService->getCourse($courseId);
+        $this->authorize('restore', [$course]);
+        $this->courseContentService->restore($sectionId);
+        return redirect()->route('courses.edit', [$courseId]);
+    }
 }

@@ -97,12 +97,39 @@
                             </th>
                             <th class="users__td">{{ $element->title }}</th>
                             <th class="users__td">
+                                @if (!$element->deleted_at)
                                 <a class="table-action-button table-edit-button" href="{{ route('courses.edit.section', ['id' => $course->course_id, 'section_id' => $element->item_id]) }}"><i class="fas fa-pen"></i></a>
                                 <button class="table-action-button table-delete-button" onclick="document.getElementById('delete-modal-<?= $element->item_id ?>').style.display = 'flex'">
                                     <i class="fas fa-trash"></i>
                                 </button>
+                                @else
+                                    <a class="courses__course-restore yellow"
+                                       onclick="document.getElementById('restore-modal-<?= $element->item_id  ?>').style.display = 'flex'">
+                                        <i class="fa-solid fa-arrow-rotate-right"></i>
+                                    </a>
+                                @endif
                             </th>
                         </tr>
+
+                        <div class="modal" id="restore-modal-{{ $element->item_id }}">
+                            <div class="modal-box">
+                                <p class="modal-text modal-text-restore mb20 mr20">You sure to <span>restore</span> section:
+                                    "{{ $element->title }}" ?</p>
+
+                                <div class="modal-buttons">
+                                    <form class="table-action-form"
+                                          action="{{ route('courses.restore.section', ['id' => $course->course_id, 'section_id' => $element->item_id]) }}" method="post">
+                                        @csrf
+                                        @method('patch')
+                                        <button type="submit" class="table-action-button confirm-button">{{ __('main.confirm') }}</button>
+                                    </form>
+                                    <button
+                                        onclick="document.getElementById('restore-modal-<?= $element->item_id ?>').style.display = 'none'"
+                                        class="table-action-button cancel-button">{{ __('main.cancel') }}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="modal" id="delete-modal-{{ $element->item_id }}">
                             <div class="modal-box">
