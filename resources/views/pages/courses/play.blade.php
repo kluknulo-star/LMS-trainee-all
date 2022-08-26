@@ -53,13 +53,19 @@
                 <i class="fas fa-check-double"></i>
             </button>
 
+            @if($element->type->type == 'Test')
+                <a href="{{ route('quiz.play', ['id' => $course->getKey(), 'section_id' => $element->getKey(), 'quiz' => json_decode($element->item_content, true)['quiz_id']]) }}">Play quiz</a>
+            @endif
+
             <form>
                 @csrf
                 @method('post')
             </form><br>
 
-            <p>{{ json_decode($element->item_content) ?? ""}}
-            </p>
+
+            @if($element->type->type != 'Test')
+                <p>{{ json_decode($element->item_content) ?? ""}}</p>
+            @endif
             <br>
         </div>
     @endforeach

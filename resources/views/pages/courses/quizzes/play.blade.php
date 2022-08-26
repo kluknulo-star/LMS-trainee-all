@@ -17,12 +17,12 @@
 </div>
 <script type="text/javascript">
     async function start() {
-        let response =  await fetch("{{ route('quiz.retrieve', ['quiz' => $quiz]) }}", {
+        let response =  await fetch("{{ route('quiz.retrieve', ['id' => $id, 'section_id' => $section_id, 'quiz' => $quiz]) }}", {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
-                'url': "{{ route('quiz.play', ['quiz' => $quiz]) }}",
+                'url': "{{ route('quiz.play', ['id' => $id, 'section_id' => $section_id, 'quiz' => $quiz]) }}",
                 "X-CSRF-Token": document.head.querySelector("[name=csrf-token]").content
             },
         });
@@ -45,18 +45,18 @@
                     'correctAnswersCount': correctAnswersCount,
                 });
 
-                let request = fetch("{{ route('quiz.results.store', ['quiz' => $quiz]) }}", {
+                let request = fetch("{{ route('quiz.results.store', ['id' => $id, 'section_id' => $section_id, 'quiz' => $quiz]) }}", {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                         'Accept': 'application/json',
-                        'url': "{{ route('quiz.results.store', ['quiz' => $quiz]) }}",
+                        'url': "{{ route('quiz.results.store', ['id' => $id, 'section_id' => $section_id, 'quiz' => $quiz]) }}",
                         "X-CSRF-Token": document.head.querySelector("[name=csrf-token]").content
                     },
                     body: $json,
                 }).then(response => {
                     if (response.status === 302) {
-                        window.location.replace("{{ route('quiz.results.show', ['quiz' => $quiz]) }}");
+                        window.location.replace("{{ route('quiz.results.show', ['id' => $id, 'section_id' => $section_id, 'quiz' => $quiz]) }}");
                     }
                 });
             }

@@ -12,9 +12,19 @@ use phpDocumentor\Reflection\Types\Boolean;
 
 class QuizService
 {
-    public function getQuiz(int $id, array $relations=[]) : Quiz
+    public function getQuiz(int $id, array $relations=[])
     {
-        return Quiz::with($relations)->find($id)->first();
+        return Quiz::with($relations)->find($id);
+    }
+
+    public function createQuiz(int $countQuestionsToPass=0) : Quiz
+    {
+        return Quiz::create(['count_questions_to_pass' => $countQuestionsToPass]);
+    }
+
+    public function updateQuiz(int $countQuestionsToPass=0) : Quiz
+    {
+        return Quiz::update(['count_questions_to_pass' => $countQuestionsToPass]);
     }
 
     public function createQuestion(Quiz $quiz, string $question) : Question

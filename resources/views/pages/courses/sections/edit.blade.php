@@ -23,11 +23,14 @@
                 <textarea oninput="countContent()"
                           id="section-content"
                           name="sectionContent"
-                          placeholder="{{ __('main.sectionContent') }}"
+                          placeholder="@if ($section->type_id != 3) {{ __('main.sectionContent') }} @else Enter count of questions to pass the quiz @endif "
                           style="width: 1298px; min-height: 300px; max-height: 300px;"
-                          class="edit__input col-input input">{{ old('sectionContent') ?? json_decode($section->item_content) ?? '' }}</textarea>
+                          class="edit__input col-input input">@if ($section->type_id != 3) {{ old('sectionContent') ?? json_decode($section->item_content) ?? '' }} @else @endif</textarea>
                 <p id="content-count"></p>/2048
                 <button type="submit" class="edit__button rounded-black-button button mb15">{{ __('main.save')}} {{ __('main.changes') }}</button>
+                @if($section->type_id == 3)
+                    <a href="{{ route('quiz.questions.show', ['id' => $courseId, 'section_id' => $section->item_id, 'quiz' => json_decode($section->item_content, true)['quiz_id']]) }}" class="back-button">Edit quiz questions</a>
+                @endif
                 <a href="{{ route('courses.edit', ['id' => $courseId]) }}" class="back-button"><i class="fas fa-arrow-left"></i> {{ __('main.back') }}</a>
             </form>
         </div>

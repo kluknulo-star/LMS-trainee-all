@@ -72,12 +72,12 @@
                 "isCorrect": option.selected,
             });
         });
-        fetch("{{ route('quiz.options.store', ['quiz' => $quiz, 'question' => $question]) }}", {
+        fetch("{{ route('quiz.options.store', ['id' => $id, 'section_id' => $section_id, 'quiz' => $quiz, 'question' => $question]) }}", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
-                'url': "{{ route('quiz.options.store', ['quiz' => $quiz, 'question' => $question]) }}",
+                'url': "{{ route('quiz.options.store', ['id' => $id, 'section_id' => $section_id, 'quiz' => $quiz, 'question' => $question]) }}",
                 "X-CSRF-Token": document.head.querySelector("[name=csrf-token]").content
             },
             body: JSON.stringify(obj),

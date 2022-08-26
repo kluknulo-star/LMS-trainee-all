@@ -12,13 +12,13 @@ use Illuminate\Support\Facades\DB;
 
 class QuizController extends Controller
 {
-    public function play(int $id){
-        return view('pages.courses.quizzes.play', ['quiz' => $id]);
+    public function play(int $courseId, int $sectionId, int $quizId){
+        return view('pages.courses.quizzes.play', ['id' => $courseId, 'section_id' => $sectionId, 'quiz' => $quizId]);
     }
 
-    public function retrieveQuiz(int $id)
+    public function retrieveQuiz(int $courseId, int $sectionId, int $quizId)
     {
-        $quiz = (new QuizService())->getQuiz($id, ['questions.options']);
+        $quiz = (new QuizService())->getQuiz($quizId, ['questions.options']);
         $resp = [];
 
         $quiz->questions->each(function ($question) use (&$resp) {
@@ -35,40 +35,40 @@ class QuizController extends Controller
         return response()->json($resp);
     }
 
-    public function storeResults(Request $request, int $id)
+    public function storeResults(Request $request, int $courseId, int $sectionId, int $quizId)
     {
         $correctAnswersCount = $request->json()->get('correctAnswersCount');
         $quizService = new QuizService();
-        $quiz = $quizService->getQuiz($id, ['questions']);
+        $quiz = $quizService->getQuiz($quizId, ['questions']);
         $quizService->storeResults($quiz, $correctAnswersCount);
 
         return response('You answers were stored', 302);
     }
 
-    public function showResults(int $id)
+    public function showResults(int $courseId, int $sectionId, int $quizId)
     {
-        return view('pages.courses.quizzes.results', ['quiz' => $id]);
+        return view('pages.courses.quizzes.results', ['id' => $courseId, 'section_id' => $sectionId, 'quiz' => $quizId]);
     }
 
-    public function retrieveResults(int $id)
+    public function retrieveResults(int $courseId, int $sectionId, int $quizId)
     {
         $quizService = new QuizService();
-        $quiz = $quizService->getQuiz($id);
+        $quiz = $quizService->getQuiz($quizId);
         $results = $quizService->retrieveResults($quiz);
         return response()->json((object)$results, 200);
     }
 
-    public function showQuestions(int $id)
+    public function showQuestions(int $courseId, int $sectionId, int $quizId)
     {
-        $questions = (new QuizService())->getQuiz($id, ['questions'])->questions;
-        return view('pages.courses.quizzes.questions', ['questions' => $questions, 'quiz' => $id]);
+        $questions = (new QuizService())->getQuiz($quizId, ['questions'])->questions;
+        return view('pages.courses.quizzes.questions', ['id' => $courseId, 'section_id' => $sectionId, 'questions' => $questions, 'quiz' => $quizId]);
     }
 
-    public function storeQuestions(Request $request, int $id)
+    public function storeQuestions(Request $request, int $courseId, int $sectionId, int $quizId)
     {
         $questions = $request->json()->all();
         $quizService = new QuizService();
-        $quiz = $quizService->getQuiz($id);
+        $quiz = $quizService->getQuiz($quizId);
 
         foreach($questions as $question) {
             $quizService->createQuestion($quiz, $question);
@@ -77,7 +77,7 @@ class QuizController extends Controller
         return response('', 302);
     }
 
-    public function showOptions(int $quizId, int $questionId)
+    public function showOptions(int $courseId, int $sectionId, int $quizId, int $questionId)
     {
         $options = (new QuizService())
             ->getQuiz($quizId, ['questions.options'])
@@ -86,10 +86,10 @@ class QuizController extends Controller
             ->first()
             ->options;
 
-        return view('pages.courses.quizzes.options', ['options' => $options, 'quiz' => $quizId, 'question' => $questionId]);
+        return view('pages.courses.quizzes.options', ['id' => $courseId, 'section_id' => $sectionId, 'options' => $options, 'quiz' => $quizId, 'question' => $questionId]);
     }
 
-    public function storeOptions(Request $request, int $quizId, int $questionId)
+    public function storeOptions(Request $request, int $courseId, int $sectionId, int $quizId, int $questionId)
     {
         $options = $request->json()->all();
         $quizService = new QuizService();
@@ -108,7 +108,7 @@ class QuizController extends Controller
         return response('Question options edited successfully!', 200);
     }
 
-    public function deleteQuestion(Request $request, int $id)
+    public function deleteQuestion(Request $request, int $courseId, int $sectionId, int $id)
     {
         $questionId = $request->json()->get('questionId');
         $quizService = new QuizService();
