@@ -2,6 +2,7 @@
 
 namespace App\Courses\Helpers;
 
+use App\Courses\Models\Assignment;
 use App\Courses\Models\ItemsStats;
 
 class LocalStatements
@@ -19,7 +20,7 @@ class LocalStatements
         return false;
     }
 
-    public function getProgressStudent(int $userId, int $courseId): array
+    public function getProgressStudent(int $userId, int $courseId, int $allContentCount): array
     {
         $statementsLaunched =
             ItemsStats::where('status', 'launched')
@@ -45,9 +46,16 @@ class LocalStatements
             $statementsPassedNew[] = $statement->item_id;
         }
 
+        $progress = (int)round(count($statementsPassedNew) / $allContentCount * 100);
+
+        Assignment::where('student_id', $userId)
+            ->where('course_id', $courseId)
+            ->update(['progress' => $progress]);
+
         $statements = [
             'launched' => $statementsLaunchedNew,
             'passed' => $statementsPassedNew,
+            'progress' => $progress,
         ];
 
         return $statements;
