@@ -51,7 +51,13 @@ class CourseRepository
 
     public function createManyAssignments($assignData): int
     {
-        return Assignment::upsert($assignData, ['student_id', 'course_id']);
+        $createCount = 0;
+        for ($i = 0; $i < count($assignData); $i++) {
+            if (Assignment::firstOrCreate($assignData[$i])) {
+                $createCount++;
+            }
+        }
+        return $createCount;
     }
 
     public function destroyAssignment($userId, $courseId): bool

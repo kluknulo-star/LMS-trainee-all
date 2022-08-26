@@ -38,6 +38,9 @@ class CourseController extends Controller
             $this->courseService->assign($userId, $courseId);
         } else {
             $emails = preg_split('/\n|\r\n?/', $request->input('studentEmails'));
+            for ($i = 0; $i < count($emails); $i++) {
+                $emails[$i] = trim($emails[$i]);
+            }
             $this->courseService->assignMany($emails, $courseId);
         }
         return redirect()->route('courses.edit.assignments', ['id' => $courseId, 'state' => 'all']);
