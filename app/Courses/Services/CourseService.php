@@ -25,6 +25,11 @@ class CourseService
         return $this->courseRepository->getCourse($id);
     }
 
+    public function getCourseWithTrashed($id): Model
+    {
+        return $this->courseRepository->getCourseWithTrashed($id);
+    }
+
     public function getAssignedCourses($searchParam = ''): BelongsToMany
     {
         return $this->courseRepository->getAssignedCourses($searchParam);
@@ -80,7 +85,6 @@ class CourseService
 
     public function store($validated): Course
     {
-        $validated['author_id'] = auth()->id();
         return $this->courseRepository->store($validated);
     }
 

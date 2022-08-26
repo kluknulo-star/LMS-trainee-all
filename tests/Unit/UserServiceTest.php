@@ -24,8 +24,8 @@ class UserServiceTest extends TestCase
             'password' => 'passWord12345!',
         ];
 
-        $service = new UserService();
-        $service->store($userData);
+        $userService = app(UserService::class);
+        $userService->store($userData);
 
         $dbUser = DB::table('users')->where('email', 'TestEmail@test.test')->first();
         $this->assertTrue($dbUser->email == $userData['email']);
@@ -36,8 +36,8 @@ class UserServiceTest extends TestCase
         $userData = ['surname' => 'IvanovTestingBot'];
         $dbUser = DB::table('users')->select('user_id')->where('email', 'TestEmail@test.test')->first();
 
-        $service = new UserService();
-        $dbUser = $service->update($userData, $dbUser->user_id);
+        $userService = app(UserService::class);
+        $dbUser = $userService->update($userData, $dbUser->user_id);
 
         $this->assertTrue($dbUser->surname == $userData['surname']);
     }
@@ -46,8 +46,8 @@ class UserServiceTest extends TestCase
     {
         $dbUser = DB::table('users')->select('user_id')->where('email', 'TestEmail@test.test')->first();
 
-        $service = new UserService();
-        $result = $service->destroy($dbUser->user_id);
+        $userService = app(UserService::class);
+        $result = $userService->destroy($dbUser->user_id);
 
         $this->assertTrue($result);
     }
@@ -56,8 +56,8 @@ class UserServiceTest extends TestCase
     {
         $dbUser = DB::table('users')->select('user_id')->where('email', 'TestEmail@test.test')->first();
 
-        $service = new UserService();
-        $result = $service->restore($dbUser->user_id);
+        $userService = app(UserService::class);
+        $result = $userService->restore($dbUser->user_id);
 
         $this->assertTrue($result);
         $this->clearTestingData();

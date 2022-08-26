@@ -115,6 +115,7 @@ class CourseController extends Controller
     {
         $this->authorize('create', [auth()->user()]);
         $validated = $request->validated();
+        $validated['author_id'] = auth()->id();
         $this->courseService->store($validated);
         return redirect()->route('courses.own');
     }
@@ -129,6 +130,8 @@ class CourseController extends Controller
 
     public function restore(int $courseId): RedirectResponse
     {
+        $course = $this->courseService->getCourseWithTrashed($courseId);
+        $this->authorize('restore', [$course]);
         $this->courseService->restore($courseId);
         return redirect()->route('courses.own');
     }

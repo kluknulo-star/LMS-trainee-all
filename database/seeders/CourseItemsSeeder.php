@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use App\Courses\Models\Course;
 use App\Courses\Models\CourseItems;
 use App\Courses\Models\TypeOfItems;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class CourseItemsSeeder extends Seeder
