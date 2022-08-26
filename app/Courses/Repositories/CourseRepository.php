@@ -14,13 +14,14 @@ class CourseRepository
 {
     public function getCourse($id): Model
     {
-        return Course::with('content.type')->find($id);
+        return Course::with('content.type')->with('author')->find($id);
     }
 
     public function getAssignedCourses($searchParam): BelongsToMany
     {
         return auth()->user()
                      ->assignedCourses()
+                     ->with('author')
                      ->withCount('assignedUsers')
                      ->orderByDesc('course_id')
                      ->search($searchParam);
