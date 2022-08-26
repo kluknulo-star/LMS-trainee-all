@@ -10,6 +10,11 @@ use Illuminate\Support\Facades\Http;
 
 class ClientLRS
 {
+    const LAUNCHED = 'launched';
+    const PASSED = 'passed';
+    const FAILED = 'failed';
+    const COMPLETED = 'completed';
+
     /**
      * Simple sender xAPI statements
      *
@@ -55,8 +60,8 @@ class ClientLRS
      */
     public static function getProgressStudent(string $userMail, int $courseId) : array
     {
-        $responsePassed = ClientLRS::getStatements(userMails:[$userMail],verbs:['passed'],contexts:[$courseId]);
-        $responseLaunched = ClientLRS::getStatements(userMails:[$userMail],verbs:['launched'],contexts:[$courseId]);
+        $responsePassed = ClientLRS::getStatements(userMails:[$userMail], verbs:[self::PASSED], contexts:[$courseId]);
+        $responseLaunched = ClientLRS::getStatements(userMails:[$userMail], verbs:[self::LAUNCHED], contexts:[$courseId]);
 
         if ($responsePassed->status() != 200){
             dd($responsePassed->body());
@@ -65,8 +70,8 @@ class ClientLRS
         $passedStatements = json_decode($responsePassed->body())->body;
         $launchedStatements = json_decode($responseLaunched->body())->body;
         $progressSections = [
-            'passed' => StatementHelper::getIdSections($passedStatements),
-            'launched' => StatementHelper::getIdSections($launchedStatements),
+            self::PASSED => StatementHelper::getIdSections($passedStatements),
+            self::LAUNCHED => StatementHelper::getIdSections($launchedStatements),
         ];
 
         return $progressSections;
