@@ -21,3 +21,14 @@ Route::post('send-passed/{course_id}/{section_id}', [StatementController::class,
     ->where('course_id', '[0-9]+')
     ->where('section_id', '[0-9]+')
     ->name('send.passed.statement');
+
+Route::get('get-course/{course_id}', [StatementController::class, 'getCourseStatements'])
+    ->where('course_id', '[0-9]+')
+    ->name('get.course');
+
+Route::get('send-pull/{course_id}/{section_id}', [StatementController::class, 'sendPullCourseStatements'])
+    ->where('course_id', '[0-9]+')
+    ->where('section_id', '[0-9]+')
+    ->name('send.pull.statements');
+
+
