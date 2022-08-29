@@ -29,6 +29,11 @@ class UserService
         return $this->userRepository->getUserById($id);
     }
 
+    public function getUserByEmail(string $email): ?User
+    {
+        return $this->userRepository->getUserByEmail($email);
+    }
+
     public function store($validated): User
     {
         $validated['password'] = Hash::make($validated['password']);
@@ -76,4 +81,14 @@ class UserService
 
         return $token;
     }
+
+    public function getResetPasswordToken(User $user) : string
+    {
+        $user->update([
+            'reset_password_token' => $token = Str::random(),
+        ]);
+
+        return $token;
+    }
+
 }
