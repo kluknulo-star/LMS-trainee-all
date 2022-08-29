@@ -433,8 +433,11 @@ a.courses__course-play {
     bottom: 55px;
     left: 30px;
 }
+.courses__course-restore:hover {
+    cursor: pointer;
+}
 .modal {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
@@ -530,8 +533,8 @@ a.courses__course-play {
 .assigned-users-navbar .assigned-users-navbar-elem {
     list-style-type: none;
     margin: 0;
+    margin-right: 20px;
     padding: 0;
-    width: 250px;
     background-color:  #171923;
 }
 .assigned-users-navbar a {

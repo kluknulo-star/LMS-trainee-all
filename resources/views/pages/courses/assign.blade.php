@@ -9,18 +9,18 @@
             <div class="users__after-title-links">
                 <li class="assigned-users-navbar">
                     <ul class="assigned-users-navbar-elem">
-                        <a href="{{ route('courses.edit.assignments', ['id' => $courseId, 'state' => 'already']) }}" class="aside__link button">
+                        <a href="{{ route('courses.edit.assignments', ['id' => $courseId, 'state' => 'already']) }}" class="rounded-black-button whitesmoke-text">
                             {{ __('main.assigned') }} {{ __('main.students') }}
                         </a>
                     </ul>
                     <ul class="assigned-users-navbar-elem">
-                        <a href="{{ route('courses.edit.assignments', ['id' => $courseId, 'state' => 'all']) }}" class="aside__link button">
-                            {{ __('main.all') }} {{ __('main.students') }}
+                        <a href="{{ route('courses.edit.assignments', ['id' => $courseId, 'state' => 'all']) }}" class="rounded-black-button whitesmoke-text">
+                            {{ __('main.students') }}
                         </a>
                     </ul>
-                    <ul class="assigned-users-navbar-elem" >
-                        <a href="{{ route('courses.edit', ['id' => $courseId]) }}" class="aside__link button">
-                            {{ __('main.back') }} {{ __('main.to') }} {{ __('main.edit') }} {{ __('main.course') }}
+                    <ul class="assigned-users-navbar-elem">
+                        <a href="{{ route('courses.edit', ['id' => $courseId]) }}" class="rounded-black-button whitesmoke-text">
+                            {{ __('main.back') }}
                         </a>
                     </ul>
                 </li>
