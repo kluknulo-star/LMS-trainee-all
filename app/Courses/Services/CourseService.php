@@ -77,6 +77,16 @@ class CourseService
         return $users->orderByDesc('user_id')->search($searchParam);
     }
 
+    public function getAssignmentsCount($courseId)
+    {
+        return $this->courseRepository->getAssignments($courseId);
+    }
+
+    public function getAssignmentsPassed($courseId)
+    {
+        return $this->courseRepository->getAssignmentsPassed($courseId);
+    }
+
     public function update($courseId, $validated): bool
     {
         $course = $this->courseRepository->getCourse($courseId);

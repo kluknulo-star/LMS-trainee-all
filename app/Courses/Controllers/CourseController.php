@@ -34,16 +34,18 @@ class CourseController extends Controller
     public function assign(Request $request, int $courseId): RedirectResponse
     {
         if (empty($request->input('studentEmails'))) {
-            $userId = $request->input('user_id');
-            $this->courseService->assign($userId, $courseId);
+            if (!empty($request->input('user_id'))) {
+                $this->courseService->assign($request->input('user_id'), $courseId);
+            }
+            return redirect()->route('courses.edit.assignments', ['id' => $courseId, 'state' => 'all']);
         } else {
             $emails = preg_split('/\n|\r\n?/', $request->input('studentEmails'));
             for ($i = 0; $i < count($emails); $i++) {
                 $emails[$i] = trim($emails[$i]);
             }
             $this->courseService->assignMany($emails, $courseId);
+            return redirect()->route('courses.edit.assignments', ['id' => $courseId, 'state' => 'already']);
         }
-        return redirect()->route('courses.edit.assignments', ['id' => $courseId, 'state' => 'all']);
     }
 
     public function deduct(Request $request, int $courseId): RedirectResponse
@@ -140,11 +142,25 @@ class CourseController extends Controller
     {
         $course = $this->courseService->getCourse($courseId);
         $this->authorize('update', [$course]);
+        $passedSectionCount = 0;
+
+        $assignmentsCount = $this->courseService->getAssignmentsCount($courseId);
+
+//        $userIds = $this->courseService->getAssignedUsers('', $courseId)->get()->pluck('user_id');
+
+        $assignmentsPassed = $this->courseService->getAssignmentsPassed($courseId)->get();
+
+        foreach ($assignmentsPassed as $item) {
+            if (count($item->stats)) {
+                $passedSectionCount++;
+            }
+        }
+
         $count = [
             'CourseLaunched' => 9,
             'CoursePassed' => 9,
-            'CourseAssigned' => 9,
-            'SectionLaunched' => 9,
+            'CourseAssigned' => $assignmentsCount,
+            'SectionPassed' => $passedSectionCount,
         ];
         return view('pages.courses.statistics', compact('count', 'courseId'));
     }
