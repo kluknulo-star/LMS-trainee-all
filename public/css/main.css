@@ -105,6 +105,10 @@ a {
 .rounded-black-button {
     border: 1px solid #4a5568;
     background: #171923;
+    transition: .2s;
+}
+.rounded-black-button:active {
+    border: 1px solid whitesmoke;
 }
 .rounded-blue-button {
     background: #4b5fc4;
@@ -171,6 +175,12 @@ a {
 }
 .whitesmoke-text {
     color: whitesmoke !important;
+}
+.dark-text {
+    color: #12141c !important;
+}
+.yellow-text {
+    color: #c4aa33;
 }
 .change-lang-button {
     position: absolute;
