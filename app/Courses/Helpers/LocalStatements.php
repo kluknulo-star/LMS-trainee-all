@@ -30,7 +30,10 @@ class LocalStatements
         $statementsLaunched = $statements->where('status', 'launched')->pluck('item_id')->ToArray();
         $statementsPassed = $statements->where('status', 'passed')->pluck('item_id')->ToArray();
 
-        $progress = (int)round(count($statementsPassed) / $allContentCount * 100);
+        $progress = 0;
+        if(count($statementsPassed) > 0) {
+            $progress = (int)round(count($statementsPassed) / $allContentCount * 100);
+        }
 
         $statements = [
             'launched' => $statementsLaunched,

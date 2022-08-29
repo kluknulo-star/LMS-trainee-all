@@ -72,27 +72,20 @@ class CourseController extends Controller
     public function editAssignments(Request $request, int $courseId, string $state): View
     {
         $searchParam = $request->input('search');
-
-        $course = $this->courseService->getCourse($courseId);
         $studentsProgress = [];
-
 
         if ($state == 'all') {
             $users = $this->courseService->getUnassignedUsers($searchParam, $courseId)->paginate(8);
-        }
-
-        if ($state == 'already') {
-            $users = $this->courseService->getAssignedUsers($searchParam, $courseId)->paginate(8);
+        } elseif ($state == 'already') {
+            $course = $this->courseService->getCourse($courseId);
+            $users = $this->courseService->getAssignedUsers($searchParam, $courseId, $course)->paginate(8);
             $sectionsCourse = json_decode($course->content, true);
 
             foreach ($users as $user) {
-                $progressStatements = $this->statementsService->getStudentProgress($courseId, $user->email);
-                if (count($sectionsCourse)) {
-                    $studentsProgress[$user->user_id] = round(count($progressStatements['passed']) / count($sectionsCourse) * 100);
-                } else {
-                    $studentsProgress[$user->user_id] = 0;
-                }
+                $progressStatements = $this->statementsService->getStudentLocalProgress($user->user_id, $courseId, count($sectionsCourse));
+                $studentsProgress[$user->user_id] = $progressStatements['progress'];
             }
+
         }
 
         return view('pages.courses.assign', compact('users', 'courseId', 'state', 'studentsProgress'));

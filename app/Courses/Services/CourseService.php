@@ -71,9 +71,9 @@ class CourseService
         return $users->orderByDesc('user_id')->search($searchParam);
     }
 
-    public function getAssignedUsers($searchParam, $courseId): BelongsToMany
+    public function getAssignedUsers($searchParam, $courseId, $course): BelongsToMany
     {
-        $users = $this->courseRepository->getCourse($courseId)->assignedUsers();
+        $users = $course->assignedUsers();
         return $users->orderByDesc('user_id')->search($searchParam);
     }
 
