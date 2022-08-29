@@ -39,18 +39,30 @@ class ClientLRS
      *
      * @return Response $response
      */
-    public static function getStatements(array $userMails = [], array $verbs = [], array $objects = [], array $contexts = []): Response
+    public static function getStatements(array $userMails = [], array $verbs = [], array $objects = [], array $contexts = []): array
     {
         $filters = StatementHelper::compileFilters(actors: $userMails, verbs: $verbs, objects: $objects, contexts: $contexts);
         $tokenLRS = config('services.lrs.token');
         $domainLRS = config('services.lrs.domain');
+        $nextPage = $domainLRS . '/api/statements/get';
+        $statementsPull = [];
 
-        $response = Http::withHeaders([
-            'Authorization' => $tokenLRS,
-        ])->withBody($filters, 'application/json')
-            ->post($domainLRS . '/api/statements/get');
+        do {
+            $response = Http::withHeaders([
+                'Authorization' => $tokenLRS,
+            ])->withBody($filters, 'application/json')
+                ->post($nextPage);
+            $nextPage = optional(json_decode($response->body()))->next_page_url;
+            $statements = optional(json_decode($response->body()))->body;
+            if ($statements) {
+                array_walk($statements, function (&$item) {
+                    $item = $item->content;
+                });
+                $statementsPull = array_merge($statementsPull, $statements);
+            }
+        } while ($nextPage);
 
-        return $response;
+        return $statementsPull;
     }
 
     /**
@@ -58,22 +70,27 @@ class ClientLRS
      *
      * @return array $progressSections
      */
-    public static function getProgressStudent(string $userMail, int $courseId) : array
+    public static function getProgressStudent(string $userMail, int $courseId): array
     {
-        $responsePassed = ClientLRS::getStatements(userMails:[$userMail], verbs:[self::PASSED], contexts:[$courseId]);
-        $responseLaunched = ClientLRS::getStatements(userMails:[$userMail], verbs:[self::LAUNCHED], contexts:[$courseId]);
+        $passedStatements = ClientLRS::getStatements(userMails: [$userMail], verbs: [self::PASSED], contexts: [$courseId]);
+        $launchedStatements = ClientLRS::getStatements(userMails: [$userMail], verbs: [self::LAUNCHED], contexts: [$courseId]);
 
-        if ($responsePassed->status() != 200){
-            dd($responsePassed->body());
-        }
-
-        $passedStatements = json_decode($responsePassed->body())->body;
-        $launchedStatements = json_decode($responseLaunched->body())->body;
         $progressSections = [
-            self::PASSED => StatementHelper::getIdSections($passedStatements),
             self::LAUNCHED => StatementHelper::getIdSections($launchedStatements),
+            self::PASSED => StatementHelper::getIdSections($passedStatements),
         ];
-
         return $progressSections;
+    }
+
+    public static function getCoursesStatements(array $courseIds) : array
+    {
+        $launchedStatements = self::getStatements(verbs: [self::LAUNCHED], objects: $courseIds);
+        $PassedStatements = self::getStatements(verbs: [self::PASSED], objects: $courseIds);
+
+        $progressUsers = [
+            self::LAUNCHED => StatementHelper::getEmailUsers($PassedStatements),
+            self::PASSED => StatementHelper::getEmailUsers($launchedStatements),
+        ];
+        return $progressUsers;
     }
 }

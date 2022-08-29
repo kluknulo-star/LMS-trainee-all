@@ -122,8 +122,7 @@ class StatementHelper
         $sectionIds = [];
 
         foreach ($statements as $statement) {
-            $content = $statement->content;
-            $object = explode('/', $content->object->id);
+            $object = explode('/', $statement->object->id);
 
             $sectionId = end($object);
             if (!in_array($sectionId, $sectionIds)) {
@@ -132,5 +131,20 @@ class StatementHelper
         }
 
         return $sectionIds;
+    }
+
+    public static function getEmailUsers(array $statements) : array
+    {
+        $usersIds = [];
+
+        foreach ($statements as $statement) {
+            $actor = explode(':', $statement->actor->mbox);
+            $usersId = end($actor);
+            if (!in_array($usersId, $usersIds)) {
+                $usersIds[] = $usersId;
+            }
+        }
+
+        return $usersIds;
     }
 }
