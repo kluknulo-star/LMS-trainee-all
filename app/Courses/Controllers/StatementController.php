@@ -44,15 +44,29 @@ class StatementController extends Controller
         $statementLocalSend = new LocalStatements();
         $statementLocalSend->sendLocalStatement($user->user_id, $sectionId, 'passed');
 
-//        $this->sendProgress($user->user_id, $courseId, $myCourseProgress['progress']);
-
         return ClientLRS::sendStatement($user, 'passed', $course, $section);
     }
 
-//    public function sendProgress(int $userId, int $courseId, int $progress)
-//    {
-//        Assignment::where('course_id', $courseId)
-//            ->where('student_id', $userId)
-//            ->update(['progress' => $progress]);
-//    }
+    public function sendPullCourseStatements(int $courseId, int $sectionId) : Response
+    {
+        $course = $this->courseService->getCourse($courseId);
+        /** @var User $user */
+        $user = auth()->user();
+        $allCourseContent = json_decode($course->content);
+        $section = $this->statementService->getSection($allCourseContent, $sectionId);
+
+        for($i = 0; $i < 150; $i++)
+        {
+            ClientLRS::sendStatement($user, ClientLRS::LAUNCHED, $course);
+            ClientLRS::sendStatement($user, ClientLRS::FAILED, $course);
+            ClientLRS::sendStatement($user, ClientLRS::COMPLETED, $course);
+        }
+        return ClientLRS::sendStatement($user, ClientLRS::COMPLETED, $course);
+    }
+
+    public function getCourseStatements(int $courseId) : array
+    {
+        return ClientLRS::getCoursesStatements([$courseId]);
+    }
+
 }
