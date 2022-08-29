@@ -103,9 +103,9 @@
                                     <i class="fas fa-trash"></i>
                                 </button>
                                 @else
-                                    <a class="courses__course-restore yellow"
+                                    <a class="courses__course-restore"
                                        onclick="document.getElementById('restore-modal-<?= $element->item_id  ?>').style.display = 'flex'">
-                                        <i class="fa-solid fa-arrow-rotate-right"></i>
+                                        <i class="fa-solid fa-arrow-rotate-right yellow-text"></i>
                                     </a>
                                 @endif
                             </th>
