@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('password', 60);
             $table->timestamp('email_confirmed_at')->nullable();
             $table->string('email_confirmation_token', 16)->nullable();
+            $table->string('reset_password_token', 16)->nullable();
             $table->boolean('is_teacher')->default(false);
             $table->string('avatar_filename')->nullable();
             $table->rememberToken();
