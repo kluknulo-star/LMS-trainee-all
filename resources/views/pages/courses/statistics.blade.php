@@ -6,11 +6,10 @@
 
 <div class="container">
     <div class="classic-box">
-        <marquee class="h1 mb20" behavior="" direction="Right">Стата курса {{ $courseId }}</marquee>
-
+        <p class="h1 mb30">Стата курса {{ $courseId }}</p>
         <p class="mb15">{{ __('main.course') }} Launched: {{ $count['CourseLaunched'].'/'.$count['CourseAssigned']}}</p>
         <p class="mb15">{{ __('main.course') }} Passed: {{ $count['CoursePassed'] }}</p>
-        <p class="mb15">{{ __('main.course') }} Launched with Section: {{ $count['SectionLaunched'] }}</p>
+        <p class="mb30">{{ __('main.course') }} launched, and at least one section passed: {{ $count['SectionPassed'] }}</p>
         <a href="{{ route('courses.edit', ['id' => $courseId]) }}" class="back-button"><i class="fas fa-arrow-left"></i> {{ __('main.back') }}</a>
     </div>
 </div>

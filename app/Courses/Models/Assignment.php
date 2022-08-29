@@ -42,4 +42,9 @@ class Assignment extends Model
         'course_id' => 'integer',
         'progress' => 'integer',
     ];
+
+    public function stats()
+    {
+        return $this->hasMany(ItemsStats::class, 'user_id', 'student_id');
+    }
 }

@@ -4,6 +4,7 @@ namespace App\Courses\Repositories;
 
 use App\Courses\Models\Assignment;
 use App\Courses\Models\Course;
+use App\Courses\Models\ItemsStats;
 use App\Users\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -20,6 +21,16 @@ class CourseRepository
     public function getCourseWithTrashed($id)
     {
         return Course::withTrashed()->with('content.type')->with('author')->find($id);
+    }
+
+    public function getAssignments($id)
+    {
+        return Assignment::where('course_id', $id)->count();
+    }
+
+    public function getAssignmentsPassed($courseId)
+    {
+        return Assignment::where('course_id', $courseId)->with('stats');
     }
 
     public function getAssignedCourses($searchParam): BelongsToMany

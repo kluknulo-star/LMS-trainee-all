@@ -2,6 +2,7 @@
 
 namespace App\Courses\Models;
 
+use App\Users\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -41,4 +42,9 @@ class ItemsStats extends Model
         'item_id' => 'integer',
         'status' => 'string',
     ];
+
+    public function users()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'user_id');
+    }
 }
