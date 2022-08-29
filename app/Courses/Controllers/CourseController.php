@@ -85,6 +85,7 @@ class CourseController extends Controller
                 $progressStatements = $this->statementsService->getStudentLocalProgress($user->user_id, $courseId, count($sectionsCourse));
                 $studentsProgress[$user->user_id] = $progressStatements['progress'];
             }
+
         }
 
         return view('pages.courses.assign', compact('users', 'courseId', 'state', 'studentsProgress'));
