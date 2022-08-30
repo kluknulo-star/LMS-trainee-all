@@ -6,7 +6,9 @@
 
 <div class="courses">
     <div class="container">
-
+        @if (!empty(session()->get('success')))
+            <div class="success">{{ session()->get('success') }}</div>
+        @endif
         <div class="courses__title flex flex-just-spbtw flex-alit-center h1 w1200">
             {{ __('main.myCourses') }}
 
@@ -48,12 +50,11 @@
                            onclick="document.getElementById('restore-modal-<?= $course->course_id  ?>').style.display = 'flex'">
                             <i class="fa-solid fa-arrow-rotate-right"></i>
                         </a>
-                        {{--                        <a href="" class="courses__course-edit"><i class="fa-solid fa-arrow-rotate-right"></i></a>--}}
                     @endif
 
                     <div class="modal" id="restore-modal-{{ $course->course_id }}">
                         <div class="modal-box">
-                            <p class="modal-text modal-text-restore mb20 mr20">You sure to <span>restore</span> course:
+                            <p class="modal-text modal-text-restore mb20 mr20">{{ __('main.sureQuestion') }} <span>{{ __('main.restore') }}</span> {{ __('main.course') }}:
                                 "{{ $course->title }}" ?</p>
 
                             <div class="modal-buttons">
@@ -62,11 +63,11 @@
                                     @csrf
                                     @method('post')
                                     <input name="user_id" type="hidden" value="{{ $course->course_id }}">
-                                    <button type="submit" class="table-action-button confirm-button">Confirm</button>
+                                    <button type="submit" class="table-action-button confirm-button">{{ __('main.confirm') }}</button>
                                 </form>
                                 <button
                                     onclick="document.getElementById('restore-modal-<?= $course->course_id ?>').style.display = 'none'"
-                                    class="table-action-button cancel-button">Cancel
+                                    class="table-action-button cancel-button">{{ __('main.cancel') }}
                                 </button>
                             </div>
                         </div>
@@ -75,8 +76,6 @@
             @endforeach
         </div>
     </div>
-    {{--  Роут для play курса  --}}
-    {{--    {{ route('courses.play', ['id' => $course->course_id]) }}--}}
 </div>
 
 @component('components.footer')

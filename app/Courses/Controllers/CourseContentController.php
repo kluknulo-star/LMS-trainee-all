@@ -33,7 +33,8 @@ class CourseContentController extends Controller
         $this->authorize('update', [$course]);
         $validated = $request->validated();
         $this->courseContentService->update($validated, $sectionId);
-        return redirect()->route('courses.edit', [$courseId]);
+        return redirect()->route('courses.edit', [$courseId])
+                             ->with(['success' => __('success.'.__FUNCTION__.'CourseContent')]);
     }
 
     public function store(CreateCourseContentRequest $request, $courseId): RedirectResponse
@@ -41,7 +42,8 @@ class CourseContentController extends Controller
         $this->authorize('create', [auth()->user()]);
         $validated = $request->validated();
         $sectionId = $this->courseContentService->store($validated, $courseId);
-        return redirect()->route('courses.edit.section', [$courseId, $sectionId]);
+        return redirect()->route('courses.edit.section', [$courseId, $sectionId])
+                             ->with(['success' => __('success.'.__FUNCTION__.'CourseContent')]);
     }
 
     public function destroy($courseId, $sectionId): RedirectResponse
@@ -49,7 +51,8 @@ class CourseContentController extends Controller
         $course = $this->courseService->getCourse($courseId);
         $this->authorize('delete', [$course]);
         $this->courseContentService->destroy($sectionId);
-        return redirect()->route('courses.edit', [$courseId]);
+        return redirect()->route('courses.edit', [$courseId])
+                             ->with(['success' => __('success.'.__FUNCTION__.'CourseContent')]);
     }
 
     public function restore($courseId, $sectionId)
@@ -57,6 +60,7 @@ class CourseContentController extends Controller
         $course = $this->courseService->getCourse($courseId);
         $this->authorize('restore', [$course]);
         $this->courseContentService->restore($sectionId);
-        return redirect()->route('courses.edit', [$courseId]);
+        return redirect()->route('courses.edit', [$courseId])
+                             ->with(['success' => __('success.'.__FUNCTION__.'CourseContent')]);
     }
 }

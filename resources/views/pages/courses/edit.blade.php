@@ -5,9 +5,18 @@
 @endcomponent
 
 <div class="container">
+    @if (!empty(session()->get('success')))
+        <div class="success">{{ session()->get('success') }}</div>
+    @endif
     <div class="edit flex">
         <div class="edit__container edit__container-course classic-box mrauto">
-            <div class="edit__title h2 mb30">{{ __('main.edit') }} {{ __('main.course') }}</div>
+            <div class="edit__title h2 mb30 flex flex-just-spbtw">{{ __('main.edit') }} {{ __('main.course') }}
+                @can ('view', [$course])
+                    <form method="get" class="w24p" action="{{ route('courses.play', ['id' => $course->course_id]) }}">
+                        <button type="submit" class="edit__button rounded-yellow-button button w100p whitesmoke-text">{{ __('main.play') }}</button>
+                    </form>
+                @endcan
+            </div>
             <form id="edit-course-form" method="post" action="{{ route('courses.update', ['id' => $course->course_id]) }}" class="edit__form form">
                 @csrf
                 @method('patch')
@@ -166,9 +175,9 @@
                 @csrf
                 @method('delete')
                 <input name="user_id" type="hidden" value="{{ $course->course_id }}">
-                <button type="submit" class="table-action-button confirm-button">Confirm</button>
+                <button type="submit" class="table-action-button confirm-button">{{ __('main.confirm') }}</button>
             </form>
-            <button onclick="document.getElementById('delete-modal-<?= $element->item_id ?>').style.display = 'none'" class="table-action-button cancel-button">Cancel</button>
+            <button onclick="document.getElementById('delete-modal-<?= $element->item_id ?>').style.display = 'none'" class="table-action-button cancel-button">{{ __('main.cancel') }}</button>
         </div>
 
     </div>
@@ -177,16 +186,16 @@
 
 <div class="modal" id="delete-modal-{{ $course->course_id }}">
     <div class="modal-box">
-        <p class="modal-text modal-text-delete mb20 mr20">You sure to <span>delete</span> course: "{{ $course->title }}"?</p>
+        <p class="modal-text modal-text-delete mb20 mr20">{{ __('main.sureQuestion') }} <span>{{ __('main.delete') }}</span> {{ __('main.course') }}: "{{ $course->title }}"?</p>
 
         <div class="modal-buttons">
             <form class="table-action-form" action="{{ route('courses.delete', ['id' => $course->course_id]) }}" method="post">
                 @csrf
                 @method('delete')
                 <input name="user_id" type="hidden" value="{{ $course->course_id }}">
-                <button type="submit" class="table-action-button confirm-button">Confirm</button>
+                <button type="submit" class="table-action-button confirm-button">{{ __('main.confirm') }}</button>
             </form>
-            <button onclick="document.getElementById('delete-modal-<?= $course->course_id ?>').style.display = 'none'" class="table-action-button cancel-button">Cancel</button>
+            <button onclick="document.getElementById('delete-modal-<?= $course->course_id ?>').style.display = 'none'" class="table-action-button cancel-button">{{ __('main.cancel') }}</button>
         </div>
 
     </div>

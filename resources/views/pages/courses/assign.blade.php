@@ -4,26 +4,36 @@
 @component('components.aside')
 @endcomponent
 <div class="container">
+    @if (!empty(session()->get('success')))
+        <div class="success">{{ session()->get('success') }}</div>
+    @endif
     <div class="users w1200">
         <div class="users__title h1">
             <div class="users__after-title-links">
-                <li class="assigned-users-navbar">
-                    <ul class="assigned-users-navbar-elem">
+                <p class="h2">
+                    @if ($state == 'already')
+                        {{ __('main.assigned') }} {{ __('main.students') }}
+                    @elseif($state == 'all')
+                        {{ __('main.students') }} ({{ __('main.all') }})
+                    @endif
+                </p>
+                <ul class="assigned-users-navbar">
+                    <li class="assigned-users-navbar-elem">
                         <a href="{{ route('courses.edit.assignments', ['id' => $courseId, 'state' => 'already']) }}" class="rounded-black-button whitesmoke-text">
                             {{ __('main.assigned') }} {{ __('main.students') }}
                         </a>
-                    </ul>
-                    <ul class="assigned-users-navbar-elem">
+                    </li>
+                    <li class="assigned-users-navbar-elem">
                         <a href="{{ route('courses.edit.assignments', ['id' => $courseId, 'state' => 'all']) }}" class="rounded-black-button whitesmoke-text">
                             {{ __('main.students') }}
                         </a>
-                    </ul>
-                    <ul class="assigned-users-navbar-elem">
+                    </li>
+                    <li class="assigned-users-navbar-elem">
                         <a href="{{ route('courses.edit', ['id' => $courseId]) }}" class="rounded-black-button whitesmoke-text">
                             {{ __('main.back') }}
                         </a>
-                    </ul>
-                </li>
+                    </li>
+                </ul>
             </div>
             @if ($state == 'already')
                 <form action="{{ route('courses.edit.assignments', ['id' => $courseId, 'state' => 'already']) }}" method="get" class="users__form-search">
@@ -45,6 +55,7 @@
                 @csrf
                 @method('post')
                 <textarea
+                    required
                     placeholder="{{ __('main.multiplyAddingPlaceholder') }}"
                     class="edit__input col-input input h150" name="studentEmails" id="" cols="30" rows="10"></textarea>
                 <button type="submit" class="rounded-black-button">{{ __('main.add') }}</button>
@@ -59,7 +70,7 @@
                 <th class="users__td">{{ __('main.surname') }}</th>
                 <th class="users__td">{{ __('main.name') }}</th>
                 <th class="users__td">{{ __('main.patronymic') }}</th>
-                <th class="users__td">{{ __('main.progress') }}</th>
+                @if ($state == 'already')<th class="users__td">{{ __('main.progress') }}</th>@endif
                 <th class="users__td"></th>
             </tr>
             </thead>
@@ -79,7 +90,7 @@
                     <th class="users__td">{{ $user->surname }}</th>
                     <th class="users__td">{{ $user->name }}</th>
                     <th class="users__td">{{ $user->patronymic }}</th>
-                    <th class="users__td">{{ $studentsProgress[$user->user_id] ?? '0'}}%</th>
+                        @if ($state == 'already')<th class="users__td">{{ $studentsProgress[$user->user_id] ?? '0'}}%</th>@endif
                     <th class="users__td">
                         @if ($state == 'already')
                             <button class="table-action-button table-delete-button" onclick="document.getElementById('deduct-modal-<?= $user->user_id ?>').style.display = 'flex'">

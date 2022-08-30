@@ -13,7 +13,6 @@
     <div class="container">
         <div id="result-bar" class="justify-center flex-column">
             <div class="result-container">
-
             </div>
         </div>
     </div>
@@ -41,11 +40,11 @@
         if (result.count_correct_questions < result.count_questions_to_pass) {
             resultContainer.innerHTML += `<p class="result-text incorrect-text">
                         Failed
-                    </p>`;
+                    </p> <p style="text-align:center; "> <a href="{{ route('courses.play', ['id' => $id]) }}">Go to course</a> <p>`;
         } else {
             resultContainer.innerHTML += `<p class="result-text correct-text">
                         Passed
-                    </p>`;
+                    </p> <p style="text-align:center; "> <a href="{{ route('courses.play', ['id' => $id]) }}">Go to course</a> <p>`;
         }
     }
 

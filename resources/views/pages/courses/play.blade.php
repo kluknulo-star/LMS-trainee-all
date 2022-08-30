@@ -6,7 +6,11 @@
 
 <div class="container">
     <img src="" alt="" class="courses__img">
-    <div class="h1 mb20">{{ __('main.title') }}: {{ $course->title }}</div>
+    <div class="h1 mb20">{{ $course->title }}
+        @if ($course->author->user_id == auth()->id())
+            <a class="ml20 h1" href="{{ route('courses.edit', ['id' => $course->course_id]) }}"><i class="fa-solid fa-pen"></i></a>
+        @endif
+    </div>
     <div class="margin5">
         {{ __('main.author') }}: <a
             href="{{ route('users.show', ['id' => $course->author->user_id]) }}">
@@ -21,6 +25,7 @@
     <br><br>
     <div class="h2 mb20">{{ __('main.courseContent') }}:</div>
     @foreach($course->content as $element)
+        @if ($element->deleted_at === NULL)
         <div class="margin20-0">
             <b class="h3">{{$element->title}}</b><br><br>
             ❮{{$element->type->type}}❯
@@ -68,6 +73,7 @@
             @endif
             <br>
         </div>
+        @endif
     @endforeach
 </div>
 

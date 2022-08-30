@@ -10,6 +10,9 @@
     <title>Question options</title>
 </head>
 <body>
+<p style="text-align: center;">
+    <a href="{{ route('quiz.questions.show', ['id' => $id, 'section_id' => $section_id, 'quiz' => $quiz]) }}">Back</a>
+</p>
     <div class="container">
         <div class="form">
             <select id="options">

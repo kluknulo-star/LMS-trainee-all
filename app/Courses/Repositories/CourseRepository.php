@@ -79,7 +79,7 @@ class CourseRepository
 
     public function destroyAssignment($userId, $courseId): bool
     {
-        return Assignment::where([
+        return Assignment::query()->where([
             ['course_id', '=', $courseId],
             ['student_id', '=', $userId],
         ])->delete();

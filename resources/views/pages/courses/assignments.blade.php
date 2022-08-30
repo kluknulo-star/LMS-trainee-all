@@ -6,7 +6,9 @@
 
 <div class="courses">
     <div class="container">
-
+        @if (!empty(session()->get('success')))
+            <div class="success">{{ session()->get('success') }}</div>
+        @endif
         <div class="courses__title h1 flex flex-just-spbtw w1200">
             {{ __('main.assigned') }} {{ __('main.courses') }}
 
