@@ -2,6 +2,7 @@
 
 namespace App\Courses\Helpers;
 
+use App\Courses\Models\Assignment;
 use App\Courses\Models\ItemsStats;
 
 class LocalStatements
@@ -42,5 +43,35 @@ class LocalStatements
         ];
 
         return $statements;
+    }
+
+    public function setProgress(int $userId, int $courseId, int $contentCount)
+    {
+        $statementsPassed =
+            ItemsStats::where('course_items_users_stats.status', 'passed')
+                ->where('user_id', $userId)
+                ->join('course_items', 'course_items_users_stats.item_id', '=', 'course_items.item_id')
+                ->where('course_id', $courseId)
+                ->get(['course_items_users_stats.item_id', 'course_items_users_stats.status']);
+
+        $progress = 0;
+        if(count($statementsPassed) > 0) {
+            $progress = (int)round(count($statementsPassed) / $contentCount * 100);
+        }
+
+        if(!empty($userId) && !empty($courseId) && $progress >= 0) {
+            $this->sendProgress($userId, $courseId, $progress);
+            return true;
+        }
+        return false;
+    }
+
+    public function sendProgress(int $userId, int $courseId, int $progress)
+    {
+        Assignment::where('course_id', $courseId)
+            ->where('student_id', $userId)
+            ->update(['progress' => $progress]);
+
+        return true;
     }
 }
