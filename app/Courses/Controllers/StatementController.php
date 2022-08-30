@@ -47,21 +47,20 @@ class StatementController extends Controller
         return ClientLRS::sendStatement($user, 'passed', $course, $section);
     }
 
-    public function sendPullCourseStatements(int $courseId, int $sectionId) : Response
+    public function sendPullCourseStatements(int $courseId) : Response
     {
         $course = $this->courseService->getCourse($courseId);
         /** @var User $user */
         $user = auth()->user();
         $allCourseContent = json_decode($course->content);
-        $section = $this->statementService->getSection($allCourseContent, $sectionId);
 
-        for($i = 0; $i < 150; $i++)
+        for($i = 0; $i < 15; $i++)
         {
             ClientLRS::sendStatement($user, ClientLRS::LAUNCHED, $course);
             ClientLRS::sendStatement($user, ClientLRS::FAILED, $course);
             ClientLRS::sendStatement($user, ClientLRS::COMPLETED, $course);
         }
-        return ClientLRS::sendStatement($user, ClientLRS::COMPLETED, $course);
+        return ClientLRS::sendStatement($user, ClientLRS::PASSED, $course);
     }
 
     public function getCourseStatements(int $courseId) : array

@@ -2,6 +2,7 @@
 
 namespace App\Courses\Services;
 
+use App\Courses\Helpers\ClientLRS;
 use App\Courses\Helpers\LocalStatements;
 
 class StatementService
@@ -17,6 +18,16 @@ class StatementService
             }
         }
         return $section;
+    }
+
+    public function getStudentProgress(int $courseId, string $email) : array
+    {
+        return ClientLRS::getProgressStudent($email, $courseId);
+    }
+
+    public function getCoursesStatements(int $courseId): array
+    {
+        return ClientLRS::getCoursesStatements([$courseId]);
     }
 
     public function getStudentLocalProgress(int $userId, int $courseId, int $allContentCount): array

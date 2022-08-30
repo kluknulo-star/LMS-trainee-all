@@ -26,9 +26,8 @@ Route::get('get-course/{course_id}', [StatementController::class, 'getCourseStat
     ->where('course_id', '[0-9]+')
     ->name('get.course');
 
-Route::get('send-pull/{course_id}/{section_id}', [StatementController::class, 'sendPullCourseStatements'])
+Route::get('send-pull/{course_id}', [StatementController::class, 'sendPullCourseStatements'])
     ->where('course_id', '[0-9]+')
-    ->where('section_id', '[0-9]+')
     ->name('send.pull.statements');
 
 
