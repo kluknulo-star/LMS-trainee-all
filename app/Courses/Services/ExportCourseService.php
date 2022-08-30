@@ -3,6 +3,7 @@
 namespace App\Courses\Services;
 
 use App\Courses\Models\Export;
+use App\Courses\Repositories\CourseRepository;
 use App\Users\Services\UserService;
 use Illuminate\Database\Eloquent\Collection;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -13,6 +14,7 @@ class ExportCourseService extends CourseService
     public function __construct(
         private UserService $userService,
         private CourseService $courseService,
+        private CourseRepository $courseRepository,
     )
     {
     }
@@ -35,12 +37,12 @@ class ExportCourseService extends CourseService
         switch ($type) {
             case 'all':
                 $teachers = $this->userService->getTeachers()->get();
-                $courses = $this->courseService->getAll();
+                $courses = $this->courseRepository->getAll();
                 $fileName = now().'-all-excel.xlsx';
                 break;
             case 'own':
                 $teachers = auth()->user();
-                $courses = $this->courseService->getOwnCourses()->get();
+                $courses = $this->courseRepository->getOwnCourses('')->get();
                 $fileName = now().'-own-excel.xlsx';
                 break;
         }
