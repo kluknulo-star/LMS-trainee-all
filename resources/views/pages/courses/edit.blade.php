@@ -5,6 +5,9 @@
 @endcomponent
 
 <div class="container">
+    @if (!empty(session()->get('success')))
+        <div class="success">{{ session()->get('success') }}</div>
+    @endif
     <div class="edit flex">
         <div class="edit__container edit__container-course classic-box mrauto">
             <div class="edit__title h2 mb30">{{ __('main.edit') }} {{ __('main.course') }}</div>
@@ -30,6 +33,11 @@
             </form>
 
             <div class="flex flex-just-spbtw">
+                @can ('view', [$course])
+                    <form method="get" class="w24p" action="{{ route('courses.play', ['id' => $course->course_id]) }}">
+                        <button type="submit" class="edit__button rounded-yellow-button button w100p mb15 whitesmoke-text">{{ __('main.play') }}</button>
+                    </form>
+                @endcan
                 <button form="edit-course-form" type="submit" class="w24p edit__button rounded-green-button button mb15">{{ __('main.save') }} {{ __('main.changes') }}</button>
 
                 <form method="get" class="w24p" action="{{ route('courses.edit.assignments', ['id' => $course->course_id, 'state' => 'already']) }}">

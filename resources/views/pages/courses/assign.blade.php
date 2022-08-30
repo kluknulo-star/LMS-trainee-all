@@ -4,6 +4,9 @@
 @component('components.aside')
 @endcomponent
 <div class="container">
+    @if (!empty(session()->get('success')))
+        <div class="success">{{ session()->get('success') }}</div>
+    @endif
     <div class="users w1200">
         <div class="users__title h1">
             <div class="users__after-title-links">
@@ -59,7 +62,7 @@
                 <th class="users__td">{{ __('main.surname') }}</th>
                 <th class="users__td">{{ __('main.name') }}</th>
                 <th class="users__td">{{ __('main.patronymic') }}</th>
-                <th class="users__td">{{ __('main.progress') }}</th>
+                @if ($state == 'already')<th class="users__td">{{ __('main.progress') }}</th>@endif
                 <th class="users__td"></th>
             </tr>
             </thead>
@@ -79,7 +82,7 @@
                     <th class="users__td">{{ $user->surname }}</th>
                     <th class="users__td">{{ $user->name }}</th>
                     <th class="users__td">{{ $user->patronymic }}</th>
-                    <th class="users__td">{{ $studentsProgress[$user->user_id] ?? '0'}}%</th>
+                        @if ($state == 'already')<th class="users__td">{{ $studentsProgress[$user->user_id] ?? '0'}}%</th>@endif
                     <th class="users__td">
                         @if ($state == 'already')
                             <button class="table-action-button table-delete-button" onclick="document.getElementById('deduct-modal-<?= $user->user_id ?>').style.display = 'flex'">

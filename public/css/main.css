@@ -195,3 +195,30 @@ a {
 .change-lang-button:hover {
     transform: scale(1.15);
 }
+.text-al-cent {
+    text-align: center;
+}
+.success {
+    position: fixed;
+    left: 900px;
+    top: 75px;
+    padding: 15px;
+    background-color: rgba(143, 215, 83, 0.65);
+    border-radius: 6px;
+    border: 1px solid #62EB32;
+    z-index: 100;
+    color: whitesmoke;
+    opacity: 0;
+    animation: blink 4s none;
+}
+@keyframes blink {
+    0% {
+        opacity: 100%;
+    }
+    50% {
+        opacity: 100%;
+    }
+    100% {
+        opacity: 0;
+    }
+}

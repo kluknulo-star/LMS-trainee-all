@@ -1,6 +1,9 @@
 <?php
 
 return [
+    'successAction' => 'Action completed successfully!',
+    'play' => 'Play',
+
     'students' => 'Students',
     'student' => 'student',
     'myCourses' => 'My courses',

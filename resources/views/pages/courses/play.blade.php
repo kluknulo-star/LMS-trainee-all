@@ -21,6 +21,7 @@
     <br><br>
     <div class="h2 mb20">{{ __('main.courseContent') }}:</div>
     @foreach($course->content as $element)
+        @if ($element->deleted_at === NULL)
         <div class="margin20-0">
             <b class="h3">{{$element->title}}</b><br><br>
             ❮{{$element->type->type}}❯
@@ -68,6 +69,7 @@
             @endif
             <br>
         </div>
+        @endif
     @endforeach
 </div>
 
