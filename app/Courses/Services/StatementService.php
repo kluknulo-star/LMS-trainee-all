@@ -25,6 +25,11 @@ class StatementService
         return ClientLRS::getProgressStudent($email, $courseId);
     }
 
+    public function getCoursesStatements(int $courseId): array
+    {
+        return ClientLRS::getCoursesStatements([$courseId]);
+    }
+
     public function getStudentLocalProgress(int $userId, int $courseId, int $allContentCount): array
     {
         $localStatement = new LocalStatements();

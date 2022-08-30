@@ -139,7 +139,7 @@ class CourseController extends Controller
 
         $assignmentsCount = $this->courseService->getAssignmentsCount($courseId);
 
-//        $userIds = $this->courseService->getAssignedUsers('', $courseId)->get()->pluck('user_id');
+        $coursePassedCount = $this->statementsService->getCoursesStatements($courseId);
 
         $assignmentsPassed = $this->courseService->getAssignmentsPassed($courseId)->get();
 
@@ -150,8 +150,8 @@ class CourseController extends Controller
         }
 
         $count = [
-            'CourseLaunched' => 9,
-            'CoursePassed' => 9,
+            'CourseLaunched' => count($coursePassedCount['launched']),
+            'CoursePassed' => count($coursePassedCount['passed']),
             'CourseAssigned' => $assignmentsCount,
             'SectionPassed' => $passedSectionCount,
         ];
