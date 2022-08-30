@@ -10,6 +10,9 @@
     <title>Edit quiz</title>
 </head>
 <body>
+<p style="text-align: center;">
+    <a href="{{ route('courses.edit.section', ['id' => $id, 'section_id' => $section_id]) }}">Back</a>
+</p>
 <div class="container">
     <div class="list">
         @forelse($questions as $question)
@@ -123,27 +126,27 @@
 
     items.forEach(item => {
         item.addEventListener('dblclick', e => {
-                let obj = {
-                    "questionId": item.querySelector('.list-item-question-id').textContent,
-                };
-                item.remove();
+            let obj = {
+                "questionId": item.querySelector('.list-item-question-id').textContent,
+            };
+            item.remove();
 
-                fetch("{{ route('quiz.questions.delete', ['id' => $id, 'section_id' => $section_id, 'quiz' => $quiz]) }}", {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json',
-                        'url': "{{ route('quiz.questions.delete', ['id' => $id, 'section_id' => $section_id, 'quiz' => $quiz]) }}",
-                        "X-CSRF-Token": document.head.querySelector("[name=csrf-token]").content
-                    },
-                    body: JSON.stringify(obj),
-                }).then(response => {
-                    if (response.status === 200) {
-                        response.text().then(text => {
-                            alert(text);
-                        });
-                    }
-                });
+            fetch("{{ route('quiz.questions.delete', ['id' => $id, 'section_id' => $section_id, 'quiz' => $quiz]) }}", {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'url': "{{ route('quiz.questions.delete', ['id' => $id, 'section_id' => $section_id, 'quiz' => $quiz]) }}",
+                    "X-CSRF-Token": document.head.querySelector("[name=csrf-token]").content
+                },
+                body: JSON.stringify(obj),
+            }).then(response => {
+                if (response.status === 200) {
+                    response.text().then(text => {
+                        alert(text);
+                    });
+                }
+            });
         });
     });
 </script>
