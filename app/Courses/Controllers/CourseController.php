@@ -2,6 +2,7 @@
 
 namespace App\Courses\Controllers;
 
+use App\Courses\Repositories\CourseRepository;
 use App\Courses\Services\CourseService;
 use App\Courses\Services\StatementService;
 use App\Http\Controllers\Controller;
@@ -13,21 +14,25 @@ use Illuminate\Contracts\View\View;
 
 class CourseController extends Controller
 {
-    public function __construct(private CourseService $courseService, private StatementService $statementsService)
+    public function __construct(
+        private CourseService $courseService,
+        private StatementService $statementsService,
+        private CourseRepository $courseRepository,
+    )
     {
     }
 
     public function showAssignedCourses(Request $request): View
     {
         $searchParam = $request->input('search');
-        $courses = $this->courseService->getAssignedCourses($searchParam)->paginate(4);
+        $courses = $this->courseRepository->getAssignedCourses($searchParam)->paginate(4);
         return view('pages.courses.assignments', compact('courses'));
     }
 
     public function showOwnCourses(Request $request): View
     {
         $searchParam = $request->input('search');
-        $courses = $this->courseService->getOwnCourses($searchParam)->paginate(4);
+        $courses = $this->courseRepository->getOwnCourses($searchParam)->paginate(4);
         return view('pages.courses.own', compact('courses'));
     }
 
@@ -35,7 +40,7 @@ class CourseController extends Controller
     {
         if (empty($request->input('studentEmails'))) {
             if (!empty($request->input('user_id'))) {
-                $this->courseService->assign($request->input('user_id'), $courseId);
+                $this->courseRepository->createAssign($request->input('user_id'), $courseId);
             }
             return redirect()->route('courses.edit.assignments', ['id' => $courseId, 'state' => 'all']);
         } else {
@@ -51,7 +56,7 @@ class CourseController extends Controller
     public function deduct(Request $request, int $courseId): RedirectResponse
     {
         $userId = $request->input('user_id');
-        $this->courseService->deduct($userId, $courseId);
+        $this->courseRepository->destroyAssignment($userId, $courseId);
         return redirect()->route('courses.edit.assignments', ['id' => $courseId, 'state' => 'already']);
     }
 
@@ -77,10 +82,13 @@ class CourseController extends Controller
         $studentsProgress = [];
 
         if ($state == 'all') {
-            $users = $this->courseService->getUnassignedUsers($searchParam, $courseId)->paginate(8);
+            $users = $this->courseRepository->getUnassignedUsers($courseId)
+                                            ->orderByDesc('user_id')
+                                            ->search($searchParam)
+                                            ->paginate(8);
         } elseif ($state == 'already') {
             $course = $this->courseService->getCourse($courseId);
-            $users = $this->courseService->getAssignedUsers($searchParam, $courseId, $course)->paginate(8);
+            $users = $course->assignedUsers()->orderByDesc('user_id')->search($searchParam)->paginate(8);
             $sectionsCourse = json_decode($course->content, true);
 
             foreach ($users as $user) {
@@ -96,7 +104,7 @@ class CourseController extends Controller
     public function update(UpdateCourseRequest $request, int $courseId): RedirectResponse
     {
         $validated = $request->validated();
-        $this->courseService->update($courseId, $validated);
+        $this->courseRepository->getCourse($courseId)->update($validated);
         return redirect()->route('courses.own');
     }
 
@@ -111,7 +119,7 @@ class CourseController extends Controller
         $this->authorize('create', [auth()->user()]);
         $validated = $request->validated();
         $validated['author_id'] = auth()->id();
-        $this->courseService->store($validated);
+        $this->courseRepository->store($validated);
         return redirect()->route('courses.own');
     }
 
@@ -119,15 +127,15 @@ class CourseController extends Controller
     {
         $course = $this->courseService->getCourse($courseId);
         $this->authorize('delete', [$course]);
-        $this->courseService->destroy($courseId);
+        $this->courseRepository->destroy($courseId);
         return redirect()->route('courses.own');
     }
 
     public function restore(int $courseId): RedirectResponse
     {
-        $course = $this->courseService->getCourseWithTrashed($courseId);
+        $course = $this->courseRepository->getCourseWithTrashed($courseId);
         $this->authorize('restore', [$course]);
-        $this->courseService->restore($courseId);
+        $this->courseRepository->restore($courseId);
         return redirect()->route('courses.own');
     }
 
@@ -137,11 +145,11 @@ class CourseController extends Controller
         $this->authorize('update', [$course]);
         $passedSectionCount = 0;
 
-        $assignmentsCount = $this->courseService->getAssignmentsCount($courseId);
+        $assignmentsCount = $this->courseRepository->getAssignments($courseId);
 
         $coursePassedCount = $this->statementsService->getCoursesStatements($courseId);
 
-        $assignmentsPassed = $this->courseService->getAssignmentsPassed($courseId)->get();
+        $assignmentsPassed = $this->courseRepository->getAssignmentsPassed($courseId)->get();
 
         foreach ($assignmentsPassed as $item) {
             if (count($item->stats)) {

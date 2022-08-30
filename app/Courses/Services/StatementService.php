@@ -2,6 +2,7 @@
 
 namespace App\Courses\Services;
 
+use App\Courses\Helpers\ClientLRS;
 use App\Courses\Helpers\LocalStatements;
 
 class StatementService
