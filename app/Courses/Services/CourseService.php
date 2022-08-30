@@ -10,6 +10,7 @@ use App\Users\Services\UserService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use App\Courses\Services\StatementService;
 
 class CourseService
 {
@@ -17,6 +18,7 @@ class CourseService
         private CourseRepository $courseRepository,
         private UserRepository $userRepository,
         private UserService $userService,
+        private StatementService $statementService,
     )
     {
     }
@@ -26,8 +28,12 @@ class CourseService
         return $this->courseRepository->getCourse($id);
     }
 
-    public function assignMany($emails, $courseId): int
+    public function assignMany($courseId, $emails): int
     {
+        for ($i = 0; $i < count($emails); $i++) {
+            $emails[$i] = trim($emails[$i]);
+        }
+
         $userIds = [];
         $course = $this->courseRepository->getCourse($courseId);
 
@@ -72,5 +78,44 @@ class CourseService
     public function restore($courseId): bool
     {
         return $this->courseRepository->restore($courseId);
+    }
+
+    public function getAssignmentsUsersByState(string $state, int $courseId, $searchParam = '')
+    {
+        if ($state == 'all') {
+            return $this->courseRepository->getUnassignedUsers($courseId)
+                ->orderByDesc('user_id')
+                ->search($searchParam)
+                ->paginate(8);
+        } elseif ($state == 'already') {
+            return $this->getCourse($courseId)->assignedUsers()->orderByDesc('user_id')->search($searchParam)->paginate(8);
+        }
+    }
+
+    public function getAssignmentsUsersProgress(string $state, $users, int $courseId)
+    {
+        $studentsProgress = [];
+        if ($state == 'already') {
+            $sectionsCourse = json_decode($this->getCourse($courseId)->content, true);
+            foreach ($users as $user) {
+                $progressStatements = $this->statementService->getStudentLocalProgress($user->user_id, $courseId, count($sectionsCourse));
+                $studentsProgress[$user->user_id] = $progressStatements['progress'];
+            }
+        }
+        return $studentsProgress;
+    }
+
+    public function getPassedSectionsCount(int $courseId): int
+    {
+        $assignmentsPassed = $this->courseRepository->getAssignmentsPassed($courseId)->get();
+
+        $passedSectionCount = 0;
+        foreach ($assignmentsPassed as $item) {
+            if (count($item->stats)) {
+                $passedSectionCount++;
+            }
+        }
+
+        return $passedSectionCount;
     }
 }

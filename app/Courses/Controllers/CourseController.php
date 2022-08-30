@@ -40,24 +40,28 @@ class CourseController extends Controller
     {
         if (empty($request->input('studentEmails'))) {
             if (!empty($request->input('user_id'))) {
-                $this->courseRepository->createAssign($request->input('user_id'), $courseId);
+                if ($this->courseRepository->createAssign($request->input('user_id'), $courseId)) {
+                    $success = __('main.successAction');
+                }
             }
-            return redirect()->route('courses.edit.assignments', ['id' => $courseId, 'state' => 'all']);
+            return redirect()->route('courses.edit.assignments', ['id' => $courseId, 'state' => 'all'])->with(['success' => $success]);
         } else {
             $emails = preg_split('/\n|\r\n?/', $request->input('studentEmails'));
-            for ($i = 0; $i < count($emails); $i++) {
-                $emails[$i] = trim($emails[$i]);
+            if ($this->courseService->assignMany($courseId, $emails)) {
+                $success = __('main.successAction');
             }
-            $this->courseService->assignMany($emails, $courseId);
-            return redirect()->route('courses.edit.assignments', ['id' => $courseId, 'state' => 'already']);
+            return redirect()->route('courses.edit.assignments', ['id' => $courseId, 'state' => 'already'])->with(['success' => $success]);
         }
     }
 
     public function deduct(Request $request, int $courseId): RedirectResponse
     {
         $userId = $request->input('user_id');
-        $this->courseRepository->destroyAssignment($userId, $courseId);
-        return redirect()->route('courses.edit.assignments', ['id' => $courseId, 'state' => 'already']);
+        if ($this->courseRepository->destroyAssignment($userId, $courseId)) {
+            $success = __('main.successAction');
+        }
+        return redirect()->route('courses.edit.assignments', ['id' => $courseId, 'state' => 'already'])
+                         ->with(['success' => $success]);
     }
 
     public function play(int $courseId): View
@@ -79,33 +83,18 @@ class CourseController extends Controller
     public function editAssignments(Request $request, int $courseId, string $state): View
     {
         $searchParam = $request->input('search');
-        $studentsProgress = [];
-
-        if ($state == 'all') {
-            $users = $this->courseRepository->getUnassignedUsers($courseId)
-                                            ->orderByDesc('user_id')
-                                            ->search($searchParam)
-                                            ->paginate(8);
-        } elseif ($state == 'already') {
-            $course = $this->courseService->getCourse($courseId);
-            $users = $course->assignedUsers()->orderByDesc('user_id')->search($searchParam)->paginate(8);
-            $sectionsCourse = json_decode($course->content, true);
-
-            foreach ($users as $user) {
-                $progressStatements = $this->statementsService->getStudentLocalProgress($user->user_id, $courseId, count($sectionsCourse));
-                $studentsProgress[$user->user_id] = $progressStatements['progress'];
-            }
-
-        }
-
+        $users = $this->courseService->getAssignmentsUsersByState($state, $courseId, $searchParam);
+        $studentsProgress = $this->courseService->getAssignmentsUsersProgress($state, $users, $courseId);
         return view('pages.courses.assign', compact('users', 'courseId', 'state', 'studentsProgress'));
     }
 
     public function update(UpdateCourseRequest $request, int $courseId): RedirectResponse
     {
         $validated = $request->validated();
-        $this->courseRepository->getCourse($courseId)->update($validated);
-        return redirect()->route('courses.own');
+        if ($this->courseRepository->getCourse($courseId)->update($validated)) {
+            $success = __('main.successAction');
+        }
+        return redirect()->route('courses.edit', ['id' => $courseId])->with(['success' => $success]);
     }
 
     public function create(): View
@@ -119,49 +108,43 @@ class CourseController extends Controller
         $this->authorize('create', [auth()->user()]);
         $validated = $request->validated();
         $validated['author_id'] = auth()->id();
-        $this->courseRepository->store($validated);
-        return redirect()->route('courses.own');
+        if ($this->courseRepository->store($validated)) {
+            $success = __('main.successAction');
+        }
+        return redirect()->route('courses.own')->with(['success' => $success]);
     }
 
     public function destroy(int $courseId): RedirectResponse
     {
         $course = $this->courseService->getCourse($courseId);
         $this->authorize('delete', [$course]);
-        $this->courseRepository->destroy($courseId);
-        return redirect()->route('courses.own');
+        if ($this->courseRepository->destroy($courseId)) {
+            $success = __('main.successAction');
+        }
+        return redirect()->route('courses.own')->with(['success' => $success]);
     }
 
     public function restore(int $courseId): RedirectResponse
     {
         $course = $this->courseRepository->getCourseWithTrashed($courseId);
         $this->authorize('restore', [$course]);
-        $this->courseRepository->restore($courseId);
-        return redirect()->route('courses.own');
+        if ($this->courseRepository->restore($courseId)) {
+            $success = __('main.successAction');
+        }
+        return redirect()->route('courses.own')->with(['success' => $success]);
     }
 
     public function statistics(int $courseId): View
     {
         $course = $this->courseService->getCourse($courseId);
         $this->authorize('update', [$course]);
-        $passedSectionCount = 0;
-
-        $assignmentsCount = $this->courseRepository->getAssignments($courseId);
-
         $coursePassedCount = $this->statementsService->getCoursesStatements($courseId);
-
-        $assignmentsPassed = $this->courseRepository->getAssignmentsPassed($courseId)->get();
-
-        foreach ($assignmentsPassed as $item) {
-            if (count($item->stats)) {
-                $passedSectionCount++;
-            }
-        }
 
         $count = [
             'CourseLaunched' => count($coursePassedCount['launched']),
             'CoursePassed' => count($coursePassedCount['passed']),
-            'CourseAssigned' => $assignmentsCount,
-            'SectionPassed' => $passedSectionCount,
+            'CourseAssigned' => $this->courseRepository->getAssignments($courseId),
+            'SectionPassed' => $this->courseService->getPassedSectionsCount($courseId),
         ];
         return view('pages.courses.statistics', compact('count', 'courseId'));
     }

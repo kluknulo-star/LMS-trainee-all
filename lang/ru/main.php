@@ -1,6 +1,9 @@
 <?php
 
 return [
+    'successAction' => 'Действие успешно выполнено!',
+    'play' => 'Пройти',
+
     'students' => 'Ученики',
     'student' => 'ученик',
     'myCourses' => 'Мои курсы',
