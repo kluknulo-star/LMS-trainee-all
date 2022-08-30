@@ -66,7 +66,6 @@
     }
     function saveChanges() {
         let options = document.querySelectorAll('.quiz-option');
-        console.log(options);
         let obj = [];
         options.forEach(option => {
             obj.push({
@@ -74,7 +73,6 @@
                 "isCorrect": option.selected,
             });
         });
-        console.log(obj);
         fetch("{{ route('quiz.options.store', ['id' => $id, 'section_id' => $section_id, 'quiz' => $quiz, 'question' => $question]) }}", {
             method: 'POST',
             headers: {
