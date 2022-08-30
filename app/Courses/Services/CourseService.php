@@ -5,17 +5,22 @@ namespace App\Courses\Services;
 use App\Courses\Models\Assignment;
 use App\Courses\Models\Course;
 use App\Courses\Repositories\CourseRepository;
+use App\Http\Mail\EmailAssignNewUser;
 use App\Users\Repositories\UserRepository;
+use App\Users\Services\UserService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class CourseService
 {
     public function __construct(
         private CourseRepository $courseRepository,
         private UserRepository $userRepository,
+        private UserService $userService,
     )
     {
     }
@@ -52,11 +57,28 @@ class CourseService
 
     public function assignMany($emails, $courseId): int
     {
-        $userIds = $this->userRepository->getUserIdsByEmails($emails);
-        $assignData = [];
+        $userIds = [];
+        $course = $this->courseRepository->getCourse($courseId);
+
+        foreach($emails as $email) {
+            if(!($user = $this->userRepository->getUserByEmail($email))) {
+                $user = $this->userService->store([
+                    'name' => 'Temporary Name',
+                    'surname' => 'Temporary Surname',
+                    'email' => $email,
+                    'password' => $password = Str::random(),
+                    'email_confirmed_at' => now()
+                ]);
+                Mail::to($email)->send(new EmailAssignNewUser($user, $password, $course));
+            }
+
+            $userIds[] = $user->getKey();
+        }
+
         foreach ($userIds as $id) {
             $assignData[] = ['student_id' => $id, 'course_id' => $courseId];
         }
+
         return $this->courseRepository->createManyAssignments($assignData);
     }
 
