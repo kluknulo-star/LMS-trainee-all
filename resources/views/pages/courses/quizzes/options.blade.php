@@ -14,7 +14,7 @@
         <div class="form">
             <select id="options">
                 @forelse($options as $option)
-                    <option {{ $option->is_correct ? 'selected' : '' }} value='{{ $option->option_body }}'>{{ $option->option_body }}</option>
+                    <option class="quiz-option" {{ $option->is_correct ? 'selected' : '' }} value='{{ $option->option_body }}'>{{ $option->option_body }}</option>
                     @empty
                 @endforelse
             </select>
@@ -57,6 +57,7 @@
 
         if (value !== '') {
             opt = document.createElement('option');
+            opt.classList.add('quiz-option');
             opt.value = value;
             opt.innerHTML = value;
             options.appendChild(opt);
@@ -64,7 +65,7 @@
         }
     }
     function saveChanges() {
-        let options = document.querySelectorAll('option');
+        let options = document.querySelectorAll('.quiz-option');
         let obj = [];
         options.forEach(option => {
             obj.push({
