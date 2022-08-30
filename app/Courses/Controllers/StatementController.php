@@ -4,7 +4,6 @@ namespace App\Courses\Controllers;
 
 use App\Courses\Helpers\ClientLRS;
 use App\Courses\Helpers\LocalStatements;
-use App\Courses\Models\Assignment;
 use App\Courses\Services\CourseService;
 use App\Courses\Services\StatementService;
 use App\Http\Controllers\Controller;
@@ -43,6 +42,7 @@ class StatementController extends Controller
 
         $statementLocalSend = new LocalStatements();
         $statementLocalSend->sendLocalStatement($user->user_id, $sectionId, 'passed');
+        $statementLocalSend->setProgress($user->user_id, $courseId, count($course->content));
 
         return ClientLRS::sendStatement($user, 'passed', $course, $section);
     }
