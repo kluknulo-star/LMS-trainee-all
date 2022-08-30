@@ -2,6 +2,7 @@
 
 namespace App\Users\Requests;
 
+use App\Rules\LastPasswordsCase;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\Rule;
@@ -58,6 +59,7 @@ class UpdateUserRequest extends FormRequest
                     ->uncompromised()
                     ->numbers()
                     ->mixedCase(),
+                new LastPasswordsCase,
             ],
         ];
     }
