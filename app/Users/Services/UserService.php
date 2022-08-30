@@ -2,6 +2,7 @@
 
 namespace App\Users\Services;
 
+use App\Users\Models\OldUserPassword;
 use App\Users\Models\User;
 use App\Users\Repositories\UserRepository;
 use Illuminate\Support\Facades\Hash;
@@ -40,12 +41,16 @@ class UserService
         return $this->userRepository->store($validated);
     }
 
-    public function update($validated, $id): User
+    public function update($validated, $id)
     {
         if (empty($validated['password'])) {
             unset($validated['password']);
         } else {
             $validated['password'] = Hash::make($validated['password']);
+            OldUserPassword::create([
+                'user_id' => $id,
+                'old_password' => $validated['password'],
+            ]);
         }
         $user = $this->getUser($id);
         $user->update($validated);
