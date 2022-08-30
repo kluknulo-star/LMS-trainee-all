@@ -1,6 +1,6 @@
 <aside class="aside">
     <div class="aside__header">
-        <div class="aside__logo logo h2">CourseZone</div>
+        <a href="{{ route('users') }}" class="aside__logo whitesmoke-text logo h2">CourseZone</a>
 
         @if (auth()->user()->is_teacher == 1)
             <a href="{{ route('users') }}" class="aside__link button">{{ trans('main.students') }}</a>

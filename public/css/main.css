@@ -28,6 +28,9 @@ body {
     color: whitesmoke;
     font-weight: bold;
 }
+.h1 i {
+    font-size: 24px;
+}
 .h2 {
     font-size: 36px;
     color: whitesmoke;
@@ -78,6 +81,9 @@ a {
 }
 .mb30 {
     margin-bottom: 30px;
+}
+.ml20 {
+    margin-left: 20px;
 }
 .mrauto {
     margin-right: auto;

@@ -2,6 +2,7 @@
 
 namespace App\Courses\Controllers;
 
+use App\Courses\Models\Assignment;
 use App\Courses\Repositories\CourseRepository;
 use App\Courses\Services\CourseService;
 use App\Courses\Services\StatementService;
@@ -40,28 +41,24 @@ class CourseController extends Controller
     {
         if (empty($request->input('studentEmails'))) {
             if (!empty($request->input('user_id'))) {
-                if ($this->courseRepository->createAssign($request->input('user_id'), $courseId)) {
-                    $success = __('main.successAction');
-                }
+                $this->courseRepository->createAssign($request->input('user_id'), $courseId);
             }
-            return redirect()->route('courses.edit.assignments', ['id' => $courseId, 'state' => 'all'])->with(['success' => $success]);
-        } else {
-            $emails = preg_split('/\n|\r\n?/', $request->input('studentEmails'));
-            if ($this->courseService->assignMany($courseId, $emails)) {
-                $success = __('main.successAction');
-            }
-            return redirect()->route('courses.edit.assignments', ['id' => $courseId, 'state' => 'already'])->with(['success' => $success]);
+            return redirect()->route('courses.edit.assignments', ['id' => $courseId, 'state' => 'all'])
+                             ->with(['success' => __('success.'.__FUNCTION__.'Course')]);
         }
+
+        $emails = preg_split('/\n|\r\n?/', $request->input('studentEmails'));
+        $this->courseService->assignMany($courseId, $emails);
+        return redirect()->route('courses.edit.assignments', ['id' => $courseId, 'state' => 'already'])
+                         ->with(['success' => __('success.'.__FUNCTION__.'Course')]);
     }
 
     public function deduct(Request $request, int $courseId): RedirectResponse
     {
         $userId = $request->input('user_id');
-        if ($this->courseRepository->destroyAssignment($userId, $courseId)) {
-            $success = __('main.successAction');
-        }
+        $this->courseRepository->destroyAssignment($userId, $courseId);
         return redirect()->route('courses.edit.assignments', ['id' => $courseId, 'state' => 'already'])
-                         ->with(['success' => $success]);
+                         ->with(['success' => __('success.'.__FUNCTION__.'Course')]);
     }
 
     public function play(int $courseId): View
@@ -69,7 +66,6 @@ class CourseController extends Controller
         $course = $this->courseService->getCourse($courseId);
         $this->authorize('view', [$course]);
         $myCourseProgress = $this->statementsService->getStudentLocalProgress(auth()->id(), $courseId, count($course->content));
-
         return view('pages.courses.play', compact('course', 'myCourseProgress'));
     }
 
@@ -91,10 +87,9 @@ class CourseController extends Controller
     public function update(UpdateCourseRequest $request, int $courseId): RedirectResponse
     {
         $validated = $request->validated();
-        if ($this->courseRepository->getCourse($courseId)->update($validated)) {
-            $success = __('main.successAction');
-        }
-        return redirect()->route('courses.edit', ['id' => $courseId])->with(['success' => $success]);
+        $this->courseRepository->getCourse($courseId)->update($validated);
+        return redirect()->route('courses.edit', ['id' => $courseId])
+                         ->with(['success' => __('success.'.__FUNCTION__.'Course')]);
     }
 
     public function create(): View
@@ -108,30 +103,27 @@ class CourseController extends Controller
         $this->authorize('create', [auth()->user()]);
         $validated = $request->validated();
         $validated['author_id'] = auth()->id();
-        if ($this->courseRepository->store($validated)) {
-            $success = __('main.successAction');
-        }
-        return redirect()->route('courses.own')->with(['success' => $success]);
+        $this->courseRepository->store($validated);
+        return redirect()->route('courses.own')
+                         ->with(['success' => __('success.'.__FUNCTION__.'Course')]);
     }
 
     public function destroy(int $courseId): RedirectResponse
     {
         $course = $this->courseService->getCourse($courseId);
         $this->authorize('delete', [$course]);
-        if ($this->courseRepository->destroy($courseId)) {
-            $success = __('main.successAction');
-        }
-        return redirect()->route('courses.own')->with(['success' => $success]);
+        $this->courseRepository->destroy($courseId);
+        return redirect()->route('courses.own')
+                         ->with(['success' => __('success.'.__FUNCTION__.'Course')]);
     }
 
     public function restore(int $courseId): RedirectResponse
     {
         $course = $this->courseRepository->getCourseWithTrashed($courseId);
         $this->authorize('restore', [$course]);
-        if ($this->courseRepository->restore($courseId)) {
-            $success = __('main.successAction');
-        }
-        return redirect()->route('courses.own')->with(['success' => $success]);
+        $this->courseRepository->restore($courseId);
+        return redirect()->route('courses.own')
+                         ->with(['success' => __('success.'.__FUNCTION__.'Course')]);
     }
 
     public function statistics(int $courseId): View
