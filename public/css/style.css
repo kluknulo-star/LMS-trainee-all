@@ -336,7 +336,7 @@ nav.flex > div > div > span > a:nth-last-child(-n+2) {
     position: relative;
 }
 .courses .modal-box {
-    margin: 70px auto;
+    margin: 300px auto;
 }
 .courses__row {
     display: flex;
@@ -448,6 +448,7 @@ a.courses__course-play {
     flex-direction: column;
 }
 .modal-text {
+    line-height: 1.5;
     font-size: 20px;
 }
 .modal-box {
@@ -503,7 +504,6 @@ a.courses__course-play {
     width: 100%;
 }
 .edit .modal-box {
-    margin-top: 70px;
     border-radius: 10px;
 }
 .edit__container-course .edit__input {
@@ -532,7 +532,7 @@ a.courses__course-play {
 }
 .assigned-users-navbar .assigned-users-navbar-elem {
     list-style-type: none;
-    margin: 0;
+    margin-top: 20px;
     margin-right: 20px;
     padding: 0;
     background-color:  #171923;

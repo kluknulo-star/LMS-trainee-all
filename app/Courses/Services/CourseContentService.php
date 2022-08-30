@@ -17,7 +17,6 @@ class CourseContentService
     public function update($validated, $sectionId): bool
     {
         $courseContent['title'] = $validated['sectionTitle'];
-        $courseContent['type_id'] = $validated['sectionType'];
         $courseContent['item_content'] = json_encode($validated['sectionContent']);
         return $this->courseContentRepository->update($sectionId, $courseContent);
     }

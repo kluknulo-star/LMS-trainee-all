@@ -24,7 +24,7 @@ class UpdateCourseContentRequest extends FormRequest
     public function rules()
     {
         return [
-            'sectionType' => 'required',
+//            'sectionType' => 'required',
             'sectionTitle' => 'required|max:70',
             'sectionContent' => 'required|max:2048',
         ];

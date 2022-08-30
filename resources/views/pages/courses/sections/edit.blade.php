@@ -5,6 +5,9 @@
 @endcomponent
 
 <div class="container">
+    @if (!empty(session()->get('success')))
+        <div class="success">{{ session()->get('success') }}</div>
+    @endif
     <div class="edit flex">
         <div class="edit__container edit__container-course classic-box mrauto">
             <div class="edit__title h2 mb30">{{ __('main.edit') }} {{ Lang::choice('main.sectionVin', 1) }}</div>
@@ -25,7 +28,7 @@
                           name="sectionContent"
                           placeholder="@if ($section->type_id != 3) {{ __('main.sectionContent') }} @else Enter count of questions to pass the quiz @endif "
                           style="width: 1298px; min-height: 300px; max-height: 300px;"
-                          class="edit__input col-input input">@if ($section->type_id != 3) {{ old('sectionContent') ?? json_decode($section->item_content) ?? '' }} @else @endif</textarea>
+                          class="edit__input col-input input">@if ($section->type_id != 3){{ old('sectionContent') ?? json_decode($section->item_content) ?? '' }}@else @endif</textarea>
                 <p id="content-count"></p>/2048
                 @elseif($section->type_id === 3)
                     <a href="{{ route('quiz.questions.show', ['id' => $courseId, 'section_id' => $section->item_id, 'quiz' => json_decode($section->item_content, true)['quiz_id']]) }}" class="text-al-cent rounded-red-button mb15 whitesmoke-text">Edit quiz questions</a>

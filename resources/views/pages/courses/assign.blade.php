@@ -10,23 +10,30 @@
     <div class="users w1200">
         <div class="users__title h1">
             <div class="users__after-title-links">
-                <li class="assigned-users-navbar">
-                    <ul class="assigned-users-navbar-elem">
+                <p class="h2">
+                    @if ($state == 'already')
+                        {{ __('main.assigned') }} {{ __('main.students') }}
+                    @elseif($state == 'all')
+                        {{ __('main.students') }} ({{ __('main.all') }})
+                    @endif
+                </p>
+                <ul class="assigned-users-navbar">
+                    <li class="assigned-users-navbar-elem">
                         <a href="{{ route('courses.edit.assignments', ['id' => $courseId, 'state' => 'already']) }}" class="rounded-black-button whitesmoke-text">
                             {{ __('main.assigned') }} {{ __('main.students') }}
                         </a>
-                    </ul>
-                    <ul class="assigned-users-navbar-elem">
+                    </li>
+                    <li class="assigned-users-navbar-elem">
                         <a href="{{ route('courses.edit.assignments', ['id' => $courseId, 'state' => 'all']) }}" class="rounded-black-button whitesmoke-text">
                             {{ __('main.students') }}
                         </a>
-                    </ul>
-                    <ul class="assigned-users-navbar-elem">
+                    </li>
+                    <li class="assigned-users-navbar-elem">
                         <a href="{{ route('courses.edit', ['id' => $courseId]) }}" class="rounded-black-button whitesmoke-text">
                             {{ __('main.back') }}
                         </a>
-                    </ul>
-                </li>
+                    </li>
+                </ul>
             </div>
             @if ($state == 'already')
                 <form action="{{ route('courses.edit.assignments', ['id' => $courseId, 'state' => 'already']) }}" method="get" class="users__form-search">
@@ -48,6 +55,7 @@
                 @csrf
                 @method('post')
                 <textarea
+                    required
                     placeholder="{{ __('main.multiplyAddingPlaceholder') }}"
                     class="edit__input col-input input h150" name="studentEmails" id="" cols="30" rows="10"></textarea>
                 <button type="submit" class="rounded-black-button">{{ __('main.add') }}</button>
