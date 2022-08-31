@@ -3,6 +3,8 @@
 return [
     'successAction' => 'Action completed successfully!',
     'play' => 'Play',
+    'completeCourse' => 'Complete course',
+    'courseCompleted' => 'Course completed!',
 
     'students' => 'Students',
     'student' => 'student',

@@ -75,9 +75,14 @@
         </div>
         @endif
     @endforeach
-</div>
 
-<div class="progress" id="progress"></div>
+    <button id="send-stmt-passed-button"
+            class="rounded-black-button"
+            courseId="{{ $course->course_id }}">
+            {{ __('main.completeCourse') }}
+    </button>
+
+</div>
 
 <script>
 var passedContent = $('.progress').attr('passedContent');
@@ -88,20 +93,29 @@ if (allContent == 0) {
     $('.progress').text('{{ __('main.progress') }}: '+ Math.round((passedContent) / allContent * 100) +'%');
 }
 
+var myCourseProgressPassed = {{ json_encode($myCourseProgress['passed']) }};
+var myCourseProgressLaunched = {{ json_encode($myCourseProgress['launched']) }};
+
 $(".send-stmt-button").click(function() {
     var sectionId = $(this).attr('sectionId');
     var courseId = $(this).attr('courseId');
     var verb = $(this).attr('verb');
-    console.log('/send-'+verb+'/'+courseId+'/'+sectionId);
 
-    console.log('начала работать');
+    if (verb === 'passed') {
+        myCourseProgressPassed.push(sectionId);
+    }
+    if (verb === 'launched') {
+        myCourseProgressLaunched.push(sectionId);
+    }
+
     $.ajax({
         headers: {
             'X-Csrf-Token': $('input[name="_token"]').val()
         },
-        type: 'POST',  // http method
+        type: 'POST',
         dataType: 'html',
         url: '/send-'+verb+'/'+courseId+'/'+sectionId,
+        data: {'myCourseProgressPassed': myCourseProgressPassed, 'myCourseProgressLaunched': myCourseProgressLaunched},
         timeout: 500,
         success: function (html) {
             if (verb === 'passed') {
@@ -117,7 +131,30 @@ $(".send-stmt-button").click(function() {
                     $('#' + sectionId + 'launched').html('<i class="fas fa-check"></i>');
                 }, 3000);
             }
-            console.log('отработала');
+        },
+        error: function (jqXhr, textStatus, errorMessage) {
+            console.log('Error' + errorMessage);
+        }
+    });
+});
+
+$("#send-stmt-passed-button").click(function() {
+    var courseId = $(this).attr('courseId');
+
+    $.ajax({
+        headers: {
+            'X-Csrf-Token': $('input[name="_token"]').val()
+        },
+        type: 'POST',
+        dataType: 'html',
+        url: '/send-passed/'+courseId,
+        data: {'myCourseProgressPassed': myCourseProgressPassed, 'myCourseProgressLaunched': myCourseProgressLaunched},
+        timeout: 500,
+        success: function (html) {
+            $('#send-stmt-passed-button').text(html).prop('disabled', true).css('background', '#3f3f3f');
+            setTimeout(() => {
+                $('#send-stmt-passed-button').text('{{ __('main.courseCompleted') }}');
+            }, 1500);
         },
         error: function (jqXhr, textStatus, errorMessage) {
             $(this).text('Error' + errorMessage);

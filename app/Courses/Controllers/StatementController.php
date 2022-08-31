@@ -9,6 +9,7 @@ use App\Courses\Services\StatementService;
 use App\Http\Controllers\Controller;
 use App\Users\Models\User;
 use Illuminate\Http\Client\Response;
+use Illuminate\Http\Request;
 
 class StatementController extends Controller
 {
@@ -18,6 +19,9 @@ class StatementController extends Controller
 
     public function sendLaunchCourseStatement(int $courseId, int $sectionId) : Response
     {
+        // myCourseProgressLaunched - массив с launched content stmts
+        // myCourseProgressPassed - массив с passed content stmts
+
         $course = $this->courseService->getCourse($courseId);
         $allCourseContent = json_decode($course->content);
         $section = $this->statementService->getSection($allCourseContent, $sectionId);
@@ -33,6 +37,9 @@ class StatementController extends Controller
 
     public function sendPassCourseStatement(int $courseId, int $sectionId) : Response
     {
+        // myCourseProgressLaunched - массив с launched content stmts
+        // myCourseProgressPassed - массив с passed content stmts
+
         $course = $this->courseService->getCourse($courseId);
         $allCourseContent = json_decode($course->content);
         $section = $this->statementService->getSection($allCourseContent, $sectionId);
@@ -47,25 +54,21 @@ class StatementController extends Controller
         return ClientLRS::sendStatement($user, 'passed', $course, $section);
     }
 
-    public function sendPullCourseStatements(int $courseId) : Response
-    {
-        $course = $this->courseService->getCourse($courseId);
-        /** @var User $user */
-        $user = auth()->user();
-        $allCourseContent = json_decode($course->content);
-
-        for($i = 0; $i < 15; $i++)
-        {
-            ClientLRS::sendStatement($user, ClientLRS::LAUNCHED, $course);
-            ClientLRS::sendStatement($user, ClientLRS::FAILED, $course);
-            ClientLRS::sendStatement($user, ClientLRS::COMPLETED, $course);
-        }
-        return ClientLRS::sendStatement($user, ClientLRS::PASSED, $course);
-    }
-
     public function getCourseStatements(int $courseId) : array
     {
         return ClientLRS::getCoursesStatements([$courseId]);
+    }
+
+    public function sendPassedCourseStatements(Request $request, int $courseId)
+    {
+        return $request->input('myCourseProgressPassed');
+        // myCourseProgressLaunched - массив с launched content stmts
+        // myCourseProgressPassed - массив с passed content stmts
+
+        /** @var User $user */
+        $user = auth()->user();
+        $course = $this->courseService->getCourse($courseId);
+        return ClientLRS::sendStatement($user, ClientLRS::PASSED, $course);
     }
 
 }

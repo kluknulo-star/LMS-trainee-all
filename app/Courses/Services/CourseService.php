@@ -44,6 +44,7 @@ class CourseService
                     'surname' => 'Temporary Surname',
                     'email' => $email,
                     'password' => $password = Str::random(),
+                    'is_teacher' => 0,
                     'email_confirmed_at' => now()
                 ]);
                 Mail::to($email)->send(new EmailAssignNewUser($user, $password, $course));
