@@ -93,6 +93,9 @@ if (allContent == 0) {
     $('.progress').text('{{ __('main.progress') }}: '+ Math.round((passedContent) / allContent * 100) +'%');
 }
 
+var myCourseProgressPassed = {{ json_encode($myCourseProgress['passed']) }};
+var myCourseProgressLaunched = {{ json_encode($myCourseProgress['launched']) }};
+
 $(".send-stmt-button").click(function() {
     var sectionId = $(this).attr('sectionId');
     var courseId = $(this).attr('courseId');
@@ -105,11 +108,12 @@ $(".send-stmt-button").click(function() {
         type: 'POST',
         dataType: 'html',
         url: '/send-'+verb+'/'+courseId+'/'+sectionId,
+        data: {'myCourseProgressPassed': myCourseProgressPassed, 'myCourseProgressLaunched': myCourseProgressLaunched},
         timeout: 500,
         success: function (html) {
             if (verb === 'passed') {
                 $('#' + sectionId + 'passed').text(html).prop('disabled', true).css('color', '#c4aa33');
-                setTimeout(() => {
+                setTimeout(() => {s
                     $('#' + sectionId + 'passed').html('<i class="fas fa-check-double"></i>');
                 }, 3000);
                 $('.progress').text('Progress: '+ Math.round(++passedContent / allContent * 100) +'%');
@@ -137,6 +141,7 @@ $("#send-stmt-passed-button").click(function() {
         type: 'POST',
         dataType: 'html',
         url: '/send-passed/'+courseId,
+        data: {'myCourseProgressPassed': myCourseProgressPassed, 'myCourseProgressLaunched': myCourseProgressLaunched},
         timeout: 500,
         success: function (html) {
             $('#send-stmt-passed-button').text(html).prop('disabled', true).css('background', '#3f3f3f');
