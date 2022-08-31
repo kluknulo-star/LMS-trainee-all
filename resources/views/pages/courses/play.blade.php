@@ -75,9 +75,14 @@
         </div>
         @endif
     @endforeach
-</div>
 
-<div class="progress" id="progress"></div>
+    <button id="send-stmt-passed-button"
+            class="rounded-black-button"
+            courseId="{{ $course->course_id }}">
+            {{ __('main.completeCourse') }}
+    </button>
+
+</div>
 
 <script>
 var passedContent = $('.progress').attr('passedContent');
@@ -92,14 +97,12 @@ $(".send-stmt-button").click(function() {
     var sectionId = $(this).attr('sectionId');
     var courseId = $(this).attr('courseId');
     var verb = $(this).attr('verb');
-    console.log('/send-'+verb+'/'+courseId+'/'+sectionId);
 
-    console.log('начала работать');
     $.ajax({
         headers: {
             'X-Csrf-Token': $('input[name="_token"]').val()
         },
-        type: 'POST',  // http method
+        type: 'POST',
         dataType: 'html',
         url: '/send-'+verb+'/'+courseId+'/'+sectionId,
         timeout: 500,
@@ -117,7 +120,29 @@ $(".send-stmt-button").click(function() {
                     $('#' + sectionId + 'launched').html('<i class="fas fa-check"></i>');
                 }, 3000);
             }
-            console.log('отработала');
+        },
+        error: function (jqXhr, textStatus, errorMessage) {
+            console.log('Error' + errorMessage);
+        }
+    });
+});
+
+$("#send-stmt-passed-button").click(function() {
+    var courseId = $(this).attr('courseId');
+
+    $.ajax({
+        headers: {
+            'X-Csrf-Token': $('input[name="_token"]').val()
+        },
+        type: 'POST',
+        dataType: 'html',
+        url: '/send-passed/'+courseId,
+        timeout: 500,
+        success: function (html) {
+            $('#send-stmt-passed-button').text(html).prop('disabled', true).css('background', '#3f3f3f');
+            setTimeout(() => {
+                $('#send-stmt-passed-button').text('{{ __('main.courseCompleted') }}');
+            }, 1500);
         },
         error: function (jqXhr, textStatus, errorMessage) {
             $(this).text('Error' + errorMessage);

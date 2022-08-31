@@ -30,4 +30,10 @@ Route::get('send-pull/{course_id}', [StatementController::class, 'sendPullCourse
     ->where('course_id', '[0-9]+')
     ->name('send.pull.statements');
 
+Route::post('send-passed/{course_id}', [StatementController::class, 'sendPassedCourseStatements'])
+    ->where('course_id', '[0-9]+')
+    ->name('send.passed.course.statements');
+
+
+
 

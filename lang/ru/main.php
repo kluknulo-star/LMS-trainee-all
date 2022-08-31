@@ -3,6 +3,8 @@
 return [
     'successAction' => 'Действие успешно выполнено!',
     'play' => 'Пройти',
+    'completeCourse' => 'Завершить курс',
+    'courseCompleted' => 'Курс завершен!',
 
     'students' => 'Ученики',
     'student' => 'ученик',

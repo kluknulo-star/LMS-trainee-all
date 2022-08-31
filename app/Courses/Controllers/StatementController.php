@@ -68,4 +68,12 @@ class StatementController extends Controller
         return ClientLRS::getCoursesStatements([$courseId]);
     }
 
+    public function sendPassedCourseStatements(int $courseId)
+    {
+        /** @var User $user */
+        $user = auth()->user();
+        $course = $this->courseService->getCourse($courseId);
+        return ClientLRS::sendStatement($user, ClientLRS::PASSED, $course);
+    }
+
 }
