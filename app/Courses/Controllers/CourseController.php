@@ -65,7 +65,7 @@ class CourseController extends Controller
     {
         $course = $this->courseService->getCourse($courseId);
         $this->authorize('view', [$course]);
-        $myCourseProgress = $this->statementsService->getStudentLocalProgress(auth()->id(), $courseId, count($course->content));
+        $myCourseProgress = $this->statementsService->getStudentLocalProgress(auth()->id(), $courseId, count($course->content->where('deleted_at', null)));
         return view('pages.courses.play', compact('course', 'myCourseProgress'));
     }
 

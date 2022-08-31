@@ -42,7 +42,7 @@ class StatementController extends Controller
 
         $statementLocalSend = new LocalStatements();
         $statementLocalSend->sendLocalStatement($user->user_id, $sectionId, 'passed');
-        $statementLocalSend->setProgress($user->user_id, $courseId, count($course->content));
+        $statementLocalSend->setProgress($user->user_id, $courseId, count($course->content->where('deleted_at', null)));
 
         return ClientLRS::sendStatement($user, 'passed', $course, $section);
     }
