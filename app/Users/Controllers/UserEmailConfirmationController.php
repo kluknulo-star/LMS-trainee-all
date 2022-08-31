@@ -20,7 +20,7 @@ class UserEmailConfirmationController extends Controller
         $user = $this->userService->getUser($id);
 
         if($user->isEmailConfirmed()) {
-            return redirect()->back();
+            return redirect()->route('courses.assignments');
         }
 
         return view('pages.mail.request-email-confirmation', ['user' => $user]);
