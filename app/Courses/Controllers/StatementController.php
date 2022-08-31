@@ -17,10 +17,13 @@ class StatementController extends Controller
     {
     }
 
-    public function sendLaunchCourseStatement(int $courseId, int $sectionId) : Response
+    public function sendLaunchCourseStatement(Request $request, int $courseId, int $sectionId) : Response|string
     {
-        // myCourseProgressLaunched - массив с launched content stmts
-        // myCourseProgressPassed - массив с passed content stmts
+        $myCourseProgressLaunched = $request->input('myCourseProgressLaunched');
+
+        if (in_array($sectionId,$myCourseProgressLaunched)){
+            return "Already sent launch";
+        }
 
         $course = $this->courseService->getCourse($courseId);
         $allCourseContent = json_decode($course->content);
@@ -35,10 +38,13 @@ class StatementController extends Controller
         return ClientLRS::sendStatement($user, 'launched', $course, $section);
     }
 
-    public function sendPassCourseStatement(int $courseId, int $sectionId) : Response
+    public function sendPassCourseStatement(Request $request, int $courseId, int $sectionId) : Response|string
     {
-        // myCourseProgressLaunched - массив с launched content stmts
-        // myCourseProgressPassed - массив с passed content stmts
+        $myCourseProgressPassed = $request->input('myCourseProgressPassed');
+
+        if (in_array($sectionId,$myCourseProgressPassed)){
+            return "Already sent pass";
+        }
 
         $course = $this->courseService->getCourse($courseId);
         $allCourseContent = json_decode($course->content);
@@ -59,12 +65,8 @@ class StatementController extends Controller
         return ClientLRS::getCoursesStatements([$courseId]);
     }
 
-    public function sendPassedCourseStatements(Request $request, int $courseId)
+    public function sendPassedCourseStatements(Request $request, int $courseId) : Response
     {
-        return $request->input('myCourseProgressPassed');
-        // myCourseProgressLaunched - массив с launched content stmts
-        // myCourseProgressPassed - массив с passed content stmts
-
         /** @var User $user */
         $user = auth()->user();
         $course = $this->courseService->getCourse($courseId);
