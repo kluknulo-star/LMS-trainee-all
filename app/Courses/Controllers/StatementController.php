@@ -61,6 +61,7 @@ class StatementController extends Controller
 
     public function sendPassedCourseStatements(Request $request, int $courseId)
     {
+        return $request->input('myCourseProgressPassed');
         // myCourseProgressLaunched - массив с launched content stmts
         // myCourseProgressPassed - массив с passed content stmts
 
