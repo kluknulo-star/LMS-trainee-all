@@ -8,8 +8,6 @@ use App\Courses\Services\CourseService;
 use App\Courses\Services\StatementService;
 use App\Http\Controllers\Controller;
 use App\Users\Models\User;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Client\Response;
 use Illuminate\Http\Request;
 
@@ -48,10 +46,6 @@ class StatementController extends Controller
             return "Already sent pass";
         }
 
-        if (in_array($sectionId,$myCourseProgressPassed)){
-            $request->error = "Already sent pass";
-            return $request->error;
-        }
         $course = $this->courseService->getCourse($courseId);
         $allCourseContent = json_decode($course->content);
         $section = $this->statementService->getSection($allCourseContent, $sectionId);

@@ -101,13 +101,6 @@ $(".send-stmt-button").click(function() {
     var courseId = $(this).attr('courseId');
     var verb = $(this).attr('verb');
 
-    if (verb === 'passed') {
-        myCourseProgressPassed.push(sectionId);
-    }
-    if (verb === 'launched') {
-        myCourseProgressLaunched.push(sectionId);
-    }
-
     $.ajax({
         headers: {
             'X-Csrf-Token': $('input[name="_token"]').val()
@@ -124,12 +117,14 @@ $(".send-stmt-button").click(function() {
                     $('#' + sectionId + 'passed').html('<i class="fas fa-check-double"></i>');
                 }, 3000);
                 $('.progress').text('Progress: '+ Math.round(++passedContent / allContent * 100) +'%');
+                myCourseProgressPassed.push(sectionId);
             }
             if (verb === 'launched') {
                 $('#' + sectionId + 'launched').text(html).prop('disabled', true).css('color', '#c4aa33');;
                 setTimeout(() => {
                     $('#' + sectionId + 'launched').html('<i class="fas fa-check"></i>');
                 }, 3000);
+                myCourseProgressLaunched.push(sectionId);
             }
         },
         error: function (jqXhr, textStatus, errorMessage) {
